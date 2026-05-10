@@ -5,55 +5,58 @@ weight: 1
 chapter: false
 pre: " <b> 1.1. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
-
 
 ### Mục tiêu tuần 1:
 
-* Kết nối, làm quen với các thành viên trong First Cloud Journey.
-* Hiểu dịch vụ AWS cơ bản, cách dùng console & CLI.
+* Học về kiến thức nền tảng thuộc mạng máy tính (OSI model, IP addressing/CIDR, NAT variations).
+* Hiểu về cơ sở hạ tầng vật lý và logic của AWS.
 
 ### Các công việc cần triển khai trong tuần này:
 | Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
 | --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
-| 2   | - Làm quen với các thành viên FCJ <br> - Đọc và lưu ý các nội quy, quy định tại đơn vị thực tập                                                                                             | 11/08/2025   | 11/08/2025      |
-| 3   | - Tìm hiểu AWS và các loại dịch vụ <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                            | 12/08/2025   | 12/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Tạo AWS Free Tier account <br> - Tìm hiểu AWS Console & AWS CLI <br> - **Thực hành:** <br>&emsp; + Tạo AWS account <br>&emsp; + Cài AWS CLI & cấu hình <br> &emsp; + Cách sử dụng AWS CLI | 13/08/2025   | 13/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Tìm hiểu EC2 cơ bản: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - Các cách remote SSH vào EC2 <br> - Tìm hiểu Elastic IP   <br>                  | 14/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Thực hành:** <br>&emsp; + Tạo EC2 instance <br>&emsp; + Kết nối SSH <br>&emsp; + Gắn EBS volume                                                                                         | 15/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
+| 5   | - Học hiểu lý thuyết về truyền dữ liệu và địa chỉ hoá dữ liệu                                                                                                   | 04/02/2026 | 04/02/2026      | <https://master.d31mm2rc5713dr.amplifyapp.com/#/course/week-1:-introduction-to-aws> <br> <https://learn.cantrill.io/p/tech-fundamentals>|
+| 6   |  - Tìm hiểu cách thức hoạt động của định tuyến lưu lượng truy cập và cơ sở hạ tầng vật lý của AWS.                                              | 04/03/2026 | 04/03/2026      | <https://master.d31mm2rc5713dr.amplifyapp.com/#/course/week-1:-introduction-to-aws> <br> <https://learn.cantrill.io/p/tech-fundamentals> |
+| 2   | - Bắt đầu sử dụng những dịch vụ đã học liên quan đến môi trường điện toán đám mây | 04/06/2026 | 04/06/2026      | https://master.d31mm2rc5713dr.amplifyapp.com/#/course/week-2:-networking-on-aws> <br> <https://master.d31mm2rc5713dr.amplifyapp.com/#/course/week-3:-compute-vm-service-on-aws> <br>  <https://master.d31mm2rc5713dr.amplifyapp.com/#/course/week-4:-storage-services-on-aws> |
+| 3   |  - Sử dụng hệ thống quản lý danh tính và quyền truy cập tập trung để bảo vệ môi trường đám mây.                            | 04/07/2026 | 04/07/2026      | <https://master.d31mm2rc5713dr.amplifyapp.com/#/course/week-5:-security-services-on-aws> <br> <https://learn.cantrill.io/p/aws-certified-solutions-architect-associate-saa-c03> |
+| 4   | - Tìm hiểu cách tự động cấp phát dịch vụ AWS.                                                                                     | 04/08/2026 | 04/08/2026      | <https://master.d31mm2rc5713dr.amplifyapp.com/#/course/week-5:-security-services-on-aws/> <br> <https://learn.cantrill.io/p/aws-certified-solutions-architect-associate-saa-c03>  |
 
 
 ### Kết quả đạt được tuần 1:
 
-* Hiểu AWS là gì và nắm được các nhóm dịch vụ cơ bản: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
+* Ôn lại OSI models:
+  * Lớp Vật lý
+  * Lớp Liên kết dữ liệu
+  * Lớp Mạng
+  * Lớp Vận Chuyển
+  * Lớp Phiên
+  * Lớp Trình Bày
+  * Lớp Ứng Dụng
 
-* Đã tạo và cấu hình AWS Free Tier account thành công.
+* Đã nghiên cứu không gian địa chỉ IP và biết cách tính toán mạng con (subnet) sử dụng ký pháp CIDR để xác định ranh giới mạng và miền quảng bá (broadcast domain)
 
-* Làm quen với AWS Management Console và biết cách tìm, truy cập, sử dụng dịch vụ từ giao diện web.
+* Học về Network Address Translation (NAT) bằng cách phân tích cách private IP giao tiếp với internet công cộng thông qua NAT
 
-* Cài đặt và cấu hình AWS CLI trên máy tính bao gồm:
-  * Access Key
-  * Secret Key
-  * Region mặc định
-  * ...
+* Học về sự khác biệt giữa
+  * Static NAT
+  * Dynamic NAT
+  * PAT (Port Address Translation)
 
-* Sử dụng AWS CLI để thực hiện các thao tác cơ bản như:
+* Tìm hiểu các nguyên tắc cơ bản của:
+  * Virtual Private Cloud   
+  * Elastic Compute Cloud   
+  * Simple Storage Service
 
-  * Kiểm tra thông tin tài khoản & cấu hình
-  * Lấy danh sách region
-  * Xem dịch vụ EC2
-  * Tạo và quản lý key pair
-  * Kiểm tra thông tin dịch vụ đang chạy
-  * ...
+* Biết cách vận dụng IAM để tạo:
+  * Users
+  * Groups
+  * Roles
 
-* Có khả năng kết nối giữa giao diện web và CLI để quản lý tài nguyên AWS song song.
-* ...
+* Thực hành viết JSON policies để thiết lập "Nguyên tắc đặc quyền tối thiểu" cho việc truy cập tài nguyên
 
+* Đã tìm hiểu khái niệm về Tài khoản AWS (AWS Account) với vai trò là ranh giới bảo mật và thanh toán chính, cũng như cách nó cô lập các tài nguyên khỏi các môi trường khác
 
+* Tìm hiểu khái niệm Cơ sở hạ tầng dưới dạng mã (Infrastructure as Code) với CloudFormation
+
+* Học cách liên kết nhiều tài khoản AWS vào một Tổ chức (Organization) duy nhất, sử dụng các đơn vị tổ chức (Organizational Units - OUs) để phân nhóm theo logic
+
+* Tìm hiểu về Service Control Policies (SCP) và phân tích cách áp dụng các rào chắn quản trị (administrative guardrails) trong toàn bộ tổ chức
