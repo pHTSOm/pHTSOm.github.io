@@ -1,57 +1,32 @@
 ---
 title: "Week 5 Worklog"
-date: 2024-01-01
+date: 2026-02-04
 weight: 1
 chapter: false
 pre: " <b> 1.5. </b> "
 ---
-{{% notice warning %}} 
-⚠️ **Note:** The following information is for reference purposes only. Please **do not copy verbatim** for your own report, including this warning.
-{{% /notice %}}
-
 
 ### Week 5 Objectives:
 
-* Connect and get acquainted with members of First Cloud Journey.
-* Understand basic AWS services, how to use the console & CLI.
+Focused on mastering global DNS management with Route 53, including hosted zones, DNSSEC, and intelligent traffic routing policies such as weighted and failover routing to ensure performance and resilience. I optimized global user experience through latency, geolocation, and geoproximity routing. Additionally, I transitioned from virtual machines to containerized applications by learning Docker fundamentals and pushing images to ECR, followed by orchestrating containers at scale using ECS and serverless Fargate.
 
 ### Tasks to be carried out this week:
 | Day | Task                                                                                                                                                                                                   | Start Date | Completion Date | Reference Material                        |
 | --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------- | ----------------------------------------- |
-| 2   | - Get acquainted with FCJ members <br> - Read and take note of internship unit rules and regulations                                                                                                   | 08/11/2025 | 08/11/2025      |
-| 3   | - Learn about AWS and its types of services <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                              | 08/12/2025 | 08/12/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Create AWS Free Tier account <br> - Learn about AWS Console & AWS CLI <br> - **Practice:** <br>&emsp; + Create AWS account <br>&emsp; + Install & configure AWS CLI <br> &emsp; + How to use AWS CLI | 08/13/2025 | 08/13/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Learn basic EC2: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - SSH connection methods to EC2 <br> - Learn about Elastic IP   <br>                            | 08/14/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Practice:** <br>&emsp; + Launch an EC2 instance <br>&emsp; + Connect via SSH <br>&emsp; + Attach an EBS volume                                                                                     | 08/15/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
+| 2   | - Learn about global entry point for all web traffic                                                                                                   | 05/11/2026 | 05/11/2026      | <https://learn.cantrill.io/p/aws-certified-solutions-architect-associate-saa-c03/>  |
+| 3   | - Build a global network that directs user based on performance and health                                              | 05/12/2026 | 05/12/2026      | <https://learn.cantrill.io/p/aws-certified-solutions-architect-associate-saa-c03/> |
+| 4   | - Learn about latency and location to optimize user experience | 05/13/2026 | 05/13/2026      | <https://learn.cantrill.io/p/aws-certified-solutions-architect-associate-saa-c03/> |
+| 5   | - Learn to create a Docker Image and how to push it to the Elastic Container Retrisgy for secure cloud storage                            | 05/14/2026 | 05/15/2026      | <https://learn.cantrill.io/p/aws-certified-solutions-architect-associate-saa-c03/> |
+| 6   | - Orchestrate containers at scale without managing underlying servers                                                                                     | 05/15/2026 | 05/15/2026      | <https://learn.cantrill.io/p/aws-certified-solutions-architect-associate-saa-c03/> |
 
 
 ### Week 5 Achievements:
 
-* Understood what AWS is and mastered the basic service groups: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
-
-* Successfully created and configured an AWS Free Tier account.
-
-* Became familiar with the AWS Management Console and learned how to find, access, and use services via the web interface.
-
-* Installed and configured AWS CLI on the computer, including:
-  * Access Key
-  * Secret Key
-  * Default Region
-  * ...
-
-* Used AWS CLI to perform basic operations such as:
-
-  * Check account & configuration information
-  * Retrieve the list of regions
-  * View EC2 service
-  * Create and manage key pairs
-  * Check information about running services
-  * ...
-
-* Acquired the ability to connect between the web interface and CLI to manage AWS resources in parallel.
-* ...
+* Learned about Public/Private zones and why alias record are technically superior to CNAMEs in AWS
+* Learned how to use DNSSEC to add digital signatures to domain records, preventing man in the middle DNS attack.
+* Understanding the way to updating nameservers at a third party registrar to point to AWS hosted zone so route 534 can routes traffic for a domain registered with a different provider.
+* Practiced configuring routing based on percentage and setting up health-check-driven Failover for disaster recovery.
+* Learn how to serve users based on the fastest path or their physical country
+* Understand that a Dockerfile acts as a source code for the environment, making it repeatable and version-controlled, so Dockerfile is neccessary even though we could just capture an image of a running container.
+* Study ECS concepts and cluster mode
+* Practiced the Fargate launch type, help me run containers in a serverless fashion without managing EC2 clusters.

@@ -1,57 +1,33 @@
 ---
 title: "Week 4 Worklog"
-date: 2024-01-01
+date: 2026-02-04
 weight: 1
 chapter: false
 pre: " <b> 1.4. </b> "
 ---
-{{% notice warning %}} 
-⚠️ **Note:** The following information is for reference purposes only. Please **do not copy verbatim** for your own report, including this warning.
-{{% /notice %}}
+
 
 
 ### Week 4 Objectives:
 
-* Connect and get acquainted with members of First Cloud Journey.
-* Understand basic AWS services, how to use the console & CLI.
+Focused on mastering the deployment and migration of managed relational databases using RDS, ensuring high availability and disaster recovery with Multi-AZ setups and backups, scaling read performance with Read Replicas while managing replication lag, exploring Amazon Aurora’s cloud-native architecture and serverless features, and managing global scaling alongside efficient connection pooling using Aurora Global Database and RDS Proxy.
 
 ### Tasks to be carried out this week:
 | Day | Task                                                                                                                                                                                                   | Start Date | Completion Date | Reference Material                        |
 | --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------- | ----------------------------------------- |
-| 2   | - Get acquainted with FCJ members <br> - Read and take note of internship unit rules and regulations                                                                                                   | 08/11/2025 | 08/11/2025      |
-| 3   | - Learn about AWS and its types of services <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                              | 08/12/2025 | 08/12/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Create AWS Free Tier account <br> - Learn about AWS Console & AWS CLI <br> - **Practice:** <br>&emsp; + Create AWS account <br>&emsp; + Install & configure AWS CLI <br> &emsp; + How to use AWS CLI | 08/13/2025 | 08/13/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Learn basic EC2: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - SSH connection methods to EC2 <br> - Learn about Elastic IP   <br>                            | 08/14/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Practice:** <br>&emsp; + Launch an EC2 instance <br>&emsp; + Connect via SSH <br>&emsp; + Attach an EBS volume                                                                                     | 08/15/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
+| 2   | - Master the deployment and migration of managed relational databases                                                                                                   | 05/04/2026 | 05/04/2026      |  <https://learn.cantrill.io/p/aws-certified-solutions-architect-associate-saa-c03> <br> <https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_DMS_migration.html> |
+| 3   | - Ensure data persistence and 24/7 availability for critical applications                                               | 05/05/2026 | 05/05/2026      | <https://learn.cantrill.io/p/aws-certified-solutions-architect-associate-saa-c03> <br> <https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Welcome.html> |
+| 4   | - Learn to scale database performance for read-heavy workkloads | 05/06/2026 | 05/06/2026      | <https://docs.aws.amazon.com/whitepapers/latest/best-practices-wordpress/reference-architecture.html>  <br>  <https://learn.cantrill.io/p/aws-certified-solutions-architect-associate-saa-c03> |
+| 5   | - Explore the Cloud Native high performance database tier                            | 05/07/2026 | 05/07/2026      | <https://learn.cantrill.io/p/aws-certified-solutions-architect-associate-saa-c03> |
+| 6   | - Manage global data reach and high-volume connection pooling                                                                                     | 05/08/2026 | 05/08/2026      | <https://learn.cantrill.io/p/aws-certified-solutions-architect-associate-saa-c03/> |
 
 
 ### Week 4 Achievements:
 
-* Understood what AWS is and mastered the basic service groups: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
-
-* Successfully created and configured an AWS Free Tier account.
-
-* Became familiar with the AWS Management Console and learned how to find, access, and use services via the web interface.
-
-* Installed and configured AWS CLI on the computer, including:
-  * Access Key
-  * Secret Key
-  * Default Region
-  * ...
-
-* Used AWS CLI to perform basic operations such as:
-
-  * Check account & configuration information
-  * Retrieve the list of regions
-  * View EC2 service
-  * Create and manage key pairs
-  * Check information about running services
-  * ...
-
-* Acquired the ability to connect between the web interface and CLI to manage AWS resources in parallel.
-* ...
+* Studied the different RDS instance classes and storage types. Practiced migrating a EC2-hosted database into RDS using DMS
+* Learned about synchronous replication and automatic failover. Practiced managing automated backups and manual snapshots for long term recovery
+* Understand that snapshots are immutable backups, ensuring user never accidentally overwrite existing data during a recovery that's why snapshot restore creates a brand new RDS instance rather than updating the old one
+* Learned how asynchronous replication allows for up to 15 read replicas, offloading ddheavy query traffic from the primary writer instance.
+* Learned how to handle stale data when a read replica hasn't finished syncing from the primary by ensures sensitive write then read operations always hit the primary instance.
+* Explored Aurora serverless for applications with unpredictable traffic patterns
+* Study global databases for sub-second global latency and RDS proxy for managing thousands of concurrent application connections efficiently.
