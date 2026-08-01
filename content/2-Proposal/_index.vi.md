@@ -10,7 +10,7 @@ pre: " <b> 2. </b> "
 
 ### 1. Tổng quan dự án
 
-Đồ án tốt nghiệp này xây dựng một nền tảng tóm tắt văn bản hoàn toàn serverless, đạt chuẩn production trên AWS, do nhóm hai thành viên phát triển. Người dùng sau khi xác thực có thể gửi một đoạn văn bản qua REST API (hoặc qua trang web đơn giản) và nhận về bản tóm tắt do AI tạo ra thông qua Amazon Bedrock. Mỗi lần tóm tắt được lưu theo từng người dùng, có thể xem lại qua endpoint lịch sử, và được tổng hợp tự động thành báo cáo CSV hàng tuần theo lịch định sẵn.
+Dự án này xây dựng một nền tảng tóm tắt văn bản hoàn toàn serverless, đạt chuẩn production trên AWS, do nhóm hai thành viên phát triển. Người dùng sau khi xác thực có thể gửi một đoạn văn bản qua REST API (hoặc qua trang web đơn giản) và nhận về bản tóm tắt do AI tạo ra thông qua Amazon Bedrock. Mỗi lần tóm tắt được lưu theo từng người dùng, có thể xem lại qua endpoint lịch sử, và được tổng hợp tự động thành báo cáo CSV hàng tuần theo lịch định sẵn.
 
 Ngoài bản thân ứng dụng, mục đích cốt lõi của dự án là thực hành quy trình kỹ thuật cloud hiện đại từ đầu đến cuối: toàn bộ hạ tầng được định nghĩa bằng code với Terraform, triển khai qua pipeline CI/CD tự động có quét bảo mật, giám sát bằng dashboard và cảnh báo, và được củng cố theo chuẩn CIS AWS Foundations Benchmark — tất cả trong giới hạn ngân sách sinh viên.
 
