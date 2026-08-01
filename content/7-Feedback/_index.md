@@ -10,7 +10,7 @@ pre: " <b> 7. </b> "
 
 ### 1. Impressions of the Program
 
-What sets FCJ apart from a normal course is the structure: five weeks of guided self-study on AWS fundamentals, followed by seven weeks applying that knowledge to a real project on a real AWS account — with real consequences. Reading about IAM least privilege is one thing; having tfsec block your own pipeline until you scope a policy down is another. The self-study materials (curated courses and workshops) were well-chosen, and the freedom to pick our own graduation project meant we were genuinely invested in the result.
+What sets FCAJ apart from a normal course is the structure: five weeks of guided self-study on AWS fundamentals, followed by seven weeks applying that knowledge to a real project on a real AWS account — with real consequences. Reading about IAM least privilege is one thing; having tfsec block your own pipeline until you scope a policy down is another. The self-study materials (curated courses and workshops) were well-chosen, and the freedom to pick our own graduation project meant we were genuinely invested in the result.
 
 The program also quietly teaches things no tutorial covers: working within a monthly budget ceiling, opening a real AWS Support case when a service quota blocks you, coordinating shared infrastructure with a teammate through branch protection and pull requests, and cleaning up an account before handover. These "operational" lessons ended up being some of the most valuable ones.
 

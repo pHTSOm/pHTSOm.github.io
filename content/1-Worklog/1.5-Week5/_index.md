@@ -13,11 +13,11 @@ Focused on mastering global DNS management with Route 53, including hosted zones
 ### Tasks to be carried out this week:
 | Day | Task                                                                                                                                                                                                   | Start Date | Completion Date | Reference Material                        |
 | --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------- | ----------------------------------------- |
-| 2   | - Learn about global entry point for all web traffic                                                                                                   | 05/11/2026 | 05/11/2026      | <https://learn.cantrill.io/p/aws-certified-solutions-architect-associate-saa-c03/>  |
-| 3   | - Build a global network that directs user based on performance and health                                              | 05/12/2026 | 05/12/2026      | <https://learn.cantrill.io/p/aws-certified-solutions-architect-associate-saa-c03/> |
-| 4   | - Learn about latency and location to optimize user experience | 05/13/2026 | 05/13/2026      | <https://learn.cantrill.io/p/aws-certified-solutions-architect-associate-saa-c03/> |
-| 5   | - Learn to create a Docker Image and how to push it to the Elastic Container Retrisgy for secure cloud storage                            | 05/14/2026 | 05/15/2026      | <https://learn.cantrill.io/p/aws-certified-solutions-architect-associate-saa-c03/> |
-| 6   | - Orchestrate containers at scale without managing underlying servers                                                                                     | 05/15/2026 | 05/15/2026      | <https://learn.cantrill.io/p/aws-certified-solutions-architect-associate-saa-c03/> |
+| 2   | - Learn about global entry point for all web traffic                                                                                                   | 05/18/2026 | 05/18/2026      | <https://learn.cantrill.io/p/aws-certified-solutions-architect-associate-saa-c03/>  |
+| 3   | - Build a global network that directs user based on performance and health                                              | 05/19/2026 | 05/19/2026      | <https://learn.cantrill.io/p/aws-certified-solutions-architect-associate-saa-c03/> |
+| 4   | - Learn about latency and location to optimize user experience | 05/20/2026 | 05/20/2026      | <https://learn.cantrill.io/p/aws-certified-solutions-architect-associate-saa-c03/> |
+| 5   | - Learn to create a Docker Image and how to push it to the Elastic Container Retrisgy for secure cloud storage                            | 05/21/2026 | 05/21/2026      | <https://learn.cantrill.io/p/aws-certified-solutions-architect-associate-saa-c03/> |
+| 6   | - Orchestrate containers at scale without managing underlying servers                                                                                     | 05/22/2026 | 05/22/2026      | <https://learn.cantrill.io/p/aws-certified-solutions-architect-associate-saa-c03/> |
 
 
 ### Week 5 Achievements:

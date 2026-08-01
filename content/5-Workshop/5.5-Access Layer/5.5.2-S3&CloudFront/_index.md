@@ -12,12 +12,10 @@ Host the static frontend on S3, serve it through CloudFront, and propagate the r
 
 #### Terraform Resources
 
-modules/frontend:
-
-- Private aws_s3_bucket (all public access blocked) + aws_cloudfront_distribution with Origin Access Control — CloudFront authenticates to S3 with SigV4, so the bucket stays fully private. HTTP redirected to HTTPS, PriceClass_100.
-- Bucket policy grants cloudfront.amazonaws.com s3:GetObject, scoped through AWS:SourceArn to this distribution only.
-- Versioning, CloudFront access logging, and a WAF Web ACL are deliberately left out — cost not justified at this project's scale.
-
+modules/frontend: 
+- There is a private awsS3_bucket with no public access. The traffic is routed through cloudfront with Origin Access Control (OAC) enabled. Hence, the bucket is secured and HTTP is redirected to HTTPS with PriceClass_100.
+- The bucket policy allows access to cloudfront.amazonaws.com for s3:GetObject, hence restricting it to this distribution alone through AWS:SourceArn.
+- Versioning, CloudFront Access Logging, and WAF Web ACL are not implemented due to costs not justifying the necessary expenses for this project.
 #### Cross-Module Wiring
 
 module.frontend.cloudfront_domain_name feeds directly into both other modules:
@@ -27,7 +25,8 @@ module "auth" { cloudfront_domain_name = module.frontend.cloudfront_domain_name 
 module "api"  { cloudfront_domain_name = module.frontend.cloudfront_domain_name }
 ```
 
-Cognito's callback_urls/logout_urls and API Gateway's CORS origin both derive from this one output. One terraform apply provisions the bucket/distribution, reads the resulting domain, and pushes it into both — there's no separate step to update Cognito or CORS by hand afterward.
+Cognito's callback_urls/logout_urls are derived from the same output as the API Gateway's CORS origin. With one terraform apply creating the bucket/distribution, the resultant domain is picked up and automatically populated into both; there is no need to manually update Cognito or CORS afterwards.
+
 
 #### Applying and Deploying Files
 

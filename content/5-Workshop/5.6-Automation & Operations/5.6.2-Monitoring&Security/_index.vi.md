@@ -1,82 +1,55 @@
 ---
-title : "Kiểm tra Gateway Endpoint"
-date : 2024-01-01 
+title : "Operations — Monitoring & Security"
+date : 2026-07-14
 weight : 2
 chapter : false
-pre : " <b> 5.3.2 </b> "
+pre : " 5.6.2. "
 ---
 
-#### Tạo S3 bucket
+#### Mục tiêu
 
-1. Đi đến S3 management console
-2. Trong Bucket console, chọn **Create bucket**
+Khả năng quan sát hệ thống đang chạy (dashboard, cảnh báo, custom metric) và một mức nền tảng cơ bản về bảo mật/tuân thủ.
 
-![Create bucket](/images/5-Workshop/5.3-S3-vpc/create-bucket.png)
+#### Custom Metrics
 
-3. Trong Create bucket console
-+ Đặt tên bucket: chọn 1 tên mà không bị trùng trong phạm vi toàn cầu (gợi ý: lab\<số-lab\>\<tên-bạn\>)
+src/lambda_fn/lambda_function.py gửi dữ liệu đến Custom/Bedrock quanh mỗi lệnh gọi model: Latency, SuccessCount, và khi thất bại là BedrockErrors được phân loại theo dimension ErrorType.
 
-![Bucket name](/images/5-Workshop/5.3-S3-vpc/bucket-name.png)
+#### Cảnh báo (modules/monitoring)
 
+Một SNS topic + đăng ký email, hai cảnh báo:
+- **Tỷ lệ** lỗi 5xx của API Gateway (tính bằng metric-math errors/requests*100) > 5% trong 5 phút — là tỷ lệ, không phải số lượng tuyệt đối.
+- Bất kỳ điểm dữ liệu nào xuất hiện tại Custom/Bedrock/BedrockErrors (ngưỡng = 0).
 
-+ Giữ nguyên giá trị của các fields khác (default)
-+ Kéo chuột xuống và chọn **Create bucket**
+```bash
+terraform apply   # xác nhận đăng ký email SNS sau đó, nếu không cảnh báo sẽ không được gửi
+aws cloudwatch put-metric-data --namespace Custom/Bedrock --metric-name BedrockErrors --value 1
+```
 
-![Create](/images/5-Workshop/5.3-S3-vpc/create-button.png)    
+#### Dashboard
 
-+ Tạo thành công S3 bucket
+Một resource aws_cloudwatch_dashboard, sáu widget — số lượt gọi/lỗi/phân vị thời gian thực thi của Lambda, độ trễ/tỷ lệ thành công/lỗi của Bedrock, lưu lượng/lỗi 4xx/lỗi 5xx của API Gateway, dung lượng/throttle của DynamoDB. Các dimension được truyền vào dưới dạng biến module từ root main.tf.
 
-![Success](/images/5-Workshop/5.3-S3-vpc/bucket-success.png)
+#### CloudTrail & AWS Config (modules/security)
 
-#### Kết nối với EC2 bằng session manager
+- CloudTrail đa vùng (multi-region), có xác thực tính toàn vẹn file log (log file validation), bucket S3 riêng biệt được mã hóa và ở chế độ private, đồng thời cũng được stream sang CloudWatch Logs.
+- AWS Config recorder theo dõi tất cả các loại resource được hỗ trợ, bao gồm cả resource toàn cục (IAM), sử dụng conformance pack CIS v1.4 Level 1.
 
-+ Trong workshop này, bạn sẽ dùng AWS Session Manager để kết nối đến các EC2 instances. Session Manager là 1 tính năng trong dịch vụ Systems Manager được quản lý hoàn toàn bởi AWS. System manager cho phép bạn quản lý Amazon EC2 instances và các máy ảo on-premises (VMs)thông qua 1 browser-based shell. Session Manager cung cấp khả năng quản lý phiên bản an toàn và có thể kiểm tra mà không cần mở cổng vào, duy trì máy chủ bastion host hoặc quản lý khóa SSH.
+**Mức độ tuân thủ hiện tại: 60%**, với hai lỗ hổng được chấp nhận và ghi nhận công khai thay vì che giấu:
+- IAM role của CodeBuild sử dụng AdministratorAccess.
+- MFA chưa được bắt buộc trên toàn tài khoản thông qua IAM policy.
 
-+ First Cloud AI Journey [Lab](https://000058.awsstudygroup.com/1-introduce/) để hiểu sâu hơn về Session manager.
+Cả hai vấn đề này sẽ được xem xét lại ở Mục 6.2 (Simple Security Hardening) — mục đích của việc chạy Config ở đây là để có một bức tranh chính xác, chứ không phải một bảng điểm hoàn hảo.
 
-1. Trong AWS Management Console, gõ Systems Manager trong ô tìm kiếm và nhấn Enter:
+#### Các lỗi thường gặp và cách khắc phục
 
-![system manager](/images/5-Workshop/5.3-S3-vpc/sm.png)
+| Lỗi | Nguyên nhân | Cách khắc phục |
+|---|---|---|
+| Cảnh báo bị kẹt ở trạng thái **Insufficient Data** | Chưa có điểm dữ liệu nào được gửi lên | Tạo lưu lượng thực tế, hoặc gửi thủ công một metric thử nghiệm |
+| Email từ SNS không bao giờ được gửi tới | Đăng ký (subscription) chưa được xác nhận | Kiểm tra thư mục spam; đăng ký lại nếu đã hết hạn |
+| Conformance pack bị kẹt ở trạng thái **Evaluating** | Đây là điều bình thường ở lần chạy đầu tiên | Chờ 15–30 phút thay vì deploy lại |
 
-2. Từ **Systems Manager** menu, tìm **Node Management** ở thanh bên trái và chọn **Session Manager**:
+---
 
-![system manager](/images/5-Workshop/5.3-S3-vpc/sm1.png)
+### Tóm tắt phần này
 
-3. Click Start Session, và chọn EC2 instance tên **Test-Gateway-Endpoint**. 
-{{% notice info %}}
-Phiên bản EC2 này đã chạy trong "VPC cloud" và sẽ được dùng để kiểm tra khả năng kết nối với Amazon S3 thông qua điểm cuối Cổng mà bạn vừa tạo (s3-gwe). {{% /notice %}}
-
-![Start session](/images/5-Workshop/5.3-S3-vpc/start-session.png)
-
-Session Manager sẽ mở browser tab mới với shell prompt: sh-4.2 $
-
-![Success](/images/5-Workshop/5.3-S3-vpc/start-session-success.png)
-
-Bạn đã bắt đầu phiên kết nối đến EC2 trong VPC Cloud thành công. Trong bước tiếp theo, chúng ta sẽ tạo một  S3 bucket và một tệp trong đó.
-#### Create a file and upload to s3 bucket
-
-1. Đổi về ssm-user's thư mục bằng lệnh "cd ~" 
-
-![Change user's dir](/images/5-Workshop/5.3-S3-vpc/cli1.png)
-
-2. Tạo 1 file để kiểm tra bằng lệnh "fallocate -l 1G testfile.xyz", 1 file tên "testfile.xyz" có kích thước 1GB sẽ được tạo.
-
-![Create file](/images/5-Workshop/5.3-S3-vpc/cli-file.png)
-
-3. Tải file mình vừa tạo lên S3 với lệnh "aws s3 cp testfile.xyz s3://your-bucket-name". Thay your-bucket-name bằng tên S3 bạn đã tạo.
-
-![Uploaded](/images/5-Workshop/5.3-S3-vpc/uploaded.png)
-
-Bạn đã tải thành công tệp lên bộ chứa S3 của mình. Bây giờ bạn có thể kết thúc session.
-
-#### Kiểm tra object trong S3 bucket
-
-1. Đi đến S3 console.  
-2. Click tên s3 bucket của bạn
-3. Trong Bucket console, bạn sẽ thấy tệp bạn đã tải lên S3 bucket của mình
-
-![Check S3](/images/5-Workshop/5.3-S3-vpc/check-s3-bucket.png)
-
-#### Tóm tắt
-
-Chúc mừng bạn đã hoàn thành truy cập S3 từ VPC. Trong phần này, bạn đã tạo gateway endpoint cho Amazon S3 và sử dụng AWS CLI để tải file lên. Quá trình tải lên hoạt động vì gateway endpoint cho phép giao tiếp với S3 mà không cần Internet gateway gắn vào "VPC Cloud". Điều này thể hiện chức năng của gateway endpoint như một đường dẫn an toàn đến S3 mà không cần đi qua pub    lic Internet.
+Chúc mừng bạn đã hoàn thành tầng tự động hóa và vận hành! Trong phần này, bạn đã tạo một Lambda chạy theo lịch để tạo báo cáo sử dụng hàng tuần mà không cần bất kỳ sự can thiệp nào của con người, một pipeline CI/CD sẽ kiểm thử, quét lỗi, và cần con người phê duyệt trước khi thực hiện bất kỳ thay đổi hạ tầng nào, cùng với một nền tảng giám sát và bảo mật gồm dashboard, cảnh báo, CloudTrail, và AWS Config để theo dõi hệ thống sau khi đã triển khai. Tầng này hoạt động hiệu quả vì mọi giai đoạn có thể thay đổi hạ tầng thực tế đều có các

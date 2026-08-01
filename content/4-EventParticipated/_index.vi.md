@@ -6,41 +6,34 @@ chapter: false
 pre: " <b> 4. </b> "
 ---
 
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
-
-> Trong phần này, các bạn cần liệt kê và mô tả chi tiết các sự kiện (event) mà mình đã tham gia trong suốt quá trình thực tập hoặc làm việc. 
-> 
-> Mỗi sự kiện nên được trình bày theo định dạng Event 1, Event 2, Event 3…, kèm theo các thông tin:
-> * Tên sự kiện
-> * Thời gian tổ chức
-> * Địa điểm (nếu có)
-> * Vai trò của bạn trong sự kiện (người tham dự, hỗ trợ tổ chức, diễn giả, v.v.)
-> * Mô tả ngắn gọn nội dung và hoạt động chính trong sự kiện
-> * Kết quả hoặc giá trị đạt được (bài học, kỹ năng mới, đóng góp cho nhóm/dự án)
-> * Việc liệt kê này giúp thể hiện rõ sự tham gia thực tế của bạn, cũng như các kỹ năng mềm và kinh nghiệm bạn đã tích lũy qua từng sự kiện.
-
-
-Trong quá trình thực tập, em đã tham gia 2 events, với mỗi event là một trải nghiệm đáng nhớ với những kiến thức mới, hay và bổ ích, cùng với đó là nhứng món quà và những khoảnh khắc rất tuyệt vời.
+Trong quá trình thực tập, mình đã tham gia 2 events, với mỗi event là một trải nghiệm đáng nhớ với những kiến thức mới, hay và bổ ích, cùng với đó là những món quà và những khoảnh khắc rất tuyệt vời.
 
 ### [Event 1](4.1-Event1/)
-&emsp;**Tên sự kiện:** GenAI-powered App-DB Modernization workshop
 
-&emsp;**Thời gian:** 09:00 ngày 13/08/2025
+&emsp;**Tên sự kiện:** FCAJ Community Day
+
+&emsp;**Thời gian:** 09:00 ngày 23/05/2026
 
 &emsp;**Địa điểm:** Tầng 26, tòa nhà Bitexco, số 02 đường Hải Triều, phường Sài Gòn, thành phố Hồ Chí Minh
 
-&emsp;**Vai trò trong sự kiện:** Người tham dự 
+&emsp;**Vai trò trong sự kiện:** Người tham dự
 
+&emsp;**Mô tả:** Một sự kiện cộng đồng kéo dài nửa ngày với sáu bài chia sẻ liên tiếp từ những người làm thực tế và các bạn sinh viên. Các chủ đề trải dài từ việc làm cho AI thực sự hữu ích nhờ ngữ cảnh tốt hơn ("Second AI Brain"), xây dựng trợ lý AI với Amazon Quick, sử dụng Amazon CloudFront như một nền tảng cho chi phí, bảo mật, độ tin cậy và hiệu năng, câu chuyện hackathon 36 giờ tại LotusHacks (xây dựng sản phẩm UTMorpho), tính bất định ẩn giấu trong các cấu hình LLM "tất định", cho tới một hệ thống multi-agent cấp doanh nghiệp cho bài toán chấm điểm tín dụng startup.
 
+&emsp;**Giá trị đạt được:** Có được cái nhìn rộng và thực tế về hướng đi của AI và cloud, hiểu rằng ngữ cảnh — chứ không chỉ là prompt khéo léo — mới là thứ giúp AI trở nên đáng tin cậy, thấy được cách các công cụ dùng ngôn ngữ tự nhiên giúp hạ thấp rào cản xây dựng sản phẩm, và rút ra nhiều ý tưởng cụ thể để áp dụng vào các dự án của mình. Xem báo cáo đầy đủ tại [Event 1](4.1-Event1/).
+
+---
 
 ### [Event 2](4.2-Event2/)
-&emsp;**Tên sự kiện:** GenAI-powered App-DB Modernization workshop
 
-&emsp;**Thời gian:** 09:00 ngày 13/08/2025
+&emsp;**Tên sự kiện:** Agent Forge Deep Dive Day 1 – Amazon Bedrock AgentCore
+
+&emsp;**Thời gian:** 09:00 ngày 01/08/2026
 
 &emsp;**Địa điểm:** Tầng 26, tòa nhà Bitexco, số 02 đường Hải Triều, phường Sài Gòn, thành phố Hồ Chí Minh
 
-&emsp;**Vai trò trong sự kiện:** Người tham dự 
+&emsp;**Vai trò trong sự kiện:** Người tham dự
 
+&emsp;**Mô tả:** Một workshop chuyên sâu về Amazon Bedrock AgentCore để xây dựng các hệ thống agentic sẵn sàng cho production. Sự kiện giới thiệu về agentic AI và SDK Strands Agents, sau đó đi sâu vào các thành phần cốt lõi của AgentCore — Runtime, Gateway và Identity — để triển khai, kết nối và mở rộng agent một cách an toàn. Buổi workshop có phần hands-on, nơi người tham dự tự xây dựng một web app chạy local và AI agent của riêng mình với Kiro.
+
+&emsp;**Giá trị đạt được:** Hiểu được cách Runtime, Gateway và Identity của AgentCore kết hợp với nhau để vận hành agent an toàn ở quy mô lớn, có trải nghiệm hands-on khi tự xây dựng một agent, và rút ra nhiều ý tưởng thực tế cho các dự án cá nhân trong tương lai. Xem báo cáo đầy đủ tại [Event 2](4.2-Event2/).

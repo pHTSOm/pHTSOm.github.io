@@ -1,82 +1,65 @@
 ---
-title : "Kiểm tra Gateway Endpoint"
-date : 2024-01-01 
+title : "AI Integration — Bedrock"
+date : 2026-07-14
 weight : 2
 chapter : false
-pre : " <b> 5.3.2 </b> "
+pre : " 5.4.2. "
 ---
 
-#### Tạo S3 bucket
+#### Mục tiêu
 
-1. Đi đến S3 management console
-2. Trong Bucket console, chọn **Create bucket**
+Yêu cầu quyền truy cập vào Amazon Nova Lite trên Bedrock, hiểu cách Lambda gọi model này qua các region khác nhau, và xử lý tình huống hạn ngạch (quota) on-demand của tài khoản bị cạn kiệt.
 
-![Create bucket](/images/5-Workshop/5.3-S3-vpc/create-bucket.png)
+#### Kết nối trong Terraform: IAM và Model ID
 
-3. Trong Create bucket console
-+ Đặt tên bucket: chọn 1 tên mà không bị trùng trong phạm vi toàn cầu (gợi ý: lab\<số-lab\>\<tên-bạn\>)
+- IAM policy giới hạn phạm vi của bedrock:InvokeModel chỉ đúng hai tài nguyên: ARN của foundation model và ARN của cross-region inference profile, không sử dụng wildcard.
+- BEDROCK_MODEL_ID = "us.amazon.nova-lite-v1:0" là biến môi trường của Lambda được Terraform thiết lập, không hardcode trong Python.
 
-![Bucket name](/images/5-Workshop/5.3-S3-vpc/bucket-name.png)
+#### Yêu cầu về Cross-Region
 
+ap-southeast-1 không nằm trong nhóm inference (inference pool) khu vực AP dành cho Nova Lite. Bedrock client của Lambda được hardcode để gọi tới us-east-1 thay thế:
 
-+ Giữ nguyên giá trị của các fields khác (default)
-+ Kéo chuột xuống và chọn **Create bucket**
+```python
+bedrock_client = boto3.client('bedrock-runtime', region_name='us-east-1')
+```
 
-![Create](/images/5-Workshop/5.3-S3-vpc/create-button.png)    
+Bản thân Lambda vẫn tiếp tục chạy tại ap-southeast-1; chỉ có lệnh gọi API Bedrock là vượt qua region khác.
 
-+ Tạo thành công S3 bucket
+#### Thực trạng về Quota
 
-![Success](/images/5-Workshop/5.3-S3-vpc/bucket-success.png)
+Các tài khoản AWS mới được cấp hạn ngạch on-demand là **0 request/giây** cho một model Bedrock nhất định, ngay cả sau khi quyền truy cập model đã được chấp thuận. Đây là một giới hạn thực sự ở cấp độ tài khoản, không phải lỗi của dự án này. Mọi lệnh gọi **/summarize** đều thất bại với ThrottlingException.
 
-#### Kết nối với EC2 bằng session manager
+Chúng mình đã mở một AWS Support case để xin tăng hạn ngạch. AWS hiện từ chối, giải thích rằng khả năng truy cập model phụ thuộc vào tuổi tài khoản, lịch sử thanh toán và mức độ sử dụng, rằng điều này được đánh giá lại tự động theo thời gian, và không phải là một giới hạn vĩnh viễn. Nói cách khác, rào cản nằm ở lịch sử thanh toán, không phải ở cấu hình.
 
-+ Trong workshop này, bạn sẽ dùng AWS Session Manager để kết nối đến các EC2 instances. Session Manager là 1 tính năng trong dịch vụ Systems Manager được quản lý hoàn toàn bởi AWS. System manager cho phép bạn quản lý Amazon EC2 instances và các máy ảo on-premises (VMs)thông qua 1 browser-based shell. Session Manager cung cấp khả năng quản lý phiên bản an toàn và có thể kiểm tra mà không cần mở cổng vào, duy trì máy chủ bastion host hoặc quản lý khóa SSH.
+```python
+is_daily_quota = (
+    error_code == 'ThrottlingException'
+    and ('daily' in error_msg or 'per day' in error_msg or 'toomanytokens' in error_msg)
+)
+```
 
-+ First Cloud AI Journey [Lab](https://000058.awsstudygroup.com/1-introduce/) để hiểu sâu hơn về Session manager.
+Lỗi throttling tạm thời sẽ được thử lại (retry) với backoff; còn lỗi vượt quota hàng ngày sẽ thất bại ngay lập tức thay vì retry, vì việc thử lại chỉ tốn hết 30 giây timeout của Lambda mà không mang lại lợi ích gì.
 
-1. Trong AWS Management Console, gõ Systems Manager trong ô tìm kiếm và nhấn Enter:
+Lambda đã triển khai **không có đường dẫn mock (mock path)** của riêng nó. Nó luôn gọi Bedrock thật và trả về lỗi 429 thực sự cho người dùng thật khi quota đã cạn:
 
-![system manager](/images/5-Workshop/5.3-S3-vpc/sm.png)
+```json
+{"message": "Summarization limit reached for today. Please try again after midnight UTC."}
+```
 
-2. Từ **Systems Manager** menu, tìm **Node Management** ở thanh bên trái và chọn **Session Manager**:
+Để giữ cho phần demo ở frontend vẫn dùng được trong khi quyền truy cập còn bị giới hạn, trang tĩnh có một cờ (flag) tên là `MOCK_SUMMARIZE` trả về một bản tóm tắt giả (placeholder). Việc tắt cờ này chỉ là thay đổi một flag, không cần sửa code, nên chức năng suy luận thật sẽ hoạt động ngay khi tài khoản đủ điều kiện. Bản thân phần tích hợp đã được kiểm chứng bằng bộ test pytest: nó mock Bedrock và kiểm tra rằng payload của request, luồng retry, và việc phân loại lỗi 429 do vượt quota đều đúng.
 
-![system manager](/images/5-Workshop/5.3-S3-vpc/sm1.png)
+Kiểm tra CloudWatch → Metrics → Custom/Bedrock → BedrockErrors, dimension ErrorType = DailyQuotaExceeded, để xác nhận Lambda đã phân loại lỗi đúng cách.
 
-3. Click Start Session, và chọn EC2 instance tên **Test-Gateway-Endpoint**. 
-{{% notice info %}}
-Phiên bản EC2 này đã chạy trong "VPC cloud" và sẽ được dùng để kiểm tra khả năng kết nối với Amazon S3 thông qua điểm cuối Cổng mà bạn vừa tạo (s3-gwe). {{% /notice %}}
+#### Các lỗi thường gặp và cách khắc phục
 
-![Start session](/images/5-Workshop/5.3-S3-vpc/start-session.png)
+| Lỗi | Nguyên nhân | Cách khắc phục |
+|---|---|---|
+| AccessDeniedException khi gọi Bedrock | Chưa được cấp quyền truy cập model, hoặc ARN của IAM không khớp với model/region | Cấp quyền tại **Bedrock → Model access**; kiểm tra ARN của IAM có khớp với BEDROCK_MODEL_ID không |
+| ValidationException: model identifier is invalid | Sai định dạng model ID | Kiểm tra lại BEDROCK_MODEL_ID phải chính xác là us.amazon.nova-lite-v1:0 |
+| Lỗi 429 ở mọi request, kể cả ngay sau khi vừa yêu cầu quyền truy cập | Quota on-demand mặc định là 0 trên một số tài khoản mới | Mở một AWS Support case dưới mục Service Quotas |
 
-Session Manager sẽ mở browser tab mới với shell prompt: sh-4.2 $
+---
 
-![Success](/images/5-Workshop/5.3-S3-vpc/start-session-success.png)
+### Tóm tắt phần này
 
-Bạn đã bắt đầu phiên kết nối đến EC2 trong VPC Cloud thành công. Trong bước tiếp theo, chúng ta sẽ tạo một  S3 bucket và một tệp trong đó.
-#### Create a file and upload to s3 bucket
-
-1. Đổi về ssm-user's thư mục bằng lệnh "cd ~" 
-
-![Change user's dir](/images/5-Workshop/5.3-S3-vpc/cli1.png)
-
-2. Tạo 1 file để kiểm tra bằng lệnh "fallocate -l 1G testfile.xyz", 1 file tên "testfile.xyz" có kích thước 1GB sẽ được tạo.
-
-![Create file](/images/5-Workshop/5.3-S3-vpc/cli-file.png)
-
-3. Tải file mình vừa tạo lên S3 với lệnh "aws s3 cp testfile.xyz s3://your-bucket-name". Thay your-bucket-name bằng tên S3 bạn đã tạo.
-
-![Uploaded](/images/5-Workshop/5.3-S3-vpc/uploaded.png)
-
-Bạn đã tải thành công tệp lên bộ chứa S3 của mình. Bây giờ bạn có thể kết thúc session.
-
-#### Kiểm tra object trong S3 bucket
-
-1. Đi đến S3 console.  
-2. Click tên s3 bucket của bạn
-3. Trong Bucket console, bạn sẽ thấy tệp bạn đã tải lên S3 bucket của mình
-
-![Check S3](/images/5-Workshop/5.3-S3-vpc/check-s3-bucket.png)
-
-#### Tóm tắt
-
-Chúc mừng bạn đã hoàn thành truy cập S3 từ VPC. Trong phần này, bạn đã tạo gateway endpoint cho Amazon S3 và sử dụng AWS CLI để tải file lên. Quá trình tải lên hoạt động vì gateway endpoint cho phép giao tiếp với S3 mà không cần Internet gateway gắn vào "VPC Cloud". Điều này thể hiện chức năng của gateway endpoint như một đường dẫn an toàn đến S3 mà không cần đi qua pub    lic Internet.
+Chúc mừng bạn đã hoàn thành tầng backend và tầng AI! Trong phần này, bạn đã thiết kế một bảng DynamoDB với GSI để thực hiện các truy vấn dựa trên ngày tháng, một IAM role thực thi cho Lambda với quyền hạn tối thiểu cần thiết, và kết nối dịch vụ Lambda để gọi Amazon Bedrock thực hiện tóm tắt văn bản qua các region khác nhau. Thành công của quy trình này đến từ việc mỗi quyền IAM được cấp đều khớp chính xác với một luồng xử lý code; không sử dụng wildcard cho action, không sử dụng wildcard cho resource ngoài phạm vi thực sự cần thiết cho cross-region inference. Hơn nữa, tình trạng cạn quota được xử lý như một trường hợp bình thường; nhờ đó chúng ta gặp lỗi 429 có thể đoán trước và xảy ra nhanh chóng thay vì một lỗi bất ngờ.

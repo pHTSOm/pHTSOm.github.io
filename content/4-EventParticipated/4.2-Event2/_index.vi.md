@@ -6,120 +6,77 @@ chapter: false
 pre: " <b> 4.2. </b> "
 ---
 
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
 
-# Bài thu hoạch “GenAI-powered App-DB Modernization workshop”
+# Bài thu hoạch “Agent Forge Deep Dive Day 1”
 
 ### Mục Đích Của Sự Kiện
 
-- Chia sẻ best practices trong thiết kế ứng dụng hiện đại
-- Giới thiệu phương pháp DDD và event-driven architecture
-- Hướng dẫn lựa chọn compute services phù hợp
-- Giới thiệu công cụ AI hỗ trợ development lifecycle
+- Giới thiệu về Amazon Bedrock AgentCore
+- Triển khai một agent cơ bản trên AgentCore
+- Kết nối các công cụ (tools) bên ngoài và Knowledge Base
+- Xây dựng Web UI và tích hợp xác thực bằng Amazon Cognito
 
 ### Danh Sách Diễn Giả
 
-- **Jignesh Shah** - Director, Open Source Databases
-- **Erica Liu** - Sr. GTM Specialist, AppMod
-- **Fabrianne Effendi** - Assc. Specialist SA, Serverless Amazon Web Services
+- **Nghia Tran** – Agentic SA
+- **Anh Pham** – Cloud Consultant, G-AsiaPacific Vietnam
+
 
 ### Nội Dung Nổi Bật
 
-#### Đưa ra các ảnh hưởng tiêu cực của kiến trúc ứng dụng cũ
+#### Agentic AI là gì
+- Các hệ thống phần mềm tự vận hành (một phần hoặc hoàn toàn), tận dụng AI để suy luận, lập kế hoạch và hoàn thành các tác vụ thay cho con người hoặc hệ thống.
 
-- Thời gian release sản phẩm lâu → Mất doanh thu/bỏ lỡ cơ hội
-- Hoạt động kém hiệu quả → Mất năng suất, tốn kém chi phí
-- Không tuân thủ các quy định về bảo mật → Mất an ninh, uy tín
+#### Strands Agents
+- Strands Agents là một SDK mã nguồn mở giúp xây dựng agent chỉ với vài dòng code.
+- Dễ sử dụng: phát triển agent một cách trực quan, giúp bắt đầu trong vài phút thay vì vài giờ.
+- Khả năng mở rộng: hỗ trợ custom model provider, custom tools và MCP.
+- Phát triển nhanh: tạo prototype và lặp (iteration) nhanh chóng.
 
-#### Chuyển đổi sang kiến trúc ứng dụng mới - Microservice Architecture
+#### Amazon Bedrock AgentCore
+- Nền tảng để xây dựng, kết nối và tối ưu agent — với bất kỳ framework nào, bất kỳ model nào.
 
-Chuyển đổi thành hệ thống modular – từng chức năng là một **dịch vụ độc lập** giao tiếp với nhau qua **sự kiện** với 3 trụ cột cốt lõi:
+- **Triển khai agent nhanh chóng**: xây dựng và triển khai agent mà không cần hàng tháng trời làm hạ tầng.
+- **Kết nối tới mọi thứ**: cấp cho agent quyền truy cập an toàn tới các MCP server, API và knowledge base.
+- **Tối ưu liên tục**: truy vết (trace) mọi quyết định của agent, đánh giá hiệu năng và kiểm thử các cải tiến một cách an toàn trên môi trường production.
+- **AgentCore Runtime**: một môi trường runtime serverless bảo mật, được thiết kế chuyên biệt để triển khai và mở rộng (scale) các AI agent và tool động (ví dụ MCP server), bất kể lựa chọn framework, protocol hay model nào.
+- **Xác định model AI phù hợp cho agent**: để chọn đúng model cho đúng tác vụ, cần đọc kỹ tài liệu.
+- **Chi phí (Pricing)**: AgentCore chạy theo mô hình serverless, giúp tiết kiệm chi phí.
 
-- **Queue Management**: Xử lý tác vụ bất đồng bộ
-- **Caching Strategy:** Tối ưu performance
-- **Message Handling:** Giao tiếp linh hoạt giữa services
+#### Amazon Bedrock AgentCore Identity
 
-#### Domain-Driven Design (DDD)
+- Quản lý xác thực chiều vào (inbound) và chiều ra (outbound) trực tiếp từ AgentCore.
+- **Workload Identities**: tấm "thẻ nhân viên" của agent; phát hành các Workload Access Token (WAT) có thời hạn ngắn.
+- **Credential Providers**: lưu cách xác thực tới một dịch vụ — API key, hoặc OAuth client_id + secret.
+- **Token Vault**: kho lưu trữ được mã hóa (Secrets Manager + KMS); cache token theo từng người dùng.
+- **Broker Logic**: thực hiện OAuth ở phía server — M2M, 3LO, OBO — và trả về token hoàn chỉnh.
 
-- **Phương pháp 4 bước**: Xác định domain events → sắp xếp timeline → identify actors → xác định bounded contexts
-- **Case study bookstore**: Minh họa cách áp dụng DDD thực tế
-- **Context mapping**: 7 patterns tích hợp bounded contexts
+#### Amazon Bedrock AgentCore Gateway
 
-#### Event-Driven Architecture
+- **Làm thế nào để scale?**: tạo một gateway đóng vai trò middleware, giúp quản lý kết nối giữa agent với các API/tool/tài nguyên.
+- **Truy cập an toàn**: AgentCore Gateway có thể lưu log vào Amazon CloudWatch.
+- **So sánh sync vs async**: hiểu rõ các đánh đổi (trade-offs).
+- **AgentCore Semantic Search**: AgentCore Gateway tự động lập chỉ mục (index) các tool và cung cấp tính năng semantic search serverless. Nó giảm lượng ngữ cảnh (context) truyền vào LLM của agent, cải thiện độ chính xác, tốc độ và chi phí, đồng thời giúp agent tập trung vào các tool liên quan tới một tác vụ cụ thể. Tên của search tool là x-amz-bedrock-agentcore-search.
 
-- **3 patterns tích hợp**: Publish/Subscribe, Point-to-point, Streaming
-- **Lợi ích**: Loose coupling, scalability, resilience
-- **So sánh sync vs async**: Hiểu rõ trade-offs (sự đánh đổi)
 
-#### Compute Evolution
-
-- **Shared Responsibility Model**: Từ EC2 → ECS → Fargate → Lambda
-- **Serverless benefits**: No server management, auto-scaling, pay-for-value
-- **Functions vs Containers**: Criteria lựa chọn phù hợp
-
-#### Amazon Q Developer
-
-- **SDLC automation**: Từ planning đến maintenance
-- **Code transformation**: Java upgrade, .NET modernization
-- **AWS Transform agents**: VMware, Mainframe, .NET migration
-
-### Những Gì Học Được
-
-#### Tư Duy Thiết Kế
-
-- **Business-first approach**: Luôn bắt đầu từ business domain, không phải technology
-- **Ubiquitous language**: Importance của common vocabulary giữa business và tech teams
-- **Bounded contexts**: Cách identify và manage complexity trong large systems
-
-#### Kiến Trúc Kỹ Thuật
-
-- **Event storming technique**: Phương pháp thực tế để mô hình hóa quy trình kinh doanh
-- Sử dụng **Event-driven communication** thay vì synchronous calls
-- **Integration patterns**: Hiểu khi nào dùng sync, async, pub/sub, streaming
-- **Compute spectrum**: Criteria chọn từ VM → containers → serverless
-
-#### Chiến Lược Hiện Đại Hóa
-
-- **Phased approach**: Không rush, phải có roadmap rõ ràng
-- **7Rs framework**: Nhiều con đường khác nhau tùy thuộc vào đặc điểm của mỗi ứng dụng
-- **ROI measurement**: Cost reduction + business agility
-
-### Ứng Dụng Vào Công Việc
-
-- **Áp dụng DDD** cho project hiện tại: Event storming sessions với business team
-- **Refactor microservices**: Sử dụng bounded contexts để identify service boundaries
-- **Implement event-driven patterns**: Thay thế một số sync calls bằng async messaging
-- **Serverless adoption**: Pilot AWS Lambda cho một số use cases phù hợp
-- **Try Amazon Q Developer**: Integrate vào development workflow để boost productivity
 
 ### Trải nghiệm trong event
 
-Tham gia workshop **“GenAI-powered App-DB Modernization”** là một trải nghiệm rất bổ ích, giúp tôi có cái nhìn toàn diện về cách hiện đại hóa ứng dụng và cơ sở dữ liệu bằng các phương pháp và công cụ hiện đại. Một số trải nghiệm nổi bật:
+Tham gia workshop **“Agent Forge Deep Dive Day 1”** là một trải nghiệm rất bổ ích, mang lại cho tôi cái nhìn toàn diện về cách xây dựng và vận hành AI agent bằng các phương pháp và công cụ hiện đại. Một số trải nghiệm nổi bật:
 
-#### Học hỏi từ các diễn giả có chuyên môn cao
-- Các diễn giả đến từ AWS và các tổ chức công nghệ lớn đã chia sẻ **best practices** trong thiết kế ứng dụng hiện đại.
-- Qua các case study thực tế, tôi hiểu rõ hơn cách áp dụng **Domain-Driven Design (DDD)** và **Event-Driven Architecture** vào các project lớn.
 
 #### Trải nghiệm kỹ thuật thực tế
-- Tham gia các phiên trình bày về **event storming** giúp tôi hình dung cách **mô hình hóa quy trình kinh doanh** thành các domain events.
-- Học cách **phân tách microservices** và xác định **bounded contexts** để quản lý sự phức tạp của hệ thống lớn.
-- Hiểu rõ trade-offs giữa **synchronous và asynchronous communication** cũng như các pattern tích hợp như **pub/sub, point-to-point, streaming**.
+- Tìm hiểu các kiến thức nền tảng về **Amazon Bedrock AgentCore** và các thành phần của nó — **Runtime, Gateway, Identity** — để hiểu rõ dịch vụ được sử dụng xuyên suốt workshop.
+- Tham gia các phiên **hands-on workshop** giúp tôi xây dựng một web app chạy local và tự tạo AI agent của riêng mình với Kiro.
+
 
 #### Ứng dụng công cụ hiện đại
-- Trực tiếp tìm hiểu về **Amazon Q Developer**, công cụ AI hỗ trợ SDLC từ lập kế hoạch đến maintenance.
-- Học cách **tự động hóa code transformation** và pilot serverless với **AWS Lambda**, từ đó nâng cao năng suất phát triển.
+- Trực tiếp tìm hiểu về **Amazon Bedrock AgentCore**, một nền tảng agentic để xây dựng, triển khai và vận hành các agent hiệu quả cao, an toàn và ở quy mô lớn, với bất kỳ framework và foundation model nào.
 
-#### Kết nối và trao đổi
-- Workshop tạo cơ hội trao đổi trực tiếp với các chuyên gia, đồng nghiệp và team business, giúp **nâng cao ngôn ngữ chung (ubiquitous language)** giữa business và tech.
-- Qua các ví dụ thực tế, tôi nhận ra tầm quan trọng của **business-first approach**, luôn bắt đầu từ nhu cầu kinh doanh thay vì chỉ tập trung vào công nghệ.
-
-#### Bài học rút ra
-- Việc áp dụng DDD và event-driven patterns giúp giảm **coupling**, tăng **scalability** và **resilience** cho hệ thống.
-- Chiến lược hiện đại hóa cần **phased approach** và đo lường **ROI**, không nên vội vàng chuyển đổi toàn bộ hệ thống.
-- Các công cụ AI như Amazon Q Developer có thể **boost productivity** nếu được tích hợp vào workflow phát triển hiện tại.
 
 #### Một số hình ảnh khi tham gia sự kiện
-* Thêm các hình ảnh của các bạn tại đây
-> Tổng thể, sự kiện không chỉ cung cấp kiến thức kỹ thuật mà còn giúp tôi thay đổi cách tư duy về thiết kế ứng dụng, hiện đại hóa hệ thống và phối hợp hiệu quả hơn giữa các team.
+![Định nghĩa tổng quan về một Agent](/images/4-Event/aws_event_agentcore_1.jpg)
+
+![Thang mức độ tự vận hành (a gradient of autonomy)](/images/4-Event/aws_event_agentcore_2.jpg)
+
+> Tổng thể, workshop hands-on mang tính tương tác cao của sự kiện đã giúp tôi có thêm nhiều kiến thức kỹ thuật mới, đồng thời khơi gợi những ý tưởng mới cho các dự án cá nhân trong tương lai.

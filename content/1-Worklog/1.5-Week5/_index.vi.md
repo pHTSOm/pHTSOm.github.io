@@ -15,11 +15,11 @@ pre: " <b> 1.5. </b> "
 ### Các công việc cần triển khai trong tuần này:
 | Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
 | --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
-| 2   | - Tìm hiểu Global Entry Point                                                                                             | 05/11/2026   | 11/11/2026      |
-| 3   | - Tìm hiểu về cách hệ thống mạng toàn cầu giúp điều hướng người dùng dựa trên hiệu năng và trạng thái hoạt động của ứng dụng                                            | 05/12/2026   | 05/12/2026      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Tìm hiểu về định tuyến dựa trên độ trễ và vị trí địa lý để tối ưu hoá trải nghiệm truy cập | 05/13/2026   | 05/13/2026      | <https://learn.cantrill.io/p/aws-certified-solutions-architect-associate-saa-c03/> |
-| 5   | - Thực hành tạo Docker image và push lên Amazon ECR để lưu trữ an toàn trên đám mây                  | 14/08/2026   | 15/08/2026      | <https://learn.cantrill.io/p/aws-certified-solutions-architect-associate-saa-c03/> |
-| 6   | - Xem cách điều phối các container ở quy mô lớn với AWS Fargate mà không cần quản lý hạ tầng máy chủ bên dưới                                                                                         | 05/15/2026   | 05/15/2026      | <https://learn.cantrill.io/p/aws-certified-solutions-architect-associate-saa-c03/> |
+| 2   | - Tìm hiểu Global Entry Point                                                                                             | 05/18/2026   | 05/18/2026      |
+| 3   | - Tìm hiểu về cách hệ thống mạng toàn cầu giúp điều hướng người dùng dựa trên hiệu năng và trạng thái hoạt động của ứng dụng                                            | 05/19/2026   | 05/19/2026      | <https://cloudjourney.awsstudygroup.com/> |
+| 4   | - Tìm hiểu về định tuyến dựa trên độ trễ và vị trí địa lý để tối ưu hoá trải nghiệm truy cập | 05/20/2026   | 05/20/2026      | <https://learn.cantrill.io/p/aws-certified-solutions-architect-associate-saa-c03/> |
+| 5   | - Thực hành tạo Docker image và push lên Amazon ECR để lưu trữ an toàn trên đám mây                  | 05/21/2026   | 05/21/2026      | <https://learn.cantrill.io/p/aws-certified-solutions-architect-associate-saa-c03/> |
+| 6   | - Xem cách điều phối các container ở quy mô lớn với AWS Fargate mà không cần quản lý hạ tầng máy chủ bên dưới                                                                                         | 05/22/2026   | 05/22/2026      | <https://learn.cantrill.io/p/aws-certified-solutions-architect-associate-saa-c03/> |
 
 
 ### Kết quả đạt được tuần 5:

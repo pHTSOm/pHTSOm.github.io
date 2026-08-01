@@ -6,39 +6,34 @@ chapter: false
 pre: " <b> 4. </b> "
 ---
 
-{{% notice warning %}}
-⚠️ **Note:** The information below is for reference purposes only. Please **do not copy it verbatim** for your report, including this warning.
-{{% /notice %}}
-
-> In this section, you should list and describe in detail the events you have participated in during your internship or work experience.  
-> 
-> Each event should be presented in the format Event 1, Event 2, Event 3…, along with the following details:
-> * Event name
-> * Date and time
-> * Location (if applicable)
-> * Your role in the event (attendee, event support, speaker, etc.)
-> * A brief description of the event’s content and main activities
-> * Outcomes or value gained (lessons learned, new skills, contribution to the team/project)
-> * This listing helps demonstrate your actual participation as well as the soft skills and experience you have gained from each event.
-
 During my internship, I participated in two events. Each one was a memorable experience that provided new, interesting, and useful knowledge, along with gifts and wonderful moments.
 
-### [Event 1](4.1-Event1/)  
-&emsp;**Event Name:** Workshop Build Production-ready agentic systems using Amazon Bedrock Agentcore 
+### [Event 1](4.1-Event1/)
 
-&emsp;**Date & Time:** 09:00, August 1, 2026  
+&emsp;**Event Name:** FCAJ Community Day
 
-&emsp;**Location:** 26th Floor, Bitexco Tower, 02 Hai Trieu Street, Saigon Ward, Ho Chi Minh City  
+&emsp;**Date & Time:** 09:00, May 23, 2026
 
-&emsp;**Role:** Attendee  
+&emsp;**Location:** 26th Floor, Bitexco Tower, 02 Hai Trieu Street, Saigon Ward, Ho Chi Minh City
+
+&emsp;**Role:** Attendee
+
+&emsp;**Description:** A half-day community event featuring six back-to-back talks from industry practitioners and students. Topics ranged from making AI genuinely useful through better context (the "Second AI Brain"), to building AI assistants with Amazon Quick, using Amazon CloudFront as a foundation for cost, security, reliability, and performance, a 36-hour LotusHacks hackathon story (building UTMorpho), the hidden non-determinism of "deterministic" LLM settings, and an enterprise multi-agent system for startup credit scoring.
+
+&emsp;**Value gained:** Gained a broad, practical view of where AI and cloud are heading, learned that context — not just clever prompting — is what makes AI dependable, saw how natural-language tooling lowers the barrier to building, and left with concrete ideas to apply to my own projects. See [Event 1](4.1-Event1/) for the full report.
 
 ---
 
-### [Event 2](4.2-Event2/)  
-&emsp;**Event Name:** GenAI-powered App-DB Modernization workshop  
+### [Event 2](4.2-Event2/)
 
-&emsp;**Date & Time:** 09:00, August 13, 2025  
+&emsp;**Event Name:** Agent Forge Deep Dive Day 1 – Amazon Bedrock AgentCore
 
-&emsp;**Location:** 26th Floor, Bitexco Tower, 02 Hai Trieu Street, Saigon Ward, Ho Chi Minh City  
+&emsp;**Date & Time:** 09:00, August 1, 2026
 
-&emsp;**Role:** Attendee  
+&emsp;**Location:** 26th Floor, Bitexco Tower, 02 Hai Trieu Street, Saigon Ward, Ho Chi Minh City
+
+&emsp;**Role:** Attendee
+
+&emsp;**Description:** A deep-dive workshop on Amazon Bedrock AgentCore for building production-ready agentic systems. It introduced agentic AI and the Strands Agents SDK, then walked through AgentCore's core components — Runtime, Gateway, and Identity — for securely deploying, connecting, and scaling agents. The session included a hands-on portion where attendees built a local web app and their own AI agent with Kiro.
+
+&emsp;**Value gained:** Understood how AgentCore's Runtime, Gateway, and Identity fit together to run agents securely at scale, got hands-on experience building an agent, and came away with practical ideas for future personal projects. See [Event 2](4.2-Event2/) for the full report.

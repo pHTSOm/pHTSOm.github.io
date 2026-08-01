@@ -1,6 +1,6 @@
 ---
 title : "Prerequiste"
-date : 2024-01-01 
+date : 2026-07-14
 weight : 2 
 chapter : false
 pre : " <b> 5.2. </b> "
@@ -16,8 +16,7 @@ Never use the root user for regular work. Create a personal administrator user i
 ![overview](/images/5-Workshop/5.2-Prerequisite/IAM_create_user.jpeg)
 3. User name: your name or a consistent identifier, e.g. phatnguyen. Check Provide user access to the AWS Management Console.
 ![overview](/images/5-Workshop/5.2-Prerequisite/IAM_name_and_check.jpeg)
-4. Click **Next**. 
-Select **Attach policies directly** → check **AdministratorAccess**.
+4. Click **Next** then select **Attach policies directly** → check **AdministratorAccess**.
 ![overview](/images/5-Workshop/5.2-Prerequisite/IAM_attach.jpeg)
 5. Click **Next** → **Create user**.
 ![overview](/images/5-Workshop/5.2-Prerequisite/IAM_click_create.jpeg)
@@ -43,7 +42,7 @@ Select **Attach policies directly** → check **AdministratorAccess**.
 ![overview](/images/5-Workshop/5.2-Prerequisite/access_key.jpeg)
 5. choose **Command Line Interface (CLI)** → confirm → **Create access key**. 
 ![overview](/images/5-Workshop/5.2-Prerequisite/checked_CLI.jpeg)
-![overview](images/5-Workshop/5.2-Prerequisite/clickCreate_AccessKey.jpeg)
+![overview](/images/5-Workshop/5.2-Prerequisite/clickCreate_AccessKey.jpeg)
 6. Copy the **Access Key ID** and **Secret Access Key** — the secret is only shown once.
 ![overview](/images/5-Workshop/5.2-Prerequisite/download_key.jpeg)
 7. Configure a named profile (avoid the default profile, so multiple AWS accounts/users don't conflict on the same machine):
@@ -81,10 +80,10 @@ Select **Attach policies directly** → check **AdministratorAccess**.
 
 1. Clone the project:
 ```bash
-   git clone https://github.com/your-org/Project_Abstract.git
+   git clone https://github.com/pHTSOm/Project_Abstract.git
    cd Project_Abstract
 ```
-2. This workshop provisions named, globally-unique resources (S3 bucket names, Cognito domain prefixes). If following this guide with your own AWS account, change these values before running Terraform to avoid collisions with other readers:
-   - S3 bucket names (must be globally unique across all of AWS)
-   - Cognito Hosted UI domain prefix (must be globally unique per region)
-   - Any hardcoded account ID references — replace with your own account ID from aws sts get-caller-identity
+2. The workshop provides the specific resource names that are uniquely available around the world (S3 bucket names and Cognito domain prefixes). If you use your account to follow the instructions in the tutorial, please change the mentioned names before executing Terraform commands:
+   - S3 bucket names: always globally unique in the AWS environment.
+   - Cognito Hosted UI domain prefix: globally unique in each region.
+   - Replace account ID references with your own from aws sts get-caller-identity.
