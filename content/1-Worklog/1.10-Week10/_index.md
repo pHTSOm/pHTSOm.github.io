@@ -8,7 +8,7 @@ pre: " <b> 1.10. </b> "
 
 ### Week 10 Objectives:
 
-Move the whole infrastructure into code. Rebuilt what had been configured in the console as modular Terraform — auth, API, compute, and data modules — and set up a remote state backend on S3 with DynamoDB locking so my teammate and I can work on the same infrastructure safely.
+Move the whole infrastructure into code. Rebuilt what had been configured in the console as modular Terraform (auth, API, compute, and data modules), and set up a remote state backend on S3 with DynamoDB locking so my teammate and I can work on the same infrastructure safely.
 
 ### Tasks to be carried out this week:
 | Day | Task                                                                                                                                                                                                   | Start Date | Completion Date | Reference Material                        |

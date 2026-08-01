@@ -36,8 +36,25 @@ terraform apply
 terraform output cloudfront_domain_name
 ```
 
+File `frontend/script.js` được cố ý không đưa vào repository. Nó chứa các giá trị Cognito và API Gateway đang hoạt động, nên nếu commit thì sẽ công khai thông tin của một tài khoản cho tất cả những ai clone dự án. Thứ được đưa lên repository là một file mẫu. Hãy sao chép nó trước:
+
 ```bash
-# trước tiên hãy đặt API_BASE_URL trong frontend/script.js thành giá trị output api_invoke_url
+cp frontend/script.js.example frontend/script.js
+```
+
+Bây giờ hãy mở object `CONFIG` ở đầu file `frontend/script.js` vừa tạo và điền từng trường bằng giá trị của chính stack của bạn. Chạy các lệnh sau trong thư mục `terraform/`:
+
+| Trường trong `script.js` | Lấy ở đâu |
+|---|---|
+| `API_URL` | `terraform output -raw api_invoke_url` |
+| `CLIENT_ID` | `terraform output -raw cognito_app_client_id` |
+| `API_KEY` | `terraform output -raw api_key_value` |
+| `REDIRECT_URI` | `https://$(terraform output -raw cloudfront_domain_name)/` — giữ nguyên dấu gạch chéo ở cuối, vì giá trị này phải khớp chính xác với một callback URL của Cognito |
+| `COGNITO_DOMAIN` | `<your-domain-prefix>.auth.<your-region>.amazoncognito.com`, được tạo từ giá trị `cognito_domain_prefix` bạn đặt trong terraform.tfvars (không có output riêng cho giá trị này) |
+
+File `script.js` đã được khai báo trong .gitignore, nên bản bạn điền giá trị thật sẽ chỉ nằm ở máy bạn và không bao giờ lọt vào repository. Hãy giữ nguyên như vậy.
+
+```bash
 aws s3 cp frontend/index.html s3://$(terraform output -raw frontend_bucket_name)/
 aws s3 cp frontend/script.js  s3://$(terraform output -raw frontend_bucket_name)/
 aws cloudfront create-invalidation \

@@ -52,11 +52,11 @@ The verification step: publish a test data point to Custom/Bedrock / BedrockErro
 
 #### Manual Test Plan
 
-Using curl against the deployed API (https://kqtcvcv5g0.execute-api.ap-southeast-1.amazonaws.com/v1):
+Using curl against the deployed API (https://YOUR-API-ID.execute-api.ap-southeast-1.amazonaws.com/v1):
 
 **1. Valid request with auth:**
 ```bash
-curl -X POST https://kqtcvcv5g0.execute-api.ap-southeast-1.amazonaws.com/v1/summarize \
+curl -X POST https://YOUR-API-ID.execute-api.ap-southeast-1.amazonaws.com/v1/summarize \
   -H "Content-Type: application/json" \
   -H "Authorization: YOUR-ID-TOKEN" \
   -H "x-api-key: YOUR-API-KEY" \
@@ -66,7 +66,7 @@ Expected: 200 with a summary field, or 429 if the daily Bedrock quota is current
 
 **2. Missing token:**
 ```bash
-curl -X POST https://kqtcvcv5g0.execute-api.ap-southeast-1.amazonaws.com/v1/summarize \
+curl -X POST https://YOUR-API-ID.execute-api.ap-southeast-1.amazonaws.com/v1/summarize \
   -H "x-api-key: YOUR-API-KEY" \
   -d '{"text": "test"}'
 ```
@@ -74,7 +74,7 @@ Expected: 401 Unauthorized — confirms the Cognito authorizer is enforced.
 
 **3. Missing API key:**
 ```bash
-curl -X POST https://kqtcvcv5g0.execute-api.ap-southeast-1.amazonaws.com/v1/summarize \
+curl -X POST https://YOUR-API-ID.execute-api.ap-southeast-1.amazonaws.com/v1/summarize \
   -H "Authorization: YOUR-ID-TOKEN" \
   -d '{"text": "test"}'
 ```
@@ -82,7 +82,7 @@ Expected: 403 Forbidden — confirms the usage plan's API key requirement is enf
 
 **4. GET /history:**
 ```bash
-curl https://kqtcvcv5g0.execute-api.ap-southeast-1.amazonaws.com/v1/history \
+curl https://YOUR-API-ID.execute-api.ap-southeast-1.amazonaws.com/v1/history \
   -H "Authorization: YOUR-ID-TOKEN" \
   -H "x-api-key: YOUR-API-KEY"
 ```
@@ -152,11 +152,11 @@ Set `--host` to `http://localhost:8000` for the mock server, or the real API Gat
 
 1. Create a test Cognito user for load testing:
    ```bash
-   AWS_PROFILE=phatnguyen aws cognito-idp admin-create-user \
-     --user-pool-id ap-southeast-1_Uo593E4hR \
+   AWS_PROFILE=YOUR-PROFILE aws cognito-idp admin-create-user \
+     --user-pool-id YOUR-USER-POOL-ID \
      --username loadtest@example.com
-   AWS_PROFILE=phatnguyen aws cognito-idp admin-set-user-password \
-     --user-pool-id ap-southeast-1_Uo593E4hR \
+   AWS_PROFILE=YOUR-PROFILE aws cognito-idp admin-set-user-password \
+     --user-pool-id YOUR-USER-POOL-ID \
      --username loadtest@example.com \
      --password YourStrongPass123! \
      --permanent
@@ -165,14 +165,14 @@ Set `--host` to `http://localhost:8000` for the mock server, or the real API Gat
    ```
    MOCK_MODE=false
    COGNITO_REGION=ap-southeast-1
-   CLIENT_ID=7mfke3ntkous3rbvpbqpu7c2nb
+   CLIENT_ID=<value from: terraform output -raw cognito_app_client_id>
    TEST_USERNAME=loadtest@example.com
    TEST_PASSWORD=YourStrongPass123!
    API_KEY=<value from: terraform output -raw api_key_value>
    ```
 3. Run Locust against the real endpoint:
    ```bash
-   locust -f locustfile.py --host https://kqtcvcv5g0.execute-api.ap-southeast-1.amazonaws.com/v1
+   locust -f locustfile.py --host https://YOUR-API-ID.execute-api.ap-southeast-1.amazonaws.com/v1
    ```
 4. Open the Locust web UI (default `http://localhost:8089`), set number of users and ramp-up rate, start the test.
 

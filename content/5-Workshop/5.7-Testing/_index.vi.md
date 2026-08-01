@@ -52,11 +52,11 @@ Bước xác minh: gửi thủ công một điểm dữ liệu thử nghiệm t�
 
 #### Kế hoạch kiểm thử thủ công
 
-Sử dụng curl để gọi vào API đã triển khai (https://kqtcvcv5g0.execute-api.ap-southeast-1.amazonaws.com/v1):
+Sử dụng curl để gọi vào API đã triển khai (https://YOUR-API-ID.execute-api.ap-southeast-1.amazonaws.com/v1):
 
 **1. Request hợp lệ có xác thực:**
 ```bash
-curl -X POST https://kqtcvcv5g0.execute-api.ap-southeast-1.amazonaws.com/v1/summarize \
+curl -X POST https://YOUR-API-ID.execute-api.ap-southeast-1.amazonaws.com/v1/summarize \
   -H "Content-Type: application/json" \
   -H "Authorization: YOUR-ID-TOKEN" \
   -H "x-api-key: YOUR-API-KEY" \
@@ -66,7 +66,7 @@ Kết quả mong đợi: 200 kèm trường summary, hoặc 429 nếu hạn ng�
 
 **2. Thiếu token:**
 ```bash
-curl -X POST https://kqtcvcv5g0.execute-api.ap-southeast-1.amazonaws.com/v1/summarize \
+curl -X POST https://YOUR-API-ID.execute-api.ap-southeast-1.amazonaws.com/v1/summarize \
   -H "x-api-key: YOUR-API-KEY" \
   -d '{"text": "test"}'
 ```
@@ -74,7 +74,7 @@ Kết quả mong đợi: 401 Unauthorized — xác nhận Cognito authorizer đa
 
 **3. Thiếu API key:**
 ```bash
-curl -X POST https://kqtcvcv5g0.execute-api.ap-southeast-1.amazonaws.com/v1/summarize \
+curl -X POST https://YOUR-API-ID.execute-api.ap-southeast-1.amazonaws.com/v1/summarize \
   -H "Authorization: YOUR-ID-TOKEN" \
   -d '{"text": "test"}'
 ```
@@ -82,7 +82,7 @@ Kết quả mong đợi: 403 Forbidden — xác nhận yêu cầu API key của 
 
 **4. GET /history:**
 ```bash
-curl https://kqtcvcv5g0.execute-api.ap-southeast-1.amazonaws.com/v1/history \
+curl https://YOUR-API-ID.execute-api.ap-southeast-1.amazonaws.com/v1/history \
   -H "Authorization: YOUR-ID-TOKEN" \
   -H "x-api-key: YOUR-API-KEY"
 ```
@@ -152,11 +152,11 @@ locust -f locustfile.py --headless -u 50 -r 1 --run-time 60s --host <target-host
 
 1. Tạo một user Cognito dùng cho load testing:
    ```bash
-   AWS_PROFILE=phatnguyen aws cognito-idp admin-create-user \
-     --user-pool-id ap-southeast-1_Uo593E4hR \
+   AWS_PROFILE=YOUR-PROFILE aws cognito-idp admin-create-user \
+     --user-pool-id YOUR-USER-POOL-ID \
      --username loadtest@example.com
-   AWS_PROFILE=phatnguyen aws cognito-idp admin-set-user-password \
-     --user-pool-id ap-southeast-1_Uo593E4hR \
+   AWS_PROFILE=YOUR-PROFILE aws cognito-idp admin-set-user-password \
+     --user-pool-id YOUR-USER-POOL-ID \
      --username loadtest@example.com \
      --password YourStrongPass123! \
      --permanent
@@ -165,14 +165,14 @@ locust -f locustfile.py --headless -u 50 -r 1 --run-time 60s --host <target-host
    ```
    MOCK_MODE=false
    COGNITO_REGION=ap-southeast-1
-   CLIENT_ID=7mfke3ntkous3rbvpbqpu7c2nb
+   CLIENT_ID=<value from: terraform output -raw cognito_app_client_id>
    TEST_USERNAME=loadtest@example.com
    TEST_PASSWORD=YourStrongPass123!
    API_KEY=<value from: terraform output -raw api_key_value>
    ```
 3. Chạy Locust nhắm vào endpoint thật:
    ```bash
-   locust -f locustfile.py --host https://kqtcvcv5g0.execute-api.ap-southeast-1.amazonaws.com/v1
+   locust -f locustfile.py --host https://YOUR-API-ID.execute-api.ap-southeast-1.amazonaws.com/v1
    ```
 4. Mở giao diện web của Locust (mặc định `http://localhost:8089`), thiết lập số lượng người dùng và tốc độ tăng dần (ramp-up rate), rồi bắt đầu kiểm thử.
 

@@ -23,7 +23,8 @@ Two things that run on their own once deployed: a scheduled Lambda that generate
 
 ```bash
 terraform apply
-aws lambda invoke --function-name $(terraform output -raw report_lambda_function_name) --payload '{}' response.json
+# the report Lambda is named <project_name>-report, so doc-summarizer-report with the default project_name
+aws lambda invoke --function-name doc-summarizer-report --payload '{}' response.json
 aws s3 ls s3://$(terraform output -raw reports_bucket_name)/reports/
 ```
 

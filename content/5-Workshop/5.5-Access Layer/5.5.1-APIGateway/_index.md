@@ -29,8 +29,8 @@ Set up Cognito to issue and validate JWTs, and API Gateway to enforce that token
 
 ```bash
 terraform apply
-terraform output user_pool_id
-terraform output client_id
+terraform output cognito_user_pool_id
+terraform output cognito_app_client_id
 terraform output api_invoke_url
 terraform output -raw api_key_value
 ```

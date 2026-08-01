@@ -14,7 +14,7 @@ Never use the root user for regular work. Create a personal administrator user i
 ![overview](/images/5-Workshop/5.2-Prerequisite/IAM_console.jpeg)
 2. In the left menu, click **Users** → **Create user**.
 ![overview](/images/5-Workshop/5.2-Prerequisite/IAM_create_user.jpeg)
-3. User name: your name or a consistent identifier, e.g. phatnguyen. Check Provide user access to the AWS Management Console.
+3. User name: your name or a consistent identifier, e.g. workshop-admin. Check Provide user access to the AWS Management Console.
 ![overview](/images/5-Workshop/5.2-Prerequisite/IAM_name_and_check.jpeg)
 4. Click **Next** then select **Attach policies directly** → check **AdministratorAccess**.
 ![overview](/images/5-Workshop/5.2-Prerequisite/IAM_attach.jpeg)

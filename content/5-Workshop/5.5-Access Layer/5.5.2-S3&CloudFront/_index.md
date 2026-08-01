@@ -35,8 +35,25 @@ terraform apply
 terraform output cloudfront_domain_name
 ```
 
+`frontend/script.js` is deliberately not in the repository. It holds live Cognito and API Gateway values, so committing it would publish one account's credentials to everyone who clones the project. What ships instead is a template. Copy it first:
+
 ```bash
-# set API_BASE_URL in frontend/script.js to the api_invoke_url output first
+cp frontend/script.js.example frontend/script.js
+```
+
+Now open the `CONFIG` object at the top of your new `frontend/script.js` and fill in each field from your own stack. Run these from the `terraform/` directory:
+
+| `script.js` field | Where to get it |
+|---|---|
+| `API_URL` | `terraform output -raw api_invoke_url` |
+| `CLIENT_ID` | `terraform output -raw cognito_app_client_id` |
+| `API_KEY` | `terraform output -raw api_key_value` |
+| `REDIRECT_URI` | `https://$(terraform output -raw cloudfront_domain_name)/` — keep the trailing slash, it has to match a Cognito callback URL exactly |
+| `COGNITO_DOMAIN` | `<your-domain-prefix>.auth.<your-region>.amazoncognito.com`, built from the `cognito_domain_prefix` you set in terraform.tfvars (there is no dedicated output for it) |
+
+`script.js` is listed in .gitignore, so your filled-in copy stays local and never reaches the repository. Leave it that way.
+
+```bash
 aws s3 cp frontend/index.html s3://$(terraform output -raw frontend_bucket_name)/
 aws s3 cp frontend/script.js  s3://$(terraform output -raw frontend_bucket_name)/
 aws cloudfront create-invalidation \

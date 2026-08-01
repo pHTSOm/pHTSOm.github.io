@@ -29,8 +29,8 @@ Thiết lập Cognito để cấp phát và xác thực JWT, cùng với API Gat
 
 ```bash
 terraform apply
-terraform output user_pool_id
-terraform output client_id
+terraform output cognito_user_pool_id
+terraform output cognito_app_client_id
 terraform output api_invoke_url
 terraform output -raw api_key_value
 ```

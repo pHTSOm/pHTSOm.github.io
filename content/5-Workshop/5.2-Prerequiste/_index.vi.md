@@ -14,7 +14,7 @@ Không bao giờ sử dụng tài khoản root cho công việc hàng ngày. Tha
 ![overview](/images/5-Workshop/5.2-Prerequisite/IAM_console.jpeg)
 2. Ở menu bên trái, chọn **Users** → **Create user**.
 ![overview](/images/5-Workshop/5.2-Prerequisite/IAM_create_user.jpeg)
-3. User name: tên của bạn hoặc một định danh nhất quán, ví dụ phatnguyen. Tích chọn Provide user access to the AWS Management Console.
+3. User name: tên của bạn hoặc một định danh nhất quán, ví dụ workshop-admin. Tích chọn Provide user access to the AWS Management Console.
 ![overview](/images/5-Workshop/5.2-Prerequisite/IAM_name_and_check.jpeg)
 4. Nhấn **Next** rồi chọn **Attach policies directly** → tích chọn **AdministratorAccess**.
 ![overview](/images/5-Workshop/5.2-Prerequisite/IAM_attach.jpeg)

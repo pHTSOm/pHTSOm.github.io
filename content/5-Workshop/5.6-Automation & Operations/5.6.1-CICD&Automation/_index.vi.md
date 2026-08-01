@@ -23,7 +23,8 @@ Hai thành phần tự vận hành sau khi đã triển khai: một Lambda chạ
 
 ```bash
 terraform apply
-aws lambda invoke --function-name $(terraform output -raw report_lambda_function_name) --payload '{}' response.json
+# Lambda báo cáo được đặt tên theo dạng <project_name>-report, tức doc-summarizer-report với project_name mặc định
+aws lambda invoke --function-name doc-summarizer-report --payload '{}' response.json
 aws s3 ls s3://$(terraform output -raw reports_bucket_name)/reports/
 ```
 
