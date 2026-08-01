@@ -1,31 +1,41 @@
 ---
 title: "Workshop"
-date: 2024-01-01
+date: 2026-07-14
 weight: 5
 chapter: false
 pre: " <b> 5. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Note:** The information below is for reference purposes only. Please **do not copy verbatim** for your report, including this warning.
-{{% /notice %}}
 
-# Secure Hybrid Access to S3 using VPC Endpoints
+# Project: Infrastructure as Code for a Secure Serverless AI Workload on AWS
 
-#### Overview
+This workshop is a DevOps and Cloud Engineering project that uses AI document summarizer as the vehicle to teach secure serverless architecture, Infrastructure as Code, CI/CD automation, and observability on AWS.
 
-**AWS PrivateLink** provides private connectivity to AWS services from VPCs and your on-premises networks, without exposing your traffic to the Public Internet.
+In this workshop build as a serverless document summarization platform. The platform accepts long-form text documents through a secured REST API and returns AI-generated summaries powered by Amazon Bedrock.
 
-In this lab, you will learn how to create, configure, and test VPC endpoints that enable your workloads to reach AWS services without traversing the Public Internet.
+There are four core components that work together to process a request end to end: Amazon Cognito, Amazon API Gateway, AWS Lambda, and Amazon Bedrock. Each component has a distinct role in the request pipeline, from authentication through to AI inference.
 
-You will create two types of endpoints to access Amazon S3: a Gateway VPC endpoint, and an Interface VPC endpoint. These two types of VPC endpoints offer different benefits depending on if you are accessing Amazon S3 from the cloud or your on-premises location
-+ **Gateway** - Create a gateway endpoint to send traffic to Amazon S3 or DynamoDB using private IP addresses.You route traffic from your VPC to the gateway endpoint using route tables.
-+ **Interface** - Create an interface endpoint to send traffic to endpoint services that use a Network Load Balancer to distribute traffic. Traffic destined for the endpoint service is resolved using DNS.
++ **Amazon Cognito** — Manages user sign-up, login, and JWT token issuance through a Hosted UI, so your API never has to handle passwords directly.
++ **Amazon API Gateway** — Sits in front of your compute layer, validating every JWT token and enforcing a usage plan with an API key before any request reaches your code.
++ **AWS Lambda** — Processes verified requests, calls Amazon Bedrock for AI summarization, and reads/writes to DynamoDB. Runs only when invoked, and scales to zero when idle.
++ **Amazon Bedrock** — Generates the actual text summary using the Amazon Nova Lite foundation model, called via a cross-region inference profile.
+
+You will also build the infrastructure that core pipeline was recently use for product. Terraform for repeatable infrastructure, a CodePipeline CI/CD pipeline with automated tests and a manual approval gate, CloudWatch monitoring with a real firing alarm, and a CIS-aligned security baseline.
+
+---
 
 #### Content
 
-1. [Workshop overview](5.1-Workshop-overview)
-2. [Prerequiste](5.2-Prerequiste/)
-3. [Access S3 from VPC](5.3-S3-vpc/)
-4. [Access S3 from On-premises](5.4-S3-onprem/)
-5. [VPC Endpoint Policies (Bonus)](5.5-Policy/)
-6. [Clean up](5.6-Cleanup/)
+1. [Overview](1.1-Overview/)
+2. [Prerequisites](2-Prerequisites/)
+3. [Architecture Design](3-Architecture/)
+4. [Implementation](4-Implementation/)
+   1. [Backend Foundation — DynamoDB & Lambda](4.1-Backend-Foundation/)
+   2. [Auth Layer — Cognito](4.2-Auth-Layer/)
+   3. [API Layer — API Gateway](4.3-API-Layer/)
+   4. [AI Integration — Bedrock](4.4-AI-Integration/)
+   5. [Frontend Hosting — S3 & CloudFront](4.5-Frontend-Hosting/)
+   6. [Weekly Report Pipeline — EventBridge](4.6-Report-Pipeline/)
+   7. [CI/CD Pipeline — CodePipeline](4.7-CICD-Pipeline/)
+   8. [Monitoring & Security Layer](4.8-Monitoring-Security/)
+5. [Testing & Measurement](5-Testing-Measurement/)
+6. [Clean Up](6.3-Cleanup/)

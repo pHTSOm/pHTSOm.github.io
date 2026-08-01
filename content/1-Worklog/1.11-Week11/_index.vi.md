@@ -5,55 +5,27 @@ weight: 2
 chapter: false
 pre: " <b> 1.11. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
-
 
 ### Mục tiêu tuần 11:
 
-* Kết nối, làm quen với các thành viên trong First Cloud Journey.
-* Hiểu dịch vụ AWS cơ bản, cách dùng console & CLI.
+Dựng pipeline CI/CD và bổ sung observability cho backend. Kết nối GitHub repo với AWS CodePipeline, viết file buildspec tự động hóa các bước (test, security scan, terraform plan), tích hợp custom latency metrics vào Lambda và dựng CloudWatch dashboard đi kèm cảnh báo qua SNS. Sau đó push một thay đổi thực tế chạy end-to-end qua pipeline và fix xong các lỗi do công cụ security scan phát hiện.
 
 ### Các công việc cần triển khai trong tuần này:
 | Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
 | --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
-| 2   | - Làm quen với các thành viên FCJ <br> - Đọc và lưu ý các nội quy, quy định tại đơn vị thực tập                                                                                             | 11/08/2025   | 11/08/2025      |
-| 3   | - Tìm hiểu AWS và các loại dịch vụ <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                            | 12/08/2025   | 12/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Tạo AWS Free Tier account <br> - Tìm hiểu AWS Console & AWS CLI <br> - **Thực hành:** <br>&emsp; + Tạo AWS account <br>&emsp; + Cài AWS CLI & cấu hình <br> &emsp; + Cách sử dụng AWS CLI | 13/08/2025   | 13/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Tìm hiểu EC2 cơ bản: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - Các cách remote SSH vào EC2 <br> - Tìm hiểu Elastic IP   <br>                  | 14/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Thực hành:** <br>&emsp; + Tạo EC2 instance <br>&emsp; + Kết nối SSH <br>&emsp; + Gắn EBS volume                                                                                         | 15/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
+| 2   | - Tạo AWS CodePipeline và kết nối CodeStar tới GitHub repository <br> - Xử lý sự cố kết nối bị treo ở trạng thái "Pending" bằng cách xác thực kết nối GitHub thủ công trên AWS console                                                                                             | 06/29/2026   | 06/29/2026     | <https://docs.aws.amazon.com/codepipeline/latest/userguide/connections-github.html>  |
+| 3   | - Viết file buildspec-test.yml để tự động chạy pytest, bandit, tfsec và terraform plan cho mỗi lần push code <br> - Sửa lỗi build fail do bản Terraform cài sẵn trên CodeBuild image bị lệch phiên bản — đã gỡ bản cũ và pin cố định (pin) chính xác phiên bản Terraform trong phase install                                            | 06/30/2026   | 06/30/2026      | <https://docs.aws.amazon.com/codebuild/latest/userguide/build-spec-ref.html> |
+| 4   | - Tích hợp code đo đạc (instrument) độ trễ khi gọi Bedrock trong Lambda và đẩy thành custom CloudWatch metric (namespace Custom/Bedrock) <br> - Thêm quyền cloudwatch:PutMetricData vào IAM policy của Lambda trong module compute (Terraform) để cho phép đẩy metric | 07/01/2026   | 01/07/2026      | <https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/publishingMetrics.html> |
+| 5   | - Dựng CloudWatch dashboard hiển thị thời gian thực thi (duration) của Lambda và các phân vị độ trễ (percentiles p50/p95/p99) của Bedrock <br>Tạo alarm cảnh báo lỗi liên kết với SNS email topic, giới hạn chỉ bắt các lỗi phía server (5XX) trong khung thời gian 5 phút liên tục để tránh báo động giả từ các test request lỗi 4XX phía client                  | 02/07/2026   | 02/07/2026      | <https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Dashboards.html> |
+| 6   | - Push thay đổi thực tế chạy end-to-end xuyên suốt qua pipeline <br> - Xử lý các cảnh báo từ tfsec gây chặn stage security: giới hạn quyền IAM log về đúng log group cụ thể, bật mã hóa server-side và tính năng khôi phục theo thời điểm (PITR) cho DynamoDB, đồng thời thêm comment ignore inline kèm giải trình cho các trường hợp chấp nhận rủi ro                                                                                         | 03/07/2026   | 03/07/2026      | <https://aquasecurity.github.io/tfsec/> |
 
 
 ### Kết quả đạt được tuần 11:
 
-* Hiểu AWS là gì và nắm được các nhóm dịch vụ cơ bản: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
-
-* Đã tạo và cấu hình AWS Free Tier account thành công.
-
-* Làm quen với AWS Management Console và biết cách tìm, truy cập, sử dụng dịch vụ từ giao diện web.
-
-* Cài đặt và cấu hình AWS CLI trên máy tính bao gồm:
-  * Access Key
-  * Secret Key
-  * Region mặc định
-  * ...
-
-* Sử dụng AWS CLI để thực hiện các thao tác cơ bản như:
-
-  * Kiểm tra thông tin tài khoản & cấu hình
-  * Lấy danh sách region
-  * Xem dịch vụ EC2
-  * Tạo và quản lý key pair
-  * Kiểm tra thông tin dịch vụ đang chạy
-  * ...
-
-* Có khả năng kết nối giữa giao diện web và CLI để quản lý tài nguyên AWS song song.
-* ...
-
-
+* Dựng hoàn chỉnh pipeline CI/CD: GitHub push → CodeBuild test stage (pytest, bandit, tfsec, terraform plan) → manual approval → terraform apply.
+* Rút kinh nghiệm: kết nối CodeStar với GitHub luôn ở trạng thái "Pending" cho đến khi được duyệt thủ công một lần trên console — IaC có thể khởi tạo tài nguyên nhưng bước bắt tay OAuth bắt buộc phải thao tác bằng tay.
+* Fix lỗi môi trường CodeBuild bằng cách tự quản lý toolchain: buildspec giờ đây sẽ gỡ bản Terraform cài sẵn trên image và cài chính xác phiên bản được pin cố định, giúp quá trình build luôn nhất quán (reproducible).
+* Tích hợp custom metrics đo độ trễ và tỷ lệ thành công/lỗi của Bedrock trong Lambda (namespace Custom/Bedrock), đồng thời nhận ra metric sẽ âm thầm không xuất hiện nếu execution role thiếu quyền cloudwatch:PutMetricData.
+* Dựng CloudWatch dashboard theo dõi thời gian thực thi (duration) của Lambda, độ trễ Bedrock ở các mức phân vị p50/p95/p99, cùng các panel giám sát API Gateway và DynamoDB.
+* Tối ưu hóa alarm để cảnh báo chuẩn xác: cảnh báo email qua SNS chỉ kích hoạt khi gặp lỗi phía server (5XX) kéo dài trong 5 phút liên tục, tránh báo động giả do các test request lỗi 4XX cố tình tạo ra khi test thủ công.
+* Thấy rõ hiệu quả của security gate: tfsec đã chặn pipeline thành công cho đến khi thu hẹp phạm vi quyền IAM và bật mã hóa + PITR cho DynamoDB — đồng thời nắm được quy tắc comment ignore phải đặt ở cấp tài nguyên (resource level) mới có hiệu lực.

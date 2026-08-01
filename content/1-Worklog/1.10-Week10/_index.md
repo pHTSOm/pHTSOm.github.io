@@ -1,57 +1,30 @@
 ---
 title: "Week 10 Worklog"
-date: 2024-01-01
+date: 2026-02-04
 weight: 2
 chapter: false
 pre: " <b> 1.10. </b> "
 ---
-{{% notice warning %}} 
-⚠️ **Note:** The following information is for reference purposes only. Please **do not copy verbatim** for your own report, including this warning.
-{{% /notice %}}
-
 
 ### Week 10 Objectives:
 
-* Connect and get acquainted with members of First Cloud Journey.
-* Understand basic AWS services, how to use the console & CLI.
+Move the whole infrastructure into code. Rebuilt what had been configured in the console as modular Terraform — auth, API, compute, and data modules — and set up a remote state backend on S3 with DynamoDB locking so my teammate and I can work on the same infrastructure safely.
 
 ### Tasks to be carried out this week:
 | Day | Task                                                                                                                                                                                                   | Start Date | Completion Date | Reference Material                        |
 | --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------- | ----------------------------------------- |
-| 2   | - Get acquainted with FCJ members <br> - Read and take note of internship unit rules and regulations                                                                                                   | 08/11/2025 | 08/11/2025      |
-| 3   | - Learn about AWS and its types of services <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                              | 08/12/2025 | 08/12/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Create AWS Free Tier account <br> - Learn about AWS Console & AWS CLI <br> - **Practice:** <br>&emsp; + Create AWS account <br>&emsp; + Install & configure AWS CLI <br> &emsp; + How to use AWS CLI | 08/13/2025 | 08/13/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Learn basic EC2: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - SSH connection methods to EC2 <br> - Learn about Elastic IP   <br>                            | 08/14/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Practice:** <br>&emsp; + Launch an EC2 instance <br>&emsp; + Connect via SSH <br>&emsp; + Attach an EBS volume                                                                                     | 08/15/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
+| 2   | - Design the Terraform project layout as reusable modules: `auth/`, `api/`, `compute/`, `data/`                                                                                   | 06/22/2026 | 06/22/2026      | <https://developer.hashicorp.com/terraform/language/modules> |
+| 3   | - Write the `auth` module (Cognito User Pool, app client, Hosted UI domain) and the `api` module (REST API, routes, Cognito authorizer, usage plan)                                              | 06/23/2026 | 06/23/2026      | <https://registry.terraform.io/providers/hashicorp/aws/latest/docs> |
+| 4   | - Write the `compute` module (Lambda function packaging, environment variables, least-privilege IAM role) and the `data` module (DynamoDB table) | 06/24/2026 | 06/24/2026      | <https://registry.terraform.io/providers/hashicorp/aws/latest/docs> |
+| 5   | - Configure the remote state backend: S3 bucket for state and DynamoDB table for state locking                            | 06/25/2026 | 06/25/2026      | <https://developer.hashicorp.com/terraform/language/backend/s3> |
+| 6   | - Run `terraform plan` / `apply` to verify the whole stack is reproducible from code <br> - Clean up the repo (`.terraform` provider binaries ignored)                                                                                     | 06/26/2026 | 06/26/2026      |  |
 
 
 ### Week 10 Achievements:
 
-* Understood what AWS is and mastered the basic service groups: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
+* Restructured the entire infrastructure as modular Terraform instead of hand-configured console resources, split into `auth/`, `api/`, `compute/`, and `data/` modules.
+* Codified the full Cognito + API Gateway integration in Terraform, including the authorizer, Lambda proxy integration, usage plan, and API key.
+* Wrote a least-privilege IAM role for the Lambda in the compute module, granting only the specific DynamoDB and Bedrock actions it needs.
+* Set up remote Terraform state on S3 with a DynamoDB lock table, so two people can work against the same infrastructure without state conflicts or corruption.
+* Verified the stack is fully reproducible: `terraform plan` shows a clean diff and `apply` recreates the environment from code alone.
 
-* Successfully created and configured an AWS Free Tier account.
-
-* Became familiar with the AWS Management Console and learned how to find, access, and use services via the web interface.
-
-* Installed and configured AWS CLI on the computer, including:
-  * Access Key
-  * Secret Key
-  * Default Region
-  * ...
-
-* Used AWS CLI to perform basic operations such as:
-
-  * Check account & configuration information
-  * Retrieve the list of regions
-  * View EC2 service
-  * Create and manage key pairs
-  * Check information about running services
-  * ...
-
-* Acquired the ability to connect between the web interface and CLI to manage AWS resources in parallel.
-* ...

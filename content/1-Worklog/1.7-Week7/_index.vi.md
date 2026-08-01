@@ -5,55 +5,26 @@ weight: 1
 chapter: false
 pre: " <b> 1.7. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
-
 
 ### Mục tiêu tuần 7:
 
-* Kết nối, làm quen với các thành viên trong First Cloud Journey.
-* Hiểu dịch vụ AWS cơ bản, cách dùng console & CLI.
+Thiết lập toàn bộ môi trường phát triển cho dự án: công cụ AWS CLI và Terraform, khởi tạo shared Git repository với các quy tắc bảo vệ nhánh (branch rules), đồng thời tiến hành nghiên cứu nền tảng trước khi viết mã nguồn Backend, bao gồm chi phí & giới hạn của Amazon Bedrock, mô hình kích hoạt (invocation model) của AWS Lambda và thiết kế khóa (key design) cho DynamoDB.
 
 ### Các công việc cần triển khai trong tuần này:
 | Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
 | --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
-| 2   | - Làm quen với các thành viên FCJ <br> - Đọc và lưu ý các nội quy, quy định tại đơn vị thực tập                                                                                             | 11/08/2025   | 11/08/2025      |
-| 3   | - Tìm hiểu AWS và các loại dịch vụ <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                            | 12/08/2025   | 12/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Tạo AWS Free Tier account <br> - Tìm hiểu AWS Console & AWS CLI <br> - **Thực hành:** <br>&emsp; + Tạo AWS account <br>&emsp; + Cài AWS CLI & cấu hình <br> &emsp; + Cách sử dụng AWS CLI | 13/08/2025   | 13/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Tìm hiểu EC2 cơ bản: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - Các cách remote SSH vào EC2 <br> - Tìm hiểu Elastic IP   <br>                  | 14/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Thực hành:** <br>&emsp; + Tạo EC2 instance <br>&emsp; + Kết nối SSH <br>&emsp; + Gắn EBS volume                                                                                         | 15/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
+| 2   | - Cài đặt AWS CLI và Terraform. <br> - Sửa lỗi aws sts get-caller-identity trả về thông báo "unable to locate credentials". <br> - Đọc tài liệu AWS về nguyên tắc phân quyền tối thiểu.                                                                                             | 06/01/2026   | 06/01/2026      | <https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html> |
+| 3   | - Khởi tạo shared repository và thiết lập Branch Protection Rules trên nhánh main. <br> - Thống nhất với đồng đội về quy chuẩn phân nhánh và định dạng commit message.                                            | 06/02/2026   | 06/02/2026      |  |
+| 4   | - Đọc bảng giá Amazon Bedrock và tài liệu mô hình Nova Lite để nắm rõ giới hạn token, chi phí trên mỗi request và xác định dung lượng đầu vào thực tế phù hợp. | 06/03/2026   | 06/03/2026      | <https://docs.aws.amazon.com/bedrock/> |
+| 5   | - Đọc tài liệu Lambda về cấu trúc hàm handler và cơ chế kích hoạt. Nghiên cứu định dạng Lambda Proxy Integration và chỉnh sửa handler để parse đúng dữ liệu từ `event['body']` thay vì đọc raw event.<br> - Thực hành kiểm thử các mẫu event payload trên AWS Lambda Console.                  | 06/04/2026   | 06/04/2026      | <https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html> |
+| 6   | - Nghiên cứu thiết kế Partition Key và Sort Key trong DynamoDB. Chốt cấu trúc dữ liệu NoSQL cho bảng tóm tắt văn bản.                                                                                         | 06/05/2026   | 06/05/2025      | <https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/best-practices.html> |
 
 
 ### Kết quả đạt được tuần 7:
 
-* Hiểu AWS là gì và nắm được các nhóm dịch vụ cơ bản: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
-
-* Đã tạo và cấu hình AWS Free Tier account thành công.
-
-* Làm quen với AWS Management Console và biết cách tìm, truy cập, sử dụng dịch vụ từ giao diện web.
-
-* Cài đặt và cấu hình AWS CLI trên máy tính bao gồm:
-  * Access Key
-  * Secret Key
-  * Region mặc định
-  * ...
-
-* Sử dụng AWS CLI để thực hiện các thao tác cơ bản như:
-
-  * Kiểm tra thông tin tài khoản & cấu hình
-  * Lấy danh sách region
-  * Xem dịch vụ EC2
-  * Tạo và quản lý key pair
-  * Kiểm tra thông tin dịch vụ đang chạy
-  * ...
-
-* Có khả năng kết nối giữa giao diện web và CLI để quản lý tài nguyên AWS song song.
-* ...
-
-
+* Cài đặt, cấu hình thành công AWS CLI và Terraform; xử lý triệt để lỗi xác thực aws sts get-caller-identity không tìm thấy credentials bằng cách thiết lập lại AWS profile chính xác. Nghiên cứu và áp dụng nguyên tắc phân quyền tối thiểu ngay từ đầu dự án.
+* Khởi tạo shared repository, thiết lập Branch Protection trên main, đồng thời thống nhất quy chuẩn phân nhánh và định dạng commit message với đồng đội để tránh xung đột mã nguồn.
+* Nắm vững mô hình tính phí của Amazon Bedrock và giới hạn token của Nova Lite, từ đó xác định dung lượng đầu vào tối đa hợp lý cho bài toán tóm tắt văn bản.
+* Hiểu rõ cơ chế gói dữ liệu của Lambda Proxy Integration trong API Gateway  
+  * Hàm handler phải parse đúng dữ liệu từ event['body'] thay vì xử lý trực tiếp raw event  
+  * Kiểm chứng thành công qua các sample event trên Lambda Console.

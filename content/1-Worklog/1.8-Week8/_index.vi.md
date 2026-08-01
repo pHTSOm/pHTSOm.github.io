@@ -5,55 +5,25 @@ weight: 1
 chapter: false
 pre: " <b> 1.8. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
-
 
 ### Mục tiêu tuần 8:
 
-* Kết nối, làm quen với các thành viên trong First Cloud Journey.
-* Hiểu dịch vụ AWS cơ bản, cách dùng console & CLI.
+Xây dựng logic backend cốt lõi cho tính năng tóm tắt văn bản: gọi mô hình Amazon Nova Lite thông qua Amazon Bedrock, trích xuất kết quả tóm tắt từ phản hồi của mô hình, lưu trữ dữ liệu vào DynamoDB, tăng cường độ ổn định cho lời gọi Bedrock bằng cơ chế thử lại, đồng thời viết unit test bao phủ toàn bộ logic thao tác với cơ sở dữ liệu.
 
 ### Các công việc cần triển khai trong tuần này:
 | Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
 | --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
-| 2   | - Làm quen với các thành viên FCJ <br> - Đọc và lưu ý các nội quy, quy định tại đơn vị thực tập                                                                                             | 11/08/2025   | 11/08/2025      |
-| 3   | - Tìm hiểu AWS và các loại dịch vụ <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                            | 12/08/2025   | 12/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Tạo AWS Free Tier account <br> - Tìm hiểu AWS Console & AWS CLI <br> - **Thực hành:** <br>&emsp; + Tạo AWS account <br>&emsp; + Cài AWS CLI & cấu hình <br> &emsp; + Cách sử dụng AWS CLI | 13/08/2025   | 13/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Tìm hiểu EC2 cơ bản: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - Các cách remote SSH vào EC2 <br> - Tìm hiểu Elastic IP   <br>                  | 14/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Thực hành:** <br>&emsp; + Tạo EC2 instance <br>&emsp; + Kết nối SSH <br>&emsp; + Gắn EBS volume                                                                                         | 15/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
+| 2   | - Viết hàm Python cơ bản sử dụng boto3.client('bedrock-runtime') để gọi mô hình Amazon Nova Lite. <br> - Debug các lỗi xác thực request body (validation errors) bằng cách in ra chính xác payload gửi đi và so sánh đối chiếu với tài liệu kỹ thuật của mô hình Nova.                                                                                             | 06/08/2026   | 06/08/2026      | <https://docs.aws.amazon.com/bedrock/latest/userguide/> |
+| 3   | - Viết logic trích xuất đoạn văn bản tóm tắt ra khỏi đối tượng phản hồi của mô hình.                                             | 06/09/2026   | 06/09/2026      | <https://docs.aws.amazon.com/bedrock/latest/userguide/> |
+| 4   | - Viết logic lưu trữ (persistence) vào DynamoDB để ghi văn bản đầu vào cùng bản tóm tắt do AI tạo ra vào bảng. | 06/10/2026   | 06/10/2026      | <https://boto3.amazonaws.com/v1/documentation/api/latest/guide/dynamodb.html> |
+| 5   | - Thêm cơ chế tự động thử lại với thuật toán exponential backoff xung quanh việc gọi Bedrock để xử lý các lỗi tạm thời (transient errors / throttling).                  | 06/11/2026   | 06/11/2026      | |
+| 6   | - Viết unit test cho logic thao tác cơ sở dữ liệu DynamoDB bằng bộ công cụ pytest và moto                                                                                         | 06/12/2026   | 06/12/2026      | <https://docs.getmoto.org/> |
 
 
 ### Kết quả đạt được tuần 8:
 
-* Hiểu AWS là gì và nắm được các nhóm dịch vụ cơ bản: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
-
-* Đã tạo và cấu hình AWS Free Tier account thành công.
-
-* Làm quen với AWS Management Console và biết cách tìm, truy cập, sử dụng dịch vụ từ giao diện web.
-
-* Cài đặt và cấu hình AWS CLI trên máy tính bao gồm:
-  * Access Key
-  * Secret Key
-  * Region mặc định
-  * ...
-
-* Sử dụng AWS CLI để thực hiện các thao tác cơ bản như:
-
-  * Kiểm tra thông tin tài khoản & cấu hình
-  * Lấy danh sách region
-  * Xem dịch vụ EC2
-  * Tạo và quản lý key pair
-  * Kiểm tra thông tin dịch vụ đang chạy
-  * ...
-
-* Có khả năng kết nối giữa giao diện web và CLI để quản lý tài nguyên AWS song song.
-* ...
-
-
+* Triển khai hàm tóm tắt cốt lõi gọi mô hình Amazon Nova Lite thông qua SDK boto3 client bedrock-runtime
+* Debug các lỗi xác thực request (validation errors) của Bedrock bằng cách in ra chính xác payload gửi đi và đối chiếu từng trường với tài liệu kỹ thuật của mô hình Nova cho đến khi cấu trúc request body chuẩn xác và lời gọi API thành công.
+* Viết logic trích xuất đoạn văn bản tóm tắt từ đối tượng phản hồi phân cấp do mô hình trả về.
+* Triển khai luồng ghi dữ liệu vào DynamoDB, lưu trữ đầy đủ user_id, timestamp, văn bản gốc và bản tóm tắt do AI tạo ra.
+* Nâng cao độ ổn định cho API dưới tải request liên tục bằng cách thêm cơ chế thử lại với thuật toán exponential backoff xung quanh việc gọi Bedrock để xử lý các lỗi tạm thời như nghẽn API (throttling) hoặc hết thời gian chờ (timeout).

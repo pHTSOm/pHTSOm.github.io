@@ -1,126 +1,47 @@
 ---
-title: "Blog 2"
-date: 2024-01-01
+title: "Blog 2 - Cognito M2M Authorization"
+date: 2026-02-04
 weight: 1
 chapter: false
 pre: " <b> 3.2. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Note:** The information below is for reference purposes only. Please **do not copy verbatim** for your report, including this warning.
-{{% /notice %}}
 
-# Getting Started with Healthcare Data Lakes: Using Microservices
+# AWS Security Blog | How to monitor, optimize, and secure Amazon Cognito machine-to-machine authorization – A few things I learned as an AWS beginner
 
-Data lakes can help hospitals and healthcare facilities turn data into business insights, maintain business continuity, and protect patient privacy. A **data lake** is a centralized, managed, and secure repository to store all your data, both in its raw and processed forms for analysis. Data lakes allow you to break down data silos and combine different types of analytics to gain insights and make better business decisions.
+Hello everyone,
 
-This blog post is part of a larger series on getting started with setting up a healthcare data lake. In my final post of the series, *“Getting Started with Healthcare Data Lakes: Diving into Amazon Cognito”*, I focused on the specifics of using Amazon Cognito and Attribute Based Access Control (ABAC) to authenticate and authorize users in the healthcare data lake solution. In this blog, I detail how the solution evolved at a foundational level, including the design decisions I made and the additional features used. You can access the code samples for the solution in this Git repo for reference.
+I've been trying to learn more about Cognito, so the other day I read "How to monitor, optimize, and secure Amazon Cognito machine-to-machine authorization" on the AWS Security Blog. The post covers monitoring, cost optimization, and security for the machine-to-machine (M2M) authorization flow in Cognito. After reading it I understood an authorization flow quite different from the one I'm currently using, so I'd like to share — if I misunderstood anything, please correct me.
 
----
+At first I assumed M2M was just a minor variant of a normal user login. But reading carefully, I learned it's a completely different flow: no user logs in at all — instead, two systems/services authenticate *with each other* using a client ID and client secret, which is called the OAuth 2.0 client credentials grant.
 
-## Architecture Guidance
+### How I understand the flow
 
-The main change since the last presentation of the overall architecture is the decomposition of a single service into a set of smaller services to improve maintainability and flexibility. Integrating a large volume of diverse healthcare data often requires specialized connectors for each format; by keeping them encapsulated separately as microservices, we can add, remove, and modify each connector without affecting the others. The microservices are loosely coupled via publish/subscribe messaging centered in what I call the “pub/sub hub.”
+According to the post, the M2M flow has 6 steps: the app client sends a request with its client ID/secret to Cognito's `/oauth2/token` endpoint, Cognito returns an access token, the app client uses that token to call the resource server, the resource server fetches the JSON Web Key Set (JWKS) from Cognito to verify the token's signature, and only then returns the resource. What I found neat is that this entire process happens server-side, with no login screen anywhere — literally "machines talking to machines."
 
-This solution represents what I would consider another reasonable sprint iteration from my last post. The scope is still limited to the ingestion and basic parsing of **HL7v2 messages** formatted in **Encoding Rules 7 (ER7)** through a REST interface.
+### The problem the post highlights: cost and monitoring
 
-**The solution architecture is now as follows:**
+What surprised me is that Cognito charges separately for M2M app clients and for the number of token requests, so without careful monitoring the cost can climb quickly. The post shows real cost charts broken down by day and by account — on some days more than $24 was spent purely on issuing tokens. Seeing that number made me understand why close monitoring matters.
 
-> *Figure 1. Overall architecture; colored boxes represent distinct services.*
+### The optimization and security practices the post suggests
 
----
+A few points I found easy to understand and remember:
 
-While the term *microservices* has some inherent ambiguity, certain traits are common:  
-- Small, autonomous, loosely coupled  
-- Reusable, communicating through well-defined interfaces  
-- Specialized to do one thing well  
-- Often implemented in an **event-driven architecture**
+- Clients should cache their access token and reuse it until expiry, instead of requesting new tokens constantly
+- If a client can't cache tokens itself, you can put API Gateway in front of Cognito's `/oauth2/token` endpoint as a proxy and enable caching there — reducing the real requests hitting Cognito
+- Use AWS Secrets Manager to hold the client ID/secret rather than hardcoding them
+- Use AWS WAF to protect the endpoint — even restricting requests to only those coming through the API Gateway proxy, so nothing calls Cognito directly
+- Always define scopes at the app-client level following least privilege, avoiding excess permissions
 
-When determining where to draw boundaries between microservices, consider:  
-- **Intrinsic**: technology used, performance, reliability, scalability  
-- **Extrinsic**: dependent functionality, rate of change, reusability  
-- **Human**: team ownership, managing *cognitive load*
+### What I learned from this post
 
----
+Being new, I had to re-read the sections on API Gateway caching and the WAF allow-list a few times before I could picture the flow — especially the part about using a custom header so only proxied requests are allowed through. But my main takeaway is: authentication isn't just the one "user logs in" pattern I had in mind — M2M is an entirely different problem, with its own distinct cost and security concerns.
 
-## Technology Choices and Communication Scope
+My project currently uses the Cognito Hosted UI with a JWT authorizer for users logging in through a web interface — no M2M flow at all — so this post taught me another Cognito pattern that a future project might well need.
 
-| Communication scope                       | Technologies / patterns to consider                                                        |
-| ----------------------------------------- | ------------------------------------------------------------------------------------------ |
-| Within a single microservice              | Amazon Simple Queue Service (Amazon SQS), AWS Step Functions                               |
-| Between microservices in a single service | AWS CloudFormation cross-stack references, Amazon Simple Notification Service (Amazon SNS) |
-| Between services                          | Amazon EventBridge, AWS Cloud Map, Amazon API Gateway                                      |
+### Closing thoughts
 
----
+In my opinion, "How to monitor, optimize, and secure Amazon Cognito machine-to-machine authorization" is quite detailed and still fresh (updated as recently as November 2025), so the pricing and flow information should still be accurate. If you're learning Cognito like me, I think it's worth reading — just take the caching and WAF sections slowly.
 
-## The Pub/Sub Hub
+Thank you for reading my little write-up — I'm still learning, so if anything is wrong I'd be grateful for your corrections 🙏
 
-Using a **hub-and-spoke** architecture (or message broker) works well with a small number of tightly related microservices.  
-- Each microservice depends only on the *hub*  
-- Inter-microservice connections are limited to the contents of the published message  
-- Reduces the number of synchronous calls since pub/sub is a one-way asynchronous *push*
-
-Drawback: **coordination and monitoring** are needed to avoid microservices processing the wrong message.
-
----
-
-## Core Microservice
-
-Provides foundational data and communication layer, including:  
-- **Amazon S3** bucket for data  
-- **Amazon DynamoDB** for data catalog  
-- **AWS Lambda** to write messages into the data lake and catalog  
-- **Amazon SNS** topic as the *hub*  
-- **Amazon S3** bucket for artifacts such as Lambda code
-
-> Only allow indirect write access to the data lake through a Lambda function → ensures consistency.
-
----
-
-## Front Door Microservice
-
-- Provides an API Gateway for external REST interaction  
-- Authentication & authorization based on **OIDC** via **Amazon Cognito**  
-- Self-managed *deduplication* mechanism using DynamoDB instead of SNS FIFO because:  
-  1. SNS deduplication TTL is only 5 minutes  
-  2. SNS FIFO requires SQS FIFO  
-  3. Ability to proactively notify the sender that the message is a duplicate  
-
----
-
-## Staging ER7 Microservice
-
-- Lambda “trigger” subscribed to the pub/sub hub, filtering messages by attribute  
-- Step Functions Express Workflow to convert ER7 → JSON  
-- Two Lambdas:  
-  1. Fix ER7 formatting (newline, carriage return)  
-  2. Parsing logic  
-- Result or error is pushed back into the pub/sub hub  
-
----
-
-## New Features in the Solution
-
-### 1. AWS CloudFormation Cross-Stack References
-Example *outputs* in the core microservice:
-```yaml
-Outputs:
-  Bucket:
-    Value: !Ref Bucket
-    Export:
-      Name: !Sub ${AWS::StackName}-Bucket
-  ArtifactBucket:
-    Value: !Ref ArtifactBucket
-    Export:
-      Name: !Sub ${AWS::StackName}-ArtifactBucket
-  Topic:
-    Value: !Ref Topic
-    Export:
-      Name: !Sub ${AWS::StackName}-Topic
-  Catalog:
-    Value: !Ref Catalog
-    Export:
-      Name: !Sub ${AWS::StackName}-Catalog
-  CatalogArn:
-    Value: !GetAtt Catalog.Arn
-    Export:
-      Name: !Sub ${AWS::StackName}-CatalogArn
+Reference: <https://aws.amazon.com/blogs/security/how-to-monitor-optimize-and-secure-amazon-cognito-machine-to-machine-authorization/>

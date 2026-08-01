@@ -5,55 +5,30 @@ weight: 1
 chapter: false
 pre: " <b> 1.4. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
 
 
 ### Mục tiêu tuần 4:
 
-* Kết nối, làm quen với các thành viên trong First Cloud Journey.
-* Hiểu dịch vụ AWS cơ bản, cách dùng console & CLI.
-
+* Học cách triển khai và di chuyển các relational database được quản lý bằng dịch vụ RDS, đảm bảo tính sẵn sàng cao và khôi phục sau thảm hoạ thông qua cấu hình Multi-AZ và sao lưu tự động. 
+* Tìm hiểu cách tối ưu hoá hiệu năng đọc bằng cách sử dụng Read Replicas đi kèm việc kiểm soát replication lag. 
+* Nghiên cứu về kiến trúc cloud-native cùng các tính năng serverless của Amazon Aurora.
+* Tìm hiểu về kiến thức liên quan đến quản lý khả năng mở rộng quy mô toàn cầu và tối ưu hoá connection pooling bằng Aurora Global Database và RDS Proxy
 ### Các công việc cần triển khai trong tuần này:
 | Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
 | --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
-| 2   | - Làm quen với các thành viên FCJ <br> - Đọc và lưu ý các nội quy, quy định tại đơn vị thực tập                                                                                             | 11/08/2025   | 11/08/2025      |
-| 3   | - Tìm hiểu AWS và các loại dịch vụ <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                            | 12/08/2025   | 12/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Tạo AWS Free Tier account <br> - Tìm hiểu AWS Console & AWS CLI <br> - **Thực hành:** <br>&emsp; + Tạo AWS account <br>&emsp; + Cài AWS CLI & cấu hình <br> &emsp; + Cách sử dụng AWS CLI | 13/08/2025   | 13/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Tìm hiểu EC2 cơ bản: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - Các cách remote SSH vào EC2 <br> - Tìm hiểu Elastic IP   <br>                  | 14/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Thực hành:** <br>&emsp; + Tạo EC2 instance <br>&emsp; + Kết nối SSH <br>&emsp; + Gắn EBS volume                                                                                         | 15/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
+| 2   | - Biết về quy trình triển khai và di chuyển các cơ sở dữ liệu được quản lý                                                                                             |05/04/2026   | 05/04/2026      |  <https://learn.cantrill.io/p/aws-certified-solutions-architect-associate-saa-c03> <br> <https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_DMS_migration.html> |
+| 3   | - Hiểu thế nào và cách đảm bảo tính lưu trữ dữ liệu an toàn và khả năng hoạt động liên tục 24/7 cho các ứng dụng quan trọng                                             | 05/05/2026   | 05/05/2026      | <https://learn.cantrill.io/p/aws-certified-solutions-architect-associate-saa-c03> <br> <https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Welcome.html> |
+| 4   | - Xem các tài liệu liên quan đến mở rộng quy mô hiệu năng cơ sở dữ liệu cho các hệ thống có tải truy vấn đọc cao | 05/06/2026   | 05/06/2026      | <https://docs.aws.amazon.com/whitepapers/latest/best-practices-wordpress/reference-architecture.html>  <br>  <https://learn.cantrill.io/p/aws-certified-solutions-architect-associate-saa-c03> |
+| 5   | Tìm hiểu về giải pháp cơ sở dữ liệu cloud-native hiệu năng cao                     | 05/07/2026   | 05/07/2026      | <https://learn.cantrill.io/p/aws-certified-solutions-architect-associate-saa-c03> |
+| 6   | - xem cách quản lý quy mô truy cập dữ liệu trên phạm vi toàn cầu và tối ưu hoá connection pooling lưu lượng lớn                                                                                         | 05/08/2026   | 05/08/2026      | <https://learn.cantrill.io/p/aws-certified-solutions-architect-associate-saa-c03/> |
 
 
 ### Kết quả đạt được tuần 4:
 
-* Hiểu AWS là gì và nắm được các nhóm dịch vụ cơ bản: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
-
-* Đã tạo và cấu hình AWS Free Tier account thành công.
-
-* Làm quen với AWS Management Console và biết cách tìm, truy cập, sử dụng dịch vụ từ giao diện web.
-
-* Cài đặt và cấu hình AWS CLI trên máy tính bao gồm:
-  * Access Key
-  * Secret Key
-  * Region mặc định
-  * ...
-
-* Sử dụng AWS CLI để thực hiện các thao tác cơ bản như:
-
-  * Kiểm tra thông tin tài khoản & cấu hình
-  * Lấy danh sách region
-  * Xem dịch vụ EC2
-  * Tạo và quản lý key pair
-  * Kiểm tra thông tin dịch vụ đang chạy
-  * ...
-
-* Có khả năng kết nối giữa giao diện web và CLI để quản lý tài nguyên AWS song song.
-* ...
-
-
+* Xem về các dòng RDS instance class và các loại lưu trữ. Thực hành di chuyển cơ sở dữ liệu đang chạy trên EC2 sang RDS bằng AWS DMS
+* Tìm hiểu về cơ chế synchronous replication và automatic failover. Thực hành quản lý automated backups và manual snapshots cho mục đích khôi phục dữ liệu dài hạn.
+* Biết được là snapshot là các bản sao lưu immutable, giúp đảm bảo không bao giừo vô tình ghi đè lên dữ liệu hiện có trong quá trình khôi phục. Qua đó có thể thấy lý do việc restore từ snapshot luôn tạo ra một RDS instance hoàn toàn mới thay vì cập nhật instance cũ.
+* Biết về cơ chế asynchronous replication cho phép mở rông lên đến 15 Read Replicas, giúp giảm tải các truy vấn đọc nặng cho primary writer instance 
+* Học cách xử lý đữ liệu cũ/chưa cập nhật khi Read Replica chưa kịp đồng bộ từ primary, bằng cách định tuyến các thao tác ghi xong đọc ngay (write-then-read) trực tiếp vào primary instance.
+* Tìm hiểu về giải pháp Amazon Aurora Serverless cho các ứng dụng có lưu lượng truy cập biến động bất thường và khó dự đoán.
+* Tìm hiểu về Aurora Global Database để đạt độ trễ toàn cầu dưới 1 giây và RDS Proxy để quản lý hiệu quả hàng nghìn kết nối đồng thời từ ứng dụng

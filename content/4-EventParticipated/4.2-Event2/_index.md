@@ -6,121 +6,77 @@ chapter: false
 pre: " <b> 4.2. </b> "
 ---
 
-{{% notice warning %}}
-⚠️ **Note:** The information below is for reference purposes only. Please **do not copy it verbatim** into your report, including this warning.
-{{% /notice %}}
 
-# Summary Report: “GenAI-powered App-DB Modernization workshop”
+# Summary Report: “Agent Forge Deep Dive Day 1”
 
 ### Event Objectives
 
-- Share best practices in modern application design
-- Introduce Domain-Driven Design (DDD) and event-driven architecture
-- Provide guidance on selecting the right compute services
-- Present AI tools to support the development lifecycle
+- Introduction to Amazon Bedrock AgentCore
+- Deploy a basic agent is AgentCore
+- Connect external tools and Knowledge Bases
+- Build a Web UI annd integrate Amazon Cognito authentication
 
 ### Speakers
 
-- **Jignesh Shah** – Director, Open Source Databases
-- **Erica Liu** – Sr. GTM Specialist, AppMod
-- **Fabrianne Effendi** – Assc. Specialist SA, Serverless Amazon Web Services
+- **Nghia Tran** – Agentic SA
+- **Anh Pham** – Cloud Consultant G-AsiaPacific Vietnam
+
 
 ### Key Highlights
 
-#### Identifying the drawbacks of legacy application architecture
+#### What is Agentic AI
+- (Partially/fully) Autonomous software sytems that leverage AI to reason, plan, and complete tasks on behalf of humanns or system
 
-- Long product release cycles → Lost revenue/missed opportunities  
-- Inefficient operations → Reduced productivity, higher costs  
-- Non-compliance with security regulations → Security breaches, loss of reputation  
+#### Strands agents
+- Strands Agents is an open source SDK for building agents using just a few line of code
+- Ease of use: Intuitive agent development to get started inn minutes instead of hours  
+- Extensibility: Support for custom model providers, custom tools, and MCP  
+- Rapid development: Quick prototyping and iteration.  
 
-#### Transitioning to modern application architecture – Microservices
+#### Amazon Bedrock AgentCore
+- The platform to build, connect, and optimize agents. Any framework, any model
 
-Migrating to a modular system — each function is an **independent service** communicating via **events**, built on three core pillars:
+- **Ship Agents Fast**: Build and deploy agents without months of infrastructure work  
+- **Connect to anything**: Give agents secure access to MCP servers, APIs, and knowledge bases  
+- **Optimize continuously**: Trace every agent decision, evaluate its performance, and safely test improvements in production  
+- **AgentCore Runtime**: is a secure, serverless runtime environment purpose-built for deploying and scaling dynamic AI agents and tools(e.g. MCP servers), regardless of framework, protocol, or model choice
+- **To identify a right AI model for Agent**: To choose a right model for right word, must read documents.
+- **Pricing**: AgentCore using serverless which help save money.
 
-- **Queue Management**: Handle asynchronous tasks  
-- **Caching Strategy**: Optimize performance  
-- **Message Handling**: Flexible inter-service communication  
+#### Amazon Bedrock agenntcore Identity
 
-#### Domain-Driven Design (DDD)
+- Inbound auth and outbound auth manage directly from AgentCore
+- **Workload Identities**: The agent's staff badge; issues short-lived Workload Access Tokens(WAT)  
+- **Credential Providers**: Stores how to auth to one service - API key or OAuth client_id + secret.
+- **Token Vault**: Encrypted store (Secrets Mgr + KMS); caches tokens keyed per user
+- **Broker Logic**: Performs OAuth server-side - M2m, 3LO, OBO - returns a finish token
 
-- **Four-step method**: Identify domain events → arrange timeline → identify actors → define bounded contexts  
-- **Bookstore case study**: Demonstrates real-world DDD application  
-- **Context mapping**: 7 patterns for integrating bounded contexts  
+#### Amazon Bedrock AgentCore Gateway
 
-#### Event-Driven Architecture
+- **How do we scale**: We will create a gateway as a middleware which help manage the connnection between agents and APIs/Tools/Resources  
+- **AgentCore Gateway Provide secure access**: AgentCore Gateway can save log to Amazon CloudWatch.
+- **Sync vs async comparison**: Understanding the trade-offs.
+- **AgentCore Semantic Search**: AgentCore Gateway automatically indexes tools, and gives serverless semantic search. reduces context passed to agent's LLM, improving accuracy, speed, and cost. Lets agent focus on tools relevant for a given task. The search tool name is x-amz-bedrock-agentcore-search  
 
-- **3 integration patterns**: Publish/Subscribe, Point-to-point, Streaming  
-- **Benefits**: Loose coupling, scalability, resilience  
-- **Sync vs async comparison**: Understanding the trade-offs  
 
-#### Compute Evolution
-
-- **Shared Responsibility Model**: EC2 → ECS → Fargate → Lambda  
-- **Serverless benefits**: No server management, auto-scaling, pay-for-value  
-- **Functions vs Containers**: Criteria for appropriate choice  
-
-#### Amazon Q Developer
-
-- **SDLC automation**: From planning to maintenance  
-- **Code transformation**: Java upgrade, .NET modernization  
-- **AWS Transform agents**: VMware, Mainframe, .NET migration  
-
-### Key Takeaways
-
-#### Design Mindset
-
-- **Business-first approach**: Always start from the business domain, not the technology  
-- **Ubiquitous language**: Importance of a shared vocabulary between business and tech teams  
-- **Bounded contexts**: Identifying and managing complexity in large systems  
-
-#### Technical Architecture
-
-- **Event storming technique**: Practical method for modeling business processes  
-- Use **event-driven communication** instead of synchronous calls  
-- **Integration patterns**: When to use sync, async, pub/sub, streaming  
-- **Compute spectrum**: Criteria for choosing between VM, containers, and serverless  
-
-#### Modernization Strategy
-
-- **Phased approach**: No rushing — follow a clear roadmap  
-- **7Rs framework**: Multiple modernization paths depending on the application  
-- **ROI measurement**: Cost reduction + business agility  
-
-### Applying to Work
-
-- **Apply DDD** to current projects: Event storming sessions with business teams  
-- **Refactor microservices**: Use bounded contexts to define service boundaries  
-- **Implement event-driven patterns**: Replace some sync calls with async messaging  
-- **Adopt serverless**: Pilot AWS Lambda for suitable use cases  
-- **Try Amazon Q Developer**: Integrate into the dev workflow to boost productivity  
 
 ### Event Experience
 
-Attending the **“GenAI-powered App-DB Modernization”** workshop was extremely valuable, giving me a comprehensive view of modernizing applications and databases using advanced methods and tools. Key experiences included:
+Attending the **“Agent Forge Deep Dive Day 1”** workshop was extremely valuable, giving me a comprehensive view of modernizing applications and databases using advanced methods and tools. Key experiences included:
 
-#### Learning from highly skilled speakers
-- Experts from AWS and major tech organizations shared **best practices** in modern application design.  
-- Through real-world case studies, I gained a deeper understanding of applying **DDD** and **Event-Driven Architecture** to large projects.  
 
 #### Hands-on technical exposure
-- Participating in **event storming** sessions helped me visualize how to **model business processes** into domain events.  
-- Learned how to **split microservices** and define **bounded contexts** to manage large-system complexity.  
-- Understood trade-offs between **synchronous and asynchronous communication** and integration patterns like **pub/sub, point-to-point, streaming**.  
+- Learned about the fundamental of **Amazon Bedrock AgentCore** and its functions **Runtime, Gateway, Identity** to get to know about the service for the workshop.  
+- Participating in **Workshop-hands-on** sessions helped me to create a web-local and create my own AI agent with Kiro.  
+
 
 #### Leveraging modern tools
-- Explored **Amazon Q Developer**, an AI tool for SDLC support from planning to maintenance.  
-- Learned to **automate code transformation** and pilot serverless with **AWS Lambda** to improve productivity.  
+- Explored **Amazon Bedrock AgentCore**, an agentic platform for building, deploying, and operating highly effective agents securely at scale using any framework and foundation model.  
 
-#### Networking and discussions
-- The workshop offered opportunities to exchange ideas with experts, peers, and business teams, enhancing the **ubiquitous language** between business and tech.  
-- Real-world examples reinforced the importance of the **business-first approach** rather than focusing solely on technology.  
-
-#### Lessons learned
-- Applying DDD and event-driven patterns reduces **coupling** while improving **scalability** and **resilience**.  
-- Modernization requires a **phased approach** with **ROI measurement**; rushing the process can be risky.  
-- AI tools like Amazon Q Developer can significantly **boost productivity** when integrated into the current workflow.  
 
 #### Some event photos
-*Add your event photos here*  
+![Overall definition of an Agent](/images/4-Event/aws_event_agentcore_1.jpg)  
 
-> Overall, the event not only provided technical knowledge but also helped me reshape my thinking about application design, system modernization, and cross-team collaboration.
+![A gradient of autonomy](/images/4-Event/aws_event_agentcore_2.jpg)  
+
+> Overall, through interactive hands-on workshop provided by the event help me have insight of new technical knowledge. Help me have a new idea for future self project.

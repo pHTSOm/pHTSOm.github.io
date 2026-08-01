@@ -1,47 +1,32 @@
 ---
 title: "Sharing and Feedback"
-date: 2024-01-01
+date: 2026-02-04
 weight: 7
 chapter: false
 pre: " <b> 7. </b> "
 ---
 
-{{% notice warning %}}
-⚠️ **Note:** The information below is for reference purposes only. Please **do not copy verbatim** for your report, including this warning.
-{{% /notice %}}
+> Personal reflections on my experience with the First Cloud Journey program, shared in the hope that they help the FCJ team keep improving the program.
 
-> Here, you can freely share your personal opinions about your experience participating in the First Cloud Journey program. This will help the FCJ team improve any shortcomings based on the following aspects:
+### 1. Impressions of the Program
 
-### Overall Evaluation
+What sets FCJ apart from a normal course is the structure: five weeks of guided self-study on AWS fundamentals, followed by seven weeks applying that knowledge to a real project on a real AWS account — with real consequences. Reading about IAM least privilege is one thing; having tfsec block your own pipeline until you scope a policy down is another. The self-study materials (curated courses and workshops) were well-chosen, and the freedom to pick our own graduation project meant we were genuinely invested in the result.
 
-**1. Working Environment**  
-The working environment is very friendly and open. FCJ members are always willing to help whenever I encounter difficulties, even outside working hours. The workspace is tidy and comfortable, helping me focus better. However, I think it would be nice to have more social gatherings or team bonding activities to strengthen relationships.
+The program also quietly teaches things no tutorial covers: working within a monthly budget ceiling, opening a real AWS Support case when a service quota blocks you, coordinating shared infrastructure with a teammate through branch protection and pull requests, and cleaning up an account before handover. These "operational" lessons ended up being some of the most valuable ones.
 
-**2. Support from Mentor / Team Admin**  
-The mentor provides very detailed guidance, explains clearly when I don’t understand, and always encourages me to ask questions. The admin team supports administrative tasks, provides necessary documents, and creates favorable conditions for me to work effectively. I especially appreciate that the mentor allows me to try and solve problems myself instead of just giving the answer.
+### 2. Satisfaction Level
 
-**3. Relevance of Work to Academic Major**  
-The tasks I was assigned align well with the knowledge I learned at university, while also introducing me to new areas I had never encountered before. This allowed me to both strengthen my foundational knowledge and gain practical skills.
+**Very satisfied — 9/10.** By the end of the program I had gone from having only classroom knowledge to independently designing, building, securing, and operating a complete serverless platform with CI/CD and monitoring — something I can demonstrate live and discuss in depth in job interviews. The one point deducted reflects the areas mentioned below rather than any fundamental problem.
 
-**4. Learning & Skill Development Opportunities**  
-During the internship, I learned many new skills such as using project management tools, teamwork skills, and professional communication in a corporate environment. The mentor also shared valuable real-world experiences that helped me better plan my career path.
+### 3. Areas for Improvement
 
-**5. Company Culture & Team Spirit**  
-The company culture is very positive: everyone respects each other, works seriously but still keeps things enjoyable. When there are urgent projects, everyone works together and supports one another regardless of their position. This made me feel like a real part of the team, even as an intern.
+* **An architecture review checkpoint before building.** Our design was only reviewed after implementation had started. A short mentor review of the proposed architecture at the end of the design week would catch expensive or impractical decisions earlier.
+* **A heads-up about new-account limitations.** We lost real testing time to a zero on-demand quota for Bedrock models on a fresh AWS account — something the program could warn teams about in advance (with guidance to file quota requests in week one).
+* **A midpoint progress review.** A brief formal check-in around week 9 would help teams catch scope and timeline drift while there is still time to adjust.
+* **More peer interaction between teams.** Most of our contact was within our own two-person team; a periodic session where teams demo progress to each other would spread lessons learned (and surface common problems like quota issues faster).
 
-**6. Internship Policies / Benefits**  
-The company provides an internship allowance and offers flexible working hours when needed. In addition, having the opportunity to join internal training sessions is a big plus.
+### 4. Would I Recommend the Program to Friends?
 
----
+**Yes, without hesitation** — with one caveat. I would recommend it to any friend who wants to work in cloud or backend engineering, because it is the closest thing to real professional experience a student can get: a real cloud account, a real budget, real security scanners failing your build, and a deliverable you fully own from architecture to operations. A completed FCJ project is a portfolio piece, not a certificate.
 
-### Additional Questions
-- What did you find **most satisfying** during your internship?  
-- What do you think the company **should improve** for future interns?  
-- If recommending to a friend, would you **suggest they intern here**? Why or why not?  
-
----
-
-### Suggestions & Expectations
-- Do you have any suggestions to improve the internship experience?  
-- Would you like to continue this program in the future?  
-- Any other comments (free sharing):
+The caveat: it rewards self-direction. The program provides the roadmap and support, but nobody stands over you daily — a friend expecting a lecture-style experience with assignments handed to them would struggle. For anyone willing to drive their own project, though, I can't think of a better preparation.

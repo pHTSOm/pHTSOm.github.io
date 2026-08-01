@@ -1,126 +1,39 @@
 ---
-title: "Blog 1"
-date: 2024-01-01
+title: "Blog 1 - CloudFormation Express Mode"
+date: 2026-02-04
 weight: 1
 chapter: false
 pre: " <b> 3.1. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Note:** The information below is for reference purposes only. Please **do not copy verbatim** for your report, including this warning.
-{{% /notice %}}
 
-# Getting Started with Healthcare Data Lakes: Using Microservices
+# AWS DevOps Blog | CloudFormation Express Mode – A few things I learned as an AWS beginner
 
-Data lakes can help hospitals and healthcare facilities turn data into business insights, maintain business continuity, and protect patient privacy. A **data lake** is a centralized, managed, and secure repository to store all your data, both in its raw and processed forms for analysis. Data lakes allow you to break down data silos and combine different types of analytics to gain insights and make better business decisions.
+Hello everyone,
 
-This blog post is part of a larger series on getting started with setting up a healthcare data lake. In my final post of the series, *“Getting Started with Healthcare Data Lakes: Diving into Amazon Cognito”*, I focused on the specifics of using Amazon Cognito and Attribute Based Access Control (ABAC) to authenticate and authorize users in the healthcare data lake solution. In this blog, I detail how the solution evolved at a foundational level, including the design decisions I made and the additional features used. You can access the code samples for the solution in this Git repo for reference.
+I've only been learning AWS for a little while and I'm still getting familiar with CloudFormation, so I often read the AWS Blog to understand more. The other day I read the post "How CloudFormation express mode accelerates your development cycle" and found it quite approachable (though I did have to re-read it a few times at first), so I'd like to share what I understood — if I got anything wrong, please correct me.
 
----
+At first I assumed this was simply an option to deploy faster. But reading carefully, I realized it isn't just about speed — it changes what CloudFormation actually means when it tells you a deployment is "done."
 
-## Architecture Guidance
+### How I understand the problem
 
-The main change since the last presentation of the overall architecture is the decomposition of a single service into a set of smaller services to improve maintainability and flexibility. Integrating a large volume of diverse healthcare data often requires specialized connectors for each format; by keeping them encapsulated separately as microservices, we can add, remove, and modify each connector without affecting the others. The microservices are loosely coupled via publish/subscribe messaging centered in what I call the “pub/sub hub.”
+According to the post, when you normally deploy a resource, CloudFormation doesn't report completion the moment the resource is created — it waits until the resource is truly ready to operate (this is called "stabilization"). For example, a CloudFront distribution takes 5–10 minutes to propagate to all the edge locations around the world. That makes sense for a production deployment, but if you're just testing over and over while learning or coding, it feels slow — you don't need real traffic yet, you just want to know whether your configuration is correct.
 
-This solution represents what I would consider another reasonable sprint iteration from my last post. The scope is still limited to the ingestion and basic parsing of **HL7v2 messages** formatted in **Encoding Rules 7 (ER7)** through a REST interface.
+### So what does Express mode help with?
 
-**The solution architecture is now as follows:**
+My rough understanding after reading: Express mode lets CloudFormation report "done" as soon as a resource is *configured*, while full stabilization continues in the background. What I liked is that it still tells you which resources are configured and which are still stabilizing in the background — the information isn't hidden. And the dependency ordering between resources (which one must be created before which) is preserved exactly as normal, nothing gets shuffled.
 
-> *Figure 1. Overall architecture; colored boxes represent distinct services.*
+One detail I found quite interesting is that it disables automatic rollback by default. At first this surprised me because I'd always assumed automatic rollback was a good thing, but reading further I understood: when you're iterating quickly, an automatic rollback to the previous state on failure destroys the very context you need to debug the error. Turning it off so you can fix things in place makes more sense for development.
 
----
+### What I took away
 
-While the term *microservices* has some inherent ambiguity, certain traits are common:  
-- Small, autonomous, loosely coupled  
-- Reusable, communicating through well-defined interfaces  
-- Specialized to do one thing well  
-- Often implemented in an **event-driven architecture**
+Since I'm still new, I read this post mostly to learn the concepts — I wouldn't claim to understand it 100% deeply. But the best thing I learned is a new distinction: "configured" and "ready to serve" are two different things, and they don't always arrive together. Until now I had simply assumed that once a deployment finishes, everything is immediately usable.
 
-When determining where to draw boundaries between microservices, consider:  
-- **Intrinsic**: technology used, performance, reliability, scalability  
-- **Extrinsic**: dependent functionality, rate of change, reusability  
-- **Human**: team ownership, managing *cognitive load*
+While working on the backend and CI/CD for my graduation project, I sometimes deploy repeatedly just to grab an ID or an endpoint for the next step — so this post described exactly the kind of situation I run into, even though I mainly use Terraform and am not yet fluent in CloudFormation.
 
----
+### Closing thoughts
 
-## Technology Choices and Communication Scope
+In my opinion, "How CloudFormation express mode accelerates your development cycle" is an accessible read for beginners like me, and it helps you understand how CloudFormation works behind the scenes. If you're also new to AWS, I think it's worth a read — you'll come away with a clearer picture of the "stabilize" concept that I, for one, had never paid attention to before.
 
-| Communication scope                       | Technologies / patterns to consider                                                        |
-| ----------------------------------------- | ------------------------------------------------------------------------------------------ |
-| Within a single microservice              | Amazon Simple Queue Service (Amazon SQS), AWS Step Functions                               |
-| Between microservices in a single service | AWS CloudFormation cross-stack references, Amazon Simple Notification Service (Amazon SNS) |
-| Between services                          | Amazon EventBridge, AWS Cloud Map, Amazon API Gateway                                      |
+Thank you for reading my little write-up — I'm still learning, so if anything is wrong I'd be grateful for your corrections 
 
----
-
-## The Pub/Sub Hub
-
-Using a **hub-and-spoke** architecture (or message broker) works well with a small number of tightly related microservices.  
-- Each microservice depends only on the *hub*  
-- Inter-microservice connections are limited to the contents of the published message  
-- Reduces the number of synchronous calls since pub/sub is a one-way asynchronous *push*
-
-Drawback: **coordination and monitoring** are needed to avoid microservices processing the wrong message.
-
----
-
-## Core Microservice
-
-Provides foundational data and communication layer, including:  
-- **Amazon S3** bucket for data  
-- **Amazon DynamoDB** for data catalog  
-- **AWS Lambda** to write messages into the data lake and catalog  
-- **Amazon SNS** topic as the *hub*  
-- **Amazon S3** bucket for artifacts such as Lambda code
-
-> Only allow indirect write access to the data lake through a Lambda function → ensures consistency.
-
----
-
-## Front Door Microservice
-
-- Provides an API Gateway for external REST interaction  
-- Authentication & authorization based on **OIDC** via **Amazon Cognito**  
-- Self-managed *deduplication* mechanism using DynamoDB instead of SNS FIFO because:  
-  1. SNS deduplication TTL is only 5 minutes  
-  2. SNS FIFO requires SQS FIFO  
-  3. Ability to proactively notify the sender that the message is a duplicate  
-
----
-
-## Staging ER7 Microservice
-
-- Lambda “trigger” subscribed to the pub/sub hub, filtering messages by attribute  
-- Step Functions Express Workflow to convert ER7 → JSON  
-- Two Lambdas:  
-  1. Fix ER7 formatting (newline, carriage return)  
-  2. Parsing logic  
-- Result or error is pushed back into the pub/sub hub  
-
----
-
-## New Features in the Solution
-
-### 1. AWS CloudFormation Cross-Stack References
-Example *outputs* in the core microservice:
-```yaml
-Outputs:
-  Bucket:
-    Value: !Ref Bucket
-    Export:
-      Name: !Sub ${AWS::StackName}-Bucket
-  ArtifactBucket:
-    Value: !Ref ArtifactBucket
-    Export:
-      Name: !Sub ${AWS::StackName}-ArtifactBucket
-  Topic:
-    Value: !Ref Topic
-    Export:
-      Name: !Sub ${AWS::StackName}-Topic
-  Catalog:
-    Value: !Ref Catalog
-    Export:
-      Name: !Sub ${AWS::StackName}-Catalog
-  CatalogArn:
-    Value: !GetAtt Catalog.Arn
-    Export:
-      Name: !Sub ${AWS::StackName}-CatalogArn
+Reference: <https://aws.amazon.com/blogs/devops/how-cloudformation-express-mode-accelerates-your-development-cycle/>

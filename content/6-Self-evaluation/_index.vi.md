@@ -1,40 +1,29 @@
 ---
 title: "Tự đánh giá"
-date: 2024-01-01
+date: 2026-02-04
 weight: 6
 chapter: false
 pre: " <b> 6. </b> "
 ---
 
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
+Trong thời gian thực tập với chương trình **First Cloud Journey (FCJ)** từ **tháng 4/2026** đến **tháng 7/2026**, tôi đã có cơ hội đi từ kiến thức trên lớp đến việc xây dựng và vận hành một hệ thống cloud thực tế. Sau năm tuần học nền tảng AWS có lộ trình, tôi dành bảy tuần xây dựng đồ án tốt nghiệp — nền tảng tóm tắt văn bản serverless ứng dụng AI — trong đó tôi phụ trách backend, tích hợp Amazon Bedrock và toàn bộ hạ tầng: Terraform, pipeline CI/CD, giám sát và củng cố bảo mật.
 
-Trong suốt thời gian thực tập tại **[Tên công ty/tổ chức]** từ **[ngày bắt đầu]** đến **[ngày kết thúc]**, tôi đã có cơ hội học hỏi, rèn luyện và áp dụng kiến thức đã được trang bị tại trường vào môi trường làm việc thực tế.  
-Tôi đã tham gia **[mô tả ngắn gọn dự án hoặc công việc chính]**, qua đó cải thiện kỹ năng **[liệt kê kỹ năng: lập trình, phân tích, viết báo cáo, giao tiếp…]**.  
+Để nhìn nhận khách quan về quá trình thực tập, tôi tự đánh giá theo các tiêu chí sau:
 
-Về tác phong, tôi luôn cố gắng hoàn thành tốt nhiệm vụ, tuân thủ nội quy, và tích cực trao đổi với đồng nghiệp để nâng cao hiệu quả công việc.
+| STT | Tiêu chí | Xếp loại | Nhận xét |
+| --- | --- | --- | --- |
+| 1 | **Kiến thức** | Khá | Bắt đầu với kiến thức chủ yếu là lý thuyết, kết thúc với khả năng thiết kế và vận hành một stack serverless hoàn chỉnh (Lambda, API Gateway, Cognito, DynamoDB, Bedrock, Terraform). Vẫn còn khoảng trống — một số phát hiện theo chuẩn CIS trên tài khoản chưa được xử lý triệt để, và nhiều dịch vụ tôi mới dùng lần đầu trong dự án này. |
+| 2 | **Khả năng học hỏi** | Tốt | Tiếp thu lượng kiến thức mới lớn trong thời gian ngắn: năm tuần học nền tảng, sau đó áp dụng khoảng mười dịch vụ AWS mới vào thực tế. Tôi học chủ yếu từ tài liệu chính thức và từ chính các lỗi gặp phải — debug payload request của Bedrock, các phát hiện của tfsec, và lỗi môi trường CodeBuild bằng cách đối chiếu với tài liệu. |
+| 3 | **Tính chủ động** | Tốt | Khi quota on-demand của Bedrock trên tài khoản mới chặn việc gọi mô hình thật, tôi tự mở support case với AWS và xây dựng đường mock cho chức năng tóm tắt để việc phát triển, kiểm thử và demo không bao giờ bị gián đoạn. Tôi cũng chủ động làm vượt phạm vi tối thiểu với CI/CD, metric tùy chỉnh, dashboard và tuân thủ CIS. |
+| 4 | **Kỷ luật** | Khá | Duy trì giờ làm việc ổn định, tuân thủ quy trình branch protection/PR của nhóm, không bao giờ đẩy thay đổi chưa review lên main. Tuy nhiên, tôi đã chậm trễ trong việc ghi worklog theo thời gian thực và phải bổ sung dồn vào giai đoạn cuối — điểm cần khắc phục ở các dự án sau. |
+| 5 | **Giao tiếp** | Khá | Trao đổi thường xuyên với đồng đội về các tài nguyên dùng chung (Cognito callback URL, CORS, state) nên hai bên không bao giờ vô tình làm hỏng phần việc của nhau. Kỹ năng thuyết trình vẫn là điểm yếu — việc cô đọng bảy tuần làm hạ tầng thành một bản demo năm phút rõ ràng khiến tôi phải thử nhiều lần. |
+| 6 | **Teamwork** | Tốt | Cách phân chia hai người (backend/hạ tầng và frontend/báo cáo/kiểm thử tải) có ranh giới sở hữu rõ ràng, tích hợp qua PR trên nhánh main được bảo vệ. Các lần bàn giao — như kết nối frontend hoàn thiện với API thật — diễn ra suôn sẻ. |
+| 7 | **Giải quyết vấn đề** | Tốt | Giải quyết vấn đề một cách có hệ thống thay vì thử-sai: in chính xác payload gửi đi để đối chiếu tài liệu, truy ra lỗi CloudTrail do thiếu hậu tố `:*` trong ARN, nhận định đúng các lỗi 429 khi kiểm thử tải là usage plan hoạt động đúng thiết kế, và dùng `git rm --cached` để dọn các file bị track nhầm. |
+| 8 | **Đóng góp cho dự án** | Tốt | Phụ trách và hoàn thành phần lớn nền tảng: backend tóm tắt, tích hợp Bedrock, toàn bộ tám module Terraform, pipeline CI/CD với các cổng bảo mật, giám sát/cảnh báo và củng cố bảo mật theo CIS — tất cả trong trần ngân sách 50 USD/tháng. |
 
-Để phản ánh một cách khách quan quá trình thực tập, tôi xin tự đánh giá bản thân dựa trên các tiêu chí dưới đây:
+### Điểm cần cải thiện
 
-
-| STT | Tiêu chí                            | Mô tả                                                                                            | Tốt | Khá | Trung bình |
-| --- | ----------------------------------- | ------------------------------------------------------------------------------------------------ | --- | --- | ---------- |
-| 1   | **Kiến thức và kỹ năng chuyên môn** | Hiểu biết về ngành, áp dụng kiến thức vào thực tế, kỹ năng sử dụng công cụ, chất lượng công việc | ✅   | ☐   | ☐          |
-| 2   | **Khả năng học hỏi**                | Tiếp thu kiến thức mới, học hỏi nhanh                                                            | ☐   | ✅   | ☐          |
-| 3   | **Chủ động**                        | Tự tìm hiểu, nhận nhiệm vụ mà không chờ chỉ dẫn                                                  | ✅   | ☐   | ☐          |
-| 4   | **Tinh thần trách nhiệm**           | Hoàn thành công việc đúng hạn, đảm bảo chất lượng                                                | ✅   | ☐   | ☐          |
-| 5   | **Kỷ luật**                         | Tuân thủ giờ giấc, nội quy, quy trình làm việc                                                   | ☐   | ☐   | ✅          |
-| 6   | **Tính cầu tiến**                   | Sẵn sàng nhận feedback và cải thiện bản thân                                                     | ☐   | ✅   | ☐          |
-| 7   | **Giao tiếp**                       | Trình bày ý tưởng, báo cáo công việc rõ ràng                                                     | ☐   | ✅   | ☐          |
-| 8   | **Hợp tác nhóm**                    | Làm việc hiệu quả với đồng nghiệp, tham gia nhóm                                                 | ✅   | ☐   | ☐          |
-| 9   | **Ứng xử chuyên nghiệp**            | Tôn trọng đồng nghiệp, đối tác, môi trường làm việc                                              | ✅   | ☐   | ☐          |
-| 10  | **Tư duy giải quyết vấn đề**        | Nhận diện vấn đề, đề xuất giải pháp, sáng tạo                                                    | ☐   | ✅   | ☐          |
-| 11  | **Đóng góp vào dự án/tổ chức**      | Hiệu quả công việc, sáng kiến cải tiến, ghi nhận từ team                                         | ✅   | ☐   | ☐          |
-| 12  | **Tổng thể**                        | Đánh giá chung về toàn bộ quá trình thực tập                                                     | ✅   | ☐   | ☐          |
-
-### Cần cải thiện
-
-* Nâng cao tính kỹ luật, chấp hành nghiêm chỉnh nội quy của công ty hoặc bất kỳ trong một tổ chức nào
-* Cải thiện trong cách tư duy giải quyết vấn đề
-* Học cách giao tiếp tốt hơn trong giao tiếp hằng ngày và trong công việc, xử lý tình huống
+* Cập nhật tài liệu và worklog **ngay khi làm việc**, thay vì tái dựng lại sau đó.
+* Cải thiện kỹ năng thuyết trình — trình bày công việc kỹ thuật ngắn gọn cho người nghe không chuyên.
+* Đào sâu kiến thức bảo mật: một số phát hiện CIS (ví dụ IAM role của pipeline còn quá rộng) đã được chấp nhận tạm hoãn có chủ đích; lần sau tôi muốn xử lý triệt để thay vì chấp nhận.
+* Ước lượng thời gian thực tế hơn — việc debug hạ tầng (pipeline, quota, IAM) luôn tốn nhiều thời gian hơn dự kiến.

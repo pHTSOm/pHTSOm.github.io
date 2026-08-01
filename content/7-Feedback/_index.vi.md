@@ -1,44 +1,32 @@
 ---
 title: "Chia sẻ, đóng góp ý kiến"
-date: 2024-01-01
+date: 2026-02-04
 weight: 7
 chapter: false
 pre: " <b> 7. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
 
->Tại đây bạn có thể tự do đóng góp ý kiến cá nhân về những trải nghiệm khi tham gia chương trình First Cloud Journey, giúp team FCJ cải thiện những vấn đề còn thiếu sót dựa trên các hạng mục sau:
+> Những cảm nhận cá nhân về trải nghiệm tham gia chương trình First Cloud Journey, chia sẻ với mong muốn giúp team FCJ tiếp tục hoàn thiện chương trình.
 
-### Đánh giá chung
+### 1. Cảm nhận về chương trình
 
-**1. Môi trường làm việc**  
-Môi trường làm việc rất thân thiện và cởi mở. Các thành viên trong FCJ luôn sẵn sàng hỗ trợ khi mình gặp khó khăn, kể cả ngoài giờ làm việc. Không gian làm việc gọn gàng, thoải mái, giúp mình tập trung tốt hơn. Tuy nhiên, mình nghĩ có thể bổ sung thêm một số buổi giao lưu hoặc team bonding để mọi người hiểu nhau hơn.
+Điều làm FCJ khác biệt so với một khóa học thông thường nằm ở cấu trúc: năm tuần tự học có định hướng về nền tảng AWS, tiếp theo là bảy tuần áp dụng kiến thức đó vào một dự án thật trên tài khoản AWS thật — với hệ quả thật. Đọc về IAM least privilege là một chuyện; để tfsec chặn chính pipeline của mình cho đến khi thu hẹp policy lại là chuyện hoàn toàn khác. Tài liệu tự học (các khóa học và workshop được chọn lọc) rất chất lượng, và việc được tự chọn đề tài đồ án tốt nghiệp khiến chúng tôi thực sự đầu tư vào kết quả.
 
-**2. Sự hỗ trợ của mentor / team admin**  
-Mentor hướng dẫn rất chi tiết, giải thích rõ ràng khi mình chưa hiểu và luôn khuyến khích mình đặt câu hỏi. Team admin hỗ trợ các thủ tục, tài liệu và tạo điều kiện để mình làm việc thuận lợi. Mình đánh giá cao việc mentor cho phép mình thử và tự xử lý vấn đề thay vì chỉ đưa đáp án.
+Chương trình còn âm thầm dạy những điều không tutorial nào đề cập: làm việc trong trần ngân sách hàng tháng, mở support case thật với AWS khi bị quota dịch vụ chặn, phối hợp hạ tầng dùng chung với đồng đội qua branch protection và pull request, và dọn dẹp tài khoản trước khi bàn giao. Những bài học "vận hành" này hóa ra lại là những bài học giá trị nhất.
 
-**3. Sự phù hợp giữa công việc và chuyên ngành học**  
-Công việc mình được giao phù hợp với kiến thức mình đã học ở trường, đồng thời mở rộng thêm những mảng mới mà mình chưa từng được tiếp cận. Nhờ vậy, mình vừa củng cố kiến thức nền tảng, vừa học thêm kỹ năng thực tế.
+### 2. Mức độ hài lòng
 
-**4. Cơ hội học hỏi & phát triển kỹ năng**  
-Trong quá trình thực tập, mình học được nhiều kỹ năng mới như sử dụng công cụ quản lý dự án, kỹ năng làm việc nhóm, và cả cách giao tiếp chuyên nghiệp trong môi trường công ty. Mentor cũng chia sẻ nhiều kinh nghiệm thực tế giúp mình định hướng tốt hơn cho sự nghiệp.
+**Rất hài lòng — 9/10.** Kết thúc chương trình, tôi đã đi từ chỗ chỉ có kiến thức trên lớp đến việc tự thiết kế, xây dựng, bảo mật và vận hành một nền tảng serverless hoàn chỉnh có CI/CD và giám sát — thứ tôi có thể demo trực tiếp và trao đổi sâu trong các buổi phỏng vấn xin việc. Một điểm trừ phản ánh các góp ý bên dưới chứ không phải vấn đề cốt lõi nào của chương trình.
 
-**5. Văn hóa & tinh thần đồng đội**  
-Văn hóa công ty rất tích cực: mọi người tôn trọng lẫn nhau, làm việc nghiêm túc nhưng vẫn vui vẻ. Khi có dự án gấp, mọi người cùng nhau cố gắng, hỗ trợ không phân biệt vị trí. Điều này giúp mình cảm thấy mình là một phần của tập thể, dù chỉ là thực tập sinh.
+### 3. Điểm cần cải thiện
 
-**6. Chính sách / phúc lợi cho thực tập sinh**  
-Công ty có hỗ trợ phụ cấp thực tập và tạo điều kiện về thời gian linh hoạt khi cần thiết. Ngoài ra, việc được tham gia các buổi đào tạo nội bộ là một điểm cộng lớn.
+* **Một buổi review kiến trúc trước khi bắt tay xây dựng.** Thiết kế của chúng tôi chỉ được xem xét sau khi đã bắt đầu triển khai. Một buổi review ngắn với mentor về kiến trúc đề xuất vào cuối tuần thiết kế sẽ giúp phát hiện sớm các quyết định tốn kém hoặc thiếu thực tế.
+* **Cảnh báo trước về giới hạn của tài khoản mới.** Chúng tôi mất thời gian kiểm thử thật vì quota on-demand của các mô hình Bedrock trên tài khoản AWS mới bằng không — điều chương trình có thể cảnh báo trước cho các nhóm (kèm hướng dẫn nộp yêu cầu tăng quota ngay từ tuần đầu).
+* **Một buổi đánh giá giữa kỳ.** Một buổi check-in ngắn khoảng tuần 9 sẽ giúp các nhóm phát hiện lệch phạm vi và tiến độ khi vẫn còn thời gian điều chỉnh.
+* **Tăng tương tác giữa các nhóm.** Phần lớn trao đổi của chúng tôi chỉ diễn ra trong nhóm hai người; một buổi định kỳ để các nhóm demo tiến độ cho nhau sẽ giúp lan tỏa bài học kinh nghiệm (và phát hiện các vấn đề chung như quota nhanh hơn).
 
+### 4. Có giới thiệu chương trình cho bạn bè không? Vì sao?
 
-### Một số câu hỏi khác
-- Điều bạn **hài lòng nhất** trong thời gian thực tập?  
-- Điều bạn nghĩ công ty **cần cải thiện** cho các thực tập sinh sau?  
-- Nếu giới thiệu cho bạn bè, bạn có **khuyên họ thực tập ở đây không**? Vì sao?  
+**Có, không do dự** — kèm một lưu ý. Tôi sẽ giới thiệu chương trình cho bất kỳ người bạn nào muốn làm việc trong mảng cloud hoặc backend, vì đây là trải nghiệm gần nhất với môi trường làm việc chuyên nghiệp mà một sinh viên có thể có: tài khoản cloud thật, ngân sách thật, công cụ quét bảo mật thật đánh trượt build của chính mình, và một sản phẩm mình sở hữu trọn vẹn từ kiến trúc đến vận hành. Một dự án FCJ hoàn chỉnh là một sản phẩm trong portfolio, không chỉ là một chứng chỉ.
 
-
-### Đề xuất & mong muốn
-- Bạn có đề xuất gì để cải thiện trải nghiệm trong kỳ thực tập?  
-- Bạn có muốn tiếp tục chương trình này trong tương lai?
-- Góp ý khác (tự do chia sẻ):
+Lưu ý: chương trình đòi hỏi tính tự định hướng cao. Chương trình cung cấp lộ trình và sự hỗ trợ, nhưng không ai kèm cặp hàng ngày — một người bạn kỳ vọng trải nghiệm kiểu nghe giảng và được giao sẵn bài tập sẽ gặp khó khăn. Còn với ai sẵn sàng tự dẫn dắt dự án của mình, tôi nghĩ không có sự chuẩn bị nào tốt hơn.

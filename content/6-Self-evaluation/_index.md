@@ -1,39 +1,29 @@
 ---
 title: "Self-Assessment"
-date: 2024-01-01
+date: 2026-02-04
 weight: 6
 chapter: false
 pre: " <b> 6. </b> "
 ---
 
-{{% notice warning %}}
-⚠️ **Note:** The information below is for reference purposes only. Please **do not copy it verbatim** into your report, including this warning.
-{{% /notice %}}
+During my internship with the **First Cloud Journey (FCJ)** program from **April 2026** to **July 2026**, I had the opportunity to move from classroom knowledge to building and operating a real cloud system. After five weeks of structured AWS study, I spent seven weeks building my graduation project — an AI-powered serverless document summarization platform — where I owned the backend, the Amazon Bedrock integration, and the entire infrastructure: Terraform, the CI/CD pipeline, monitoring, and security hardening.
 
-During my internship at **[Company/Organization Name]** from **[start date]** to **[end date]**, I had the opportunity to learn, practice, and apply the knowledge acquired in school to a real-world working environment.  
-I participated in **[briefly describe the main project or task]**, through which I improved my skills in **[list skills: programming, analysis, reporting, communication, etc.]**.  
+To reflect objectively on this period, I evaluate myself against the following criteria:
 
-In terms of work ethic, I always strived to complete tasks well, complied with workplace regulations, and actively engaged with colleagues to improve work efficiency.
-
-To objectively reflect on my internship period, I would like to evaluate myself based on the following criteria:
-
-| No. | Criteria                            | Description                                                                                      | Good | Fair | Average |
-| --- | ----------------------------------- | ------------------------------------------------------------------------------------------------ | ---- | ---- | ------- |
-| 1   | **Professional knowledge & skills** | Understanding of the field, applying knowledge in practice, proficiency with tools, work quality | ✅    | ☐    | ☐       |
-| 2   | **Ability to learn**                | Ability to absorb new knowledge and learn quickly                                                | ☐    | ✅    | ☐       |
-| 3   | **Proactiveness**                   | Taking initiative, seeking out tasks without waiting for instructions                            | ✅    | ☐    | ☐       |
-| 4   | **Sense of responsibility**         | Completing tasks on time and ensuring quality                                                    | ✅    | ☐    | ☐       |
-| 5   | **Discipline**                      | Adhering to schedules, rules, and work processes                                                 | ☐    | ☐    | ✅       |
-| 6   | **Progressive mindset**             | Willingness to receive feedback and improve oneself                                              | ☐    | ✅    | ☐       |
-| 7   | **Communication**                   | Presenting ideas and reporting work clearly                                                      | ☐    | ✅    | ☐       |
-| 8   | **Teamwork**                        | Working effectively with colleagues and participating in teams                                   | ✅    | ☐    | ☐       |
-| 9   | **Professional conduct**            | Respecting colleagues, partners, and the work environment                                        | ✅    | ☐    | ☐       |
-| 10  | **Problem-solving skills**          | Identifying problems, proposing solutions, and showing creativity                                | ☐    | ✅    | ☐       |
-| 11  | **Contribution to project/team**    | Work effectiveness, innovative ideas, recognition from the team                                  | ✅    | ☐    | ☐       |
-| 12  | **Overall**                         | General evaluation of the entire internship period                                               | ✅    | ☐    | ☐       |
+| No. | Criteria | Rating | Comment |
+| --- | --- | --- | --- |
+| 1 | **Knowledge** | Fair (Khá) | I started with mostly theoretical knowledge and finished able to design and operate a full serverless stack (Lambda, API Gateway, Cognito, DynamoDB, Bedrock, Terraform). There are still gaps — some CIS Benchmark findings on the account remain unresolved, and several services I used for the first time during this project. |
+| 2 | **Ability to learn** | Good (Tốt) | Absorbed a large amount of new material quickly: five weeks of foundational study, then roughly ten new AWS services applied in practice. I learned mainly from official documentation and from errors themselves — debugging Bedrock request payloads, tfsec findings, and CodeBuild environment issues against the docs. |
+| 3 | **Proactiveness** | Good (Tốt) | When the new account's Bedrock on-demand quota blocked real model calls, I opened an AWS Support case myself and built a mock summarize path so development, testing, and the demo were never blocked. I also went beyond the minimum scope with CI/CD, custom metrics, dashboards, and CIS compliance. |
+| 4 | **Discipline** | Fair (Khá) | I maintained steady working hours, followed the team's branch-protection/PR workflow, and never pushed unreviewed changes to main. However, I fell behind on writing up my worklog entries in real time and had to catch up near the end — something to fix in future projects. |
+| 5 | **Communication** | Fair (Khá) | Coordinated consistently with my teammate on shared resources (Cognito callback URLs, CORS, state) so we never silently broke each other's work. Presenting is still a weak point — condensing seven weeks of infrastructure work into a clear five-minute demo took me multiple attempts. |
+| 6 | **Teamwork** | Good (Tốt) | Our two-person split (backend/infrastructure vs. frontend/reporting/load-testing) had clear ownership boundaries, and we integrated through PRs on a protected main branch. Handoffs — like connecting the finished frontend to the real API — went smoothly. |
+| 7 | **Problem-solving** | Good (Tốt) | Solved problems systematically rather than by trial-and-error: printing exact request payloads against documentation, tracing a CloudTrail failure to a missing `:*` ARN suffix, recognizing load-test 429s as the usage plan working as designed, and using `git rm --cached` for tracked-file cleanup. |
+| 8 | **Contribution to the project** | Good (Tốt) | Owned and delivered the majority of the platform: the summarizer backend, Bedrock integration, all eight Terraform modules, the CI/CD pipeline with security gates, monitoring/alarms, and CIS security hardening — all within a $50/month budget ceiling. |
 
 ### Needs Improvement
 
-* Strengthen discipline and strictly comply with the rules and regulations of the company or any organization  
-* Improve problem-solving thinking  
-* Enhance communication skills in both daily interactions and professional contexts, including handling situations effectively
+* Keep documentation and worklogs up to date **as work happens**, instead of reconstructing them afterwards.
+* Improve presentation skills — explaining technical work concisely to a non-technical audience.
+* Deepen security knowledge: several CIS findings (e.g. over-broad pipeline IAM role) were consciously deferred; next time I want to resolve them properly rather than accept them.
+* Estimate time more realistically — infrastructure debugging (pipeline, quotas, IAM) consistently took longer than planned.
