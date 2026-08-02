@@ -98,7 +98,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "reports" {
 ```
 
 - PAY_PER_REQUEST billing: no idle cost, no capacity planning.
-- Encryption at rest, point-in-time recovery .
+- Encryption at rest, point-in-time recovery.
 - GSI on summary_date: needed by the weekly report Lambda to query "all summaries in the last 7 days across all users," which the base table's user_id partition key can't answer efficiently alone.
 
 #### Lambda IAM Role

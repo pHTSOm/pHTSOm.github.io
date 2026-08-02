@@ -26,7 +26,7 @@ pre : " <b> 5.7. </b> "
 
 **Cách đọc một stage pipeline bị thất bại:** cuộn xuống dòng đầu tiên chứa từ FAILED hoặc exit code khác 0 — log của CodeBuild được sắp xếp theo trình tự thời gian, và nguyên nhân thất bại thực sự thường nằm gần cuối chứ không phải ở đầu, vì các bước sau vẫn sẽ cố gắng chạy cleanup ngay cả khi đã có lỗi xảy ra trước đó trong cùng giai đoạn.
 
-#### Số liệu (Metrics)
+#### Số liệu 
 
 **Metric có sẵn:**
 
@@ -46,7 +46,7 @@ pre : " <b> 5.7. </b> "
 
 Dimension ErrorType chính là yếu tố giúp phân biệt được "đã chạm hạn ngạch hàng ngày" với "throttling thông thường" hay "model timeout" trên dashboard, thay vì gộp tất cả các lỗi Bedrock vào chung một con số lỗi không phân loại.
 
-#### Cảnh báo (Alerts)
+#### Cảnh báo 
 
 Bước xác minh: gửi thủ công một điểm dữ liệu thử nghiệm tới Custom/Bedrock / BedrockErrors, chờ hết khoảng thời gian đánh giá (evaluation period) của cảnh báo, rồi xác nhận cả trạng thái CloudWatch alarm chuyển sang **In alarm** lẫn email từ SNS đã được gửi tới. Bước này đáng để chạy lại tại đây như một phần của đợt kiểm thử tổng thể, chứ không chỉ chạy một lần khi thiết lập ban đầu **cấu hình cảnh báo có thể âm thầm bị hỏng mà không có dấu hiệu rõ ràng nào cho đến đúng thời điểm cần dùng đến nó**.
 

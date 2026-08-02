@@ -35,12 +35,12 @@ Never use the root user for regular work. Create a personal administrator user i
 ```bash
    aws --version
 ```
-3. Create an access key for your IAM user: IAM console → your user 
+3. Create an access key for your IAM user: IAM console → Your user 
 ![overview](/images/5-Workshop/5.2-Prerequisite/click_new_user.jpeg)
 4. **Security credentials** tab → **Create access key**  
 ![overview](/images/5-Workshop/5.2-Prerequisite/sercurity_crea.jpeg)
 ![overview](/images/5-Workshop/5.2-Prerequisite/access_key.jpeg)
-5. choose **Command Line Interface (CLI)** → confirm → **Create access key**. 
+5. choose **Command Line Interface (CLI)** → Confirm → **Create access key**. 
 ![overview](/images/5-Workshop/5.2-Prerequisite/checked_CLI.jpeg)
 ![overview](/images/5-Workshop/5.2-Prerequisite/clickCreate_AccessKey.jpeg)
 6. Copy the **Access Key ID** and **Secret Access Key**(the secret is only shown once).

@@ -48,7 +48,7 @@ The ErrorType dimension is what makes it possible to distinguish "hit the daily 
 
 #### Alerts
 
-The verification step: publish a test data point to Custom/Bedrock / BedrockErrors manually, wait for the alarm's evaluation period, and confirm both the CloudWatch alarm state changes to **In alarm** and the SNS email arrives. This is worth re-running here as part of the overall test pass, not just once during initial setup — alarm configurations can silently break without any obvious symptom until the moment they're actually needed.
+The verification step: publish a test data point to Custom/Bedrock / BedrockErrors manually, wait for the alarm's evaluation period, and confirm both the CloudWatch alarm state changes to **In alarm** and the SNS email arrives. This is worth re-running here as part of the overall test pass, not just once during initial setup **alarm configurations can silently break without any obvious symptom until the moment they're actually needed**.
 
 #### Manual Test Plan
 
@@ -70,7 +70,7 @@ curl -X POST https://YOUR-API-ID.execute-api.ap-southeast-1.amazonaws.com/v1/sum
   -H "x-api-key: YOUR-API-KEY" \
   -d '{"text": "test"}'
 ```
-Expected: 401 Unauthorized — confirms the Cognito authorizer is enforced.
+Expected: 401 Unauthorized confirms the Cognito authorizer is enforced.
 
 **3. Missing API key:**
 ```bash
@@ -78,7 +78,7 @@ curl -X POST https://YOUR-API-ID.execute-api.ap-southeast-1.amazonaws.com/v1/sum
   -H "Authorization: YOUR-ID-TOKEN" \
   -d '{"text": "test"}'
 ```
-Expected: 403 Forbidden — confirms the usage plan's API key requirement is enforced.
+Expected: 403 Forbidden confirms the usage plan's API key requirement is enforced.
 
 **4. GET /history:**
 ```bash
@@ -119,10 +119,10 @@ moto intercepts boto3 calls and simulates DynamoDB in-memory, so these tests run
 
 locustfile.py can run in two distinct modes, and it's important to know which one produced a given result before drawing conclusions from it:
 
-- **MOCK_MODE=true** (the default) — auth is skipped in favor of a fixed placeholder Bearer token, and requests go wherever --host points. This exercises the request/response contract and concurrency handling without depending on Cognito or Bedrock being available.
-- **MOCK_MODE=false** — the script calls cognito-idp:InitiateAuth with USER_PASSWORD_AUTH directly via boto3 to get a real JWT, and every request carries the real x-api-key header. This is the only mode that actually exercises Bedrock.
+- **MOCK_MODE=true** (the default): auth is skipped in favor of a fixed placeholder Bearer token, and requests go wherever --host points. This exercises the request/response contract and concurrency handling without depending on Cognito or Bedrock being available.
+- **MOCK_MODE=false**: the script calls cognito-idp:InitiateAuth with USER_PASSWORD_AUTH directly via boto3 to get a real JWT, and every request carries the real x-api-key header. This is the only mode that actually exercises Bedrock.
 
-**Mock-mode results — 50 concurrent users:**
+**Mock-mode results 50 concurrent users:**
 
 | Metric | Value |
 |---|---|
@@ -139,7 +139,7 @@ locustfile.py can run in two distinct modes, and it's important to know which on
 | GET /history | 2,282 | 3 ms | 4 ms | 5 ms | 7 ms | 24 ms |
 | POST /summarize | 6,802 | 3 ms | 4 ms | 6 ms | 7 ms | 23 ms |
 
-Users ramped from 0 to 50 over the first ~50 seconds; once steady, throughput held flat at ~24 req/s with 0 failures across all three endpoints for the remainder of the run — response times don't degrade as concurrency increases 5x over the earlier 10-user baseline (4ms avg / 6ms p95 / 7ms p99). This indicates the bottleneck described below is specific to real Bedrock calls, not the request handling, auth path, or DynamoDB access pattern.
+Users ramped from 0 to 50 over the first ~50 seconds; once steady, throughput held flat at ~24 req/s with 0 failures across all three endpoints for the remainder of the run, response times don't degrade as concurrency increases 5x over the earlier 10-user baseline (4ms avg / 6ms p95 / 7ms p99). This indicates the bottleneck described below is specific to real Bedrock calls, not the request handling, auth path, or DynamoDB access pattern.
 
 **Running it:**
 ```bash
@@ -177,7 +177,7 @@ Set `--host` to `http://localhost:8000` for the mock server, or the real API Gat
 4. Open the Locust web UI (default `http://localhost:8089`), set number of users and ramp-up rate, start the test.
 
 
-**Project load testing result:** a run of 5 concurrent users ramping at 1/sec in real-API mode showed GET /history performing correctly, while every POST /summarize request failed with 502/504 at almost exactly 29 seconds — API Gateway's hard integration timeout ceiling. Root cause: the Lambda's retry logic was retrying Bedrock throttling errors with exponential backoff, consuming the entire 30-second Lambda timeout before ever returning a response. The mock-mode results above rule out the request/auth path as the cause — 50 concurrent users produced zero failures under mock mode, so the 502/504s are specific to real Bedrock invocations, not a concurrency or code-path issue.
+**Project load testing result:** a run of 5 concurrent users ramping at 1/sec in real-API mode showed GET /history performing correctly, while every POST /summarize request failed with 502/504 at almost exactly 29 seconds, API Gateway's hard integration timeout ceiling. Root cause: the Lambda's retry logic was retrying Bedrock throttling errors with exponential backoff, consuming the entire 30-second Lambda timeout before ever returning a response. The mock-mode results above rule out the request/auth path as the cause, 50 concurrent users produced zero failures under mock mode, so the 502/504s are specific to real Bedrock invocations, not a concurrency or code-path issue.
 
 ![overview](/images/5-Workshop/5.5-Testing/Locust_testingtesting.jpeg)
 
