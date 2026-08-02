@@ -6,10 +6,6 @@ chapter : false
 pre : " <b> 5.8. </b> "
 ---
 
-{{% notice warning %}}
-**This deletes data permanently.** `terraform destroy` drops the DynamoDB table and the Cognito user pool outright: every stored summary and every registered user is gone, with no way to recover them. Point-in-time recovery does not survive the table being deleted, and no final snapshot is taken. If you need any of it for a report or a demo, export it before you start.
-{{% /notice %}}
-
 #### Teardown Order 
 
 Terraform generally handles dependency order automatically, but a few AWS resources block deletion until a manual precondition is met — regardless of what Terraform tries to do. Two matter most here:

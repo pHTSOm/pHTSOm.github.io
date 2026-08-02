@@ -33,7 +33,7 @@ pre : " <b> 5.3. </b> "
 | CloudWatch + SNS | Số liệu, dashboard, cảnh báo | Tích hợp sẵn với tất cả các dịch vụ AWS khác được dùng trong dự án |
 | CloudTrail + Config | Ghi log kiểm toán, quy tắc tuân thủ | Bắt buộc để đáp ứng conformance pack theo CIS Foundations Benchmark |
 | CodePipeline / CodeBuild | Tự động hóa CI/CD | Tích hợp gốc của AWS với CodeStar/GitHub, không cần dịch vụ CI riêng biệt |
-| Terraform | Hạ tầng dưới dạng mã (Infrastructure as Code) | Khai báo (declarative), quy trình plan-trước-khi-apply, kỹ năng có thể dùng trên nhiều nền tảng cloud |
+| Terraform | Hạ tầng dưới dạng mã (Infrastructure as Code) | Khai báo, quy trình plan-trước-khi-apply, kỹ năng có thể dùng trên nhiều nền tảng cloud |
 
 #### Nền tảng bảo mật và IAM
 

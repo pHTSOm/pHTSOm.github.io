@@ -52,7 +52,7 @@ Then push a small change to main and watch Source → Test → Approve → Apply
 | Error | Cause | Fix |
 |---|---|---|
 | EventBridge rule scheduled but Lambda never runs | aws_lambda_permission missing or removed outside Terraform | terraform plan should show no drift; apply to restore |
-| Reports never reach Glacier | Objects younger than 30 days, or lifecycle rule disabled | aws s3api get-bucket-lifecycle-configuration — confirm Enabled |
+| Reports never reach Glacier | Objects younger than 30 days, or lifecycle rule disabled | aws s3api get-bucket-lifecycle-configuration confirm Enabled |
 | Source stage fails immediately | CodeStar connection stuck at **Pending** | Complete the GitHub authorization handshake |
 | Test stage fails with a state lock error | Previous run didn't release the DynamoDB lock | terraform force-unlock LOCK_ID |
 | Apply stage fails mid-apply on a permissions error | CodeBuild role lacks a permission for a newly added resource type | Known gap under AdministratorAccess — see Section 5.6.2 |

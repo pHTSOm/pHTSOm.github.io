@@ -8,7 +8,7 @@ pre : " 5.4.2. "
 
 #### Mục tiêu
 
-Yêu cầu quyền truy cập vào Amazon Nova Lite trên Bedrock, hiểu cách Lambda gọi model này qua các region khác nhau, và xử lý tình huống hạn ngạch (quota) on-demand của tài khoản bị cạn kiệt.
+Yêu cầu quyền truy cập vào Amazon Nova Lite trên Bedrock, hiểu cách Lambda gọi model này qua các region khác nhau, và xử lý tình huống hạn ngạch on-demand của tài khoản bị cạn kiệt.
 
 #### Kết nối trong Terraform: IAM và Model ID
 
@@ -17,7 +17,7 @@ Yêu cầu quyền truy cập vào Amazon Nova Lite trên Bedrock, hiểu cách 
 
 #### Yêu cầu về Cross-Region
 
-ap-southeast-1 không nằm trong nhóm inference (inference pool) khu vực AP dành cho Nova Lite. Bedrock client của Lambda được hardcode để gọi tới us-east-1 thay thế:
+ap-southeast-1 không nằm trong nhóm inference khu vực AP dành cho Nova Lite. Bedrock client của Lambda được hardcode để gọi tới us-east-1 thay thế:
 
 ```python
 bedrock_client = boto3.client('bedrock-runtime', region_name='us-east-1')
@@ -38,7 +38,7 @@ is_daily_quota = (
 )
 ```
 
-Lỗi throttling tạm thời sẽ được thử lại (retry) với backoff; còn lỗi vượt quota hàng ngày sẽ thất bại ngay lập tức thay vì retry, vì việc thử lại chỉ tốn hết 30 giây timeout của Lambda mà không mang lại lợi ích gì.
+Lỗi throttling tạm thời sẽ được thử lại với backoff; còn lỗi vượt quota hàng ngày sẽ thất bại ngay lập tức thay vì retry, vì việc thử lại chỉ tốn hết 30 giây timeout của Lambda mà không mang lại lợi ích gì.
 
 Lambda đã triển khai **không có đường dẫn mock (mock path)** của riêng nó. Nó luôn gọi Bedrock thật và trả về lỗi 429 thực sự cho người dùng thật khi quota đã cạn:
 
@@ -46,7 +46,7 @@ Lambda đã triển khai **không có đường dẫn mock (mock path)** của r
 {"message": "Summarization limit reached for today. Please try again after midnight UTC."}
 ```
 
-Để giữ cho phần demo ở frontend vẫn dùng được trong khi quyền truy cập còn bị giới hạn, trang tĩnh có một cờ (flag) tên là `MOCK_SUMMARIZE` trả về một bản tóm tắt giả (placeholder). Việc tắt cờ này chỉ là thay đổi một flag, không cần sửa code, nên chức năng suy luận thật sẽ hoạt động ngay khi tài khoản đủ điều kiện. Bản thân phần tích hợp đã được kiểm chứng bằng bộ test pytest: nó mock Bedrock và kiểm tra rằng payload của request, luồng retry, và việc phân loại lỗi 429 do vượt quota đều đúng.
+Để giữ cho phần demo ở frontend vẫn dùng được trong khi quyền truy cập còn bị giới hạn, trang tĩnh có một flag tên là `MOCK_SUMMARIZE` trả về một bản tóm tắt giả. Việc tắt cờ này chỉ là thay đổi một flag, không cần sửa code, nên chức năng suy luận thật sẽ hoạt động ngay khi tài khoản đủ điều kiện. Bản thân phần tích hợp đã được kiểm chứng bằng bộ test pytest: nó mock Bedrock và kiểm tra rằng payload của request, luồng retry, và việc phân loại lỗi 429 do vượt quota đều đúng.
 
 Kiểm tra CloudWatch → Metrics → Custom/Bedrock → BedrockErrors, dimension ErrorType = DailyQuotaExceeded, để xác nhận Lambda đã phân loại lỗi đúng cách.
 

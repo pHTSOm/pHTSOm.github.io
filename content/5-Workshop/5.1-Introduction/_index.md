@@ -35,8 +35,8 @@ By the end of this workshop, the following will be deployed and verified:
 
 #### Success Criteria
 
-- [ ] Auth flow functional end-to-end (Cognito Hosted UI → JWT → authorized API call)
-- [ ] CloudWatch dashboard displays live request traffic
-- [ ] At least one CloudWatch alarm fires and delivers an SNS email
-- [ ] Monthly cost stays under $50 across all services
-- [ ] All resources destroyed with zero orphaned billing (verified in Cost Explorer)
+- Auth flow functional end-to-end (Cognito Hosted UI → JWT → authorized API call)
+- CloudWatch dashboard displays live request traffic
+- At least one CloudWatch alarm fires and delivers an SNS email
+- Monthly cost stays under $50 across all services
+- All resources destroyed with zero orphaned billing (verified in Cost Explorer)

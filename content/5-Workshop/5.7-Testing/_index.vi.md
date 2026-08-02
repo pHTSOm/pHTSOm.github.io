@@ -13,7 +13,7 @@ pre : " <b> 5.7. </b> "
 1. Console **CloudWatch** → **Log groups** → /aws/lambda/doc-summarizer-fn.
 2. Nhấn vào log stream gần nhất để xem output của từng lần gọi, bao gồm cả các câu lệnh print() trong code Lambda.
 
-**Log thực thi của API Gateway.** Mặc định bị tắt — phải bật thủ công cho từng stage.
+**Log thực thi của API Gateway.** Mặc định bị tắt phải bật thủ công cho từng stage.
 
 1. Console **API Gateway** → doc-summarizer-api → **Stages** → v1 → tab **Logs and tracing**.
 2. Bật **CloudWatch Logs**, mức log **INFO** hoặc **ERROR**, và **Log full requests/responses data** để phục vụ debug — nhớ tắt lại sau khi dùng xong, vì tính năng này có thể ghi log cả những nội dung nhạy cảm trong request body.
@@ -24,7 +24,7 @@ pre : " <b> 5.7. </b> "
 1. Console **CodePipeline** → doc-summarizer-pipeline → nhấn vào một stage → link **Details** ở action tương ứng.
 2. Thao tác này sẽ mở trang build của CodeBuild, hiển thị toàn bộ output của các lệnh đã chạy.
 
-**Cách đọc một stage pipeline bị thất bại:** cuộn xuống dòng đầu tiên chứa từ FAILED hoặc mã thoát (exit code) khác 0 — log của CodeBuild được sắp xếp theo trình tự thời gian, và nguyên nhân thất bại thực sự thường nằm gần cuối chứ không phải ở đầu, vì các bước sau vẫn sẽ cố gắng chạy dọn dẹp (cleanup) ngay cả khi đã có lỗi xảy ra trước đó trong cùng giai đoạn.
+**Cách đọc một stage pipeline bị thất bại:** cuộn xuống dòng đầu tiên chứa từ FAILED hoặc exit code khác 0 — log của CodeBuild được sắp xếp theo trình tự thời gian, và nguyên nhân thất bại thực sự thường nằm gần cuối chứ không phải ở đầu, vì các bước sau vẫn sẽ cố gắng chạy cleanup ngay cả khi đã có lỗi xảy ra trước đó trong cùng giai đoạn.
 
 #### Số liệu (Metrics)
 
@@ -34,7 +34,7 @@ pre : " <b> 5.7. </b> "
 |---|---|---|
 | Duration, Errors, Throttles, Invocations | Lambda | Thời gian thực thi, tỷ lệ thất bại, giới hạn concurrency bị chạm tới |
 | 4XXError, 5XXError, Count, Latency | API Gateway | Tỷ lệ lỗi từ phía client so với server, tổng lưu lượng truy cập |
-| ConsumedReadCapacityUnits, ConsumedWriteCapacityUnits | DynamoDB | Mức sử dụng on-demand thực tế — hữu ích để theo dõi chi phí |
+| ConsumedReadCapacityUnits, ConsumedWriteCapacityUnits | DynamoDB | Mức sử dụng on-demand thực tế hữu ích để theo dõi chi phí |
 
 **Custom metric** — namespace Custom/Bedrock, được code Lambda gửi lên một cách tường minh:
 
@@ -48,7 +48,7 @@ Dimension ErrorType chính là yếu tố giúp phân biệt được "đã ch�
 
 #### Cảnh báo (Alerts)
 
-Bước xác minh: gửi thủ công một điểm dữ liệu thử nghiệm tới Custom/Bedrock / BedrockErrors, chờ hết khoảng thời gian đánh giá (evaluation period) của cảnh báo, rồi xác nhận cả trạng thái CloudWatch alarm chuyển sang **In alarm** lẫn email từ SNS đã được gửi tới. Bước này đáng để chạy lại tại đây như một phần của đợt kiểm thử tổng thể, chứ không chỉ chạy một lần khi thiết lập ban đầu — cấu hình cảnh báo có thể âm thầm bị hỏng mà không có dấu hiệu rõ ràng nào cho đến đúng thời điểm cần dùng đến nó.
+Bước xác minh: gửi thủ công một điểm dữ liệu thử nghiệm tới Custom/Bedrock / BedrockErrors, chờ hết khoảng thời gian đánh giá (evaluation period) của cảnh báo, rồi xác nhận cả trạng thái CloudWatch alarm chuyển sang **In alarm** lẫn email từ SNS đã được gửi tới. Bước này đáng để chạy lại tại đây như một phần của đợt kiểm thử tổng thể, chứ không chỉ chạy một lần khi thiết lập ban đầu **cấu hình cảnh báo có thể âm thầm bị hỏng mà không có dấu hiệu rõ ràng nào cho đến đúng thời điểm cần dùng đến nó**.
 
 #### Kế hoạch kiểm thử thủ công
 
@@ -70,7 +70,7 @@ curl -X POST https://YOUR-API-ID.execute-api.ap-southeast-1.amazonaws.com/v1/sum
   -H "x-api-key: YOUR-API-KEY" \
   -d '{"text": "test"}'
 ```
-Kết quả mong đợi: 401 Unauthorized — xác nhận Cognito authorizer đang được thực thi.
+Kết quả mong đợi: 401 Unauthorized xác nhận Cognito authorizer đang được thực thi.
 
 **3. Thiếu API key:**
 ```bash
@@ -78,7 +78,7 @@ curl -X POST https://YOUR-API-ID.execute-api.ap-southeast-1.amazonaws.com/v1/sum
   -H "Authorization: YOUR-ID-TOKEN" \
   -d '{"text": "test"}'
 ```
-Kết quả mong đợi: 403 Forbidden — xác nhận yêu cầu API key của usage plan đang được thực thi.
+Kết quả mong đợi: 403 Forbidden xác nhận yêu cầu API key của usage plan đang được thực thi.
 
 **4. GET /history:**
 ```bash
@@ -86,7 +86,7 @@ curl https://YOUR-API-ID.execute-api.ap-southeast-1.amazonaws.com/v1/history \
   -H "Authorization: YOUR-ID-TOKEN" \
   -H "x-api-key: YOUR-API-KEY"
 ```
-Kết quả mong đợi: 200 kèm một mảng `history` chứa các mục trước đó của người dùng này.
+Kết quả mong đợi: 200 kèm một mảng history chứa các mục trước đó của người dùng này.
 
 **5. Ranh giới kiểm tra tính hợp lệ của input:**
 ```bash
@@ -101,7 +101,7 @@ curl -X POST .../summarize -H "..." -d '{"text": "'"$(python3 -c 'print("a"*5001
 
 #### Kiểm thử tự động
 
-Thư mục tests/ chứa các test pytest chạy trực tiếp trên các hàm xử lý (handler) của Lambda, sử dụng moto để giả lập DynamoDB thay vì gọi tới tài khoản AWS thật.
+Thư mục tests/ chứa các test pytest chạy trực tiếp trên các hàm xử lý của Lambda, sử dụng moto để giả lập DynamoDB thay vì gọi tới tài khoản AWS thật.
 
 1. Cài đặt các dependency:
    ```bash
@@ -113,16 +113,16 @@ Thư mục tests/ chứa các test pytest chạy trực tiếp trên các hàm x
    ```
 3. Phạm vi kiểm thử điển hình: ranh giới kiểm tra tính hợp lệ của input, trường summary_date được tính toán và ghi đúng trên mỗi lần PutItem, hàm handle_history trả về kết quả được sắp xếp mới nhất trước, và luồng xử lý DailyQuotaExceededError trả về mã 429 thay vì để lỗi lan truyền thành mã 500.
 
-moto chặn (intercept) các lệnh gọi boto3 và mô phỏng DynamoDB trong bộ nhớ, nhờ đó các test này chạy được trong CI mà không cần AWS credentials thật hay đụng đến SummarizerTable thực tế.
+moto chặn các lệnh gọi boto3 và mô phỏng DynamoDB trong bộ nhớ, nhờ đó các test này chạy được trong CI mà không cần AWS credentials thật hay đụng đến SummarizerTable thực tế.
 
-#### Kiểm thử tải (Load Testing)
+#### Kiểm thử tải
 
 locustfile.py có thể chạy ở hai chế độ khác nhau, và điều quan trọng là phải biết chế độ nào đã tạo ra một kết quả cụ thể trước khi đưa ra kết luận từ đó:
 
-- **MOCK_MODE=true** (mặc định) — bỏ qua bước xác thực, thay vào đó dùng một Bearer token giả cố định, và các request được gửi tới bất kỳ đâu mà --host trỏ tới. Chế độ này kiểm tra hợp đồng request/response và khả năng xử lý concurrency mà không phụ thuộc vào việc Cognito hay Bedrock có sẵn sàng hay không.
-- **MOCK_MODE=false** — script gọi trực tiếp cognito-idp:InitiateAuth với USER_PASSWORD_AUTH thông qua boto3 để lấy JWT thật, và mỗi request đều mang theo header x-api-key thật. Đây là chế độ duy nhất thực sự kiểm thử Bedrock.
+- **MOCK_MODE=true** (mặc định) bỏ qua bước xác thực, thay vào đó dùng một Bearer token giả cố định, và các request được gửi tới bất kỳ đâu mà --host trỏ tới. Chế độ này kiểm tra hợp đồng request/response và khả năng xử lý concurrency mà không phụ thuộc vào việc Cognito hay Bedrock có sẵn sàng hay không.
+- **MOCK_MODE=false** script gọi trực tiếp cognito-idp:InitiateAuth với USER_PASSWORD_AUTH thông qua boto3 để lấy JWT thật, và mỗi request đều mang theo header x-api-key thật. Đây là chế độ duy nhất thực sự kiểm thử Bedrock.
 
-**Kết quả ở chế độ mock — 50 người dùng đồng thời:**
+**Kết quả ở chế độ mock 50 người dùng đồng thời:**
 
 | Metric | Giá trị |
 |---|---|

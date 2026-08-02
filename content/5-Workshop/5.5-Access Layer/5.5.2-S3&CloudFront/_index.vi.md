@@ -8,7 +8,7 @@ pre : " 5.5.2. "
 
 #### Mục tiêu
 
-Lưu trữ frontend tĩnh trên S3, phân phối thông qua CloudFront, và tự động truyền tên miền (domain) kết quả sang Cognito và API Gateway bằng cách kết nối thông qua Terraform output.
+Lưu trữ frontend tĩnh trên S3, phân phối thông qua CloudFront, và tự động truyền tên miền kết quả sang Cognito và API Gateway bằng cách kết nối thông qua Terraform output.
 
 #### Tài nguyên Terraform
 

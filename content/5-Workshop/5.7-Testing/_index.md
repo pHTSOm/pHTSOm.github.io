@@ -13,7 +13,7 @@ pre : " <b> 5.7. </b> "
 1. **CloudWatch** console → **Log groups** → /aws/lambda/doc-summarizer-fn.
 2. Click into the most recent log stream to see individual invocation output, including the print() statements in the Lambda code.
 
-**API Gateway execution logs.** Disabled by default — must be explicitly enabled per stage.
+**API Gateway execution logs.** Disabled by default must be explicitly enabled per stage.
 
 1. **API Gateway** console → doc-summarizer-api → **Stages** → v1 → **Logs and tracing** tab.
 2. Enable **CloudWatch Logs**, log level **INFO** or **ERROR**, and **Log full requests/responses data** for debugging — turn this off again afterward, since it can log sensitive request bodies.

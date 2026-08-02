@@ -35,8 +35,8 @@ Sau khi hoàn thành bài thực hành này, các thành phần sau sẽ đượ
 
 #### Tiêu chí thành công
 
-- [ ] Luồng xác thực hoạt động hoàn chỉnh end-to-end (Cognito Hosted UI → JWT → gọi API hợp lệ)
-- [ ] Dashboard CloudWatch hiển thị lưu lượng yêu cầu thực tế
-- [ ] Ít nhất một cảnh báo CloudWatch được kích hoạt và gửi email qua SNS
-- [ ] Chi phí hàng tháng duy trì dưới $50 cho tất cả các dịch vụ
-- [ ] Tất cả tài nguyên đã được xóa bỏ hoàn toàn mà không để lại chi phí phát sinh ẩn (được xác minh trong Cost Explorer)
+- Luồng xác thực hoạt động hoàn chỉnh end-to-end (Cognito Hosted UI → JWT → gọi API hợp lệ)
+- Dashboard CloudWatch hiển thị lưu lượng yêu cầu thực tế
+- Ít nhất một cảnh báo CloudWatch được kích hoạt và gửi email qua SNS
+- Chi phí hàng tháng duy trì dưới $50 cho tất cả các dịch vụ
+- Tất cả tài nguyên đã được xóa bỏ hoàn toàn mà không để lại chi phí phát sinh ẩn (được xác minh trong Cost Explorer)

@@ -6,16 +6,13 @@ chapter : false
 pre : " <b> 5.8. </b> "
 ---
 
-{{% notice warning %}}
-**Thao tác này xóa dữ liệu vĩnh viễn.** `terraform destroy` sẽ xóa thẳng bảng DynamoDB và Cognito user pool: toàn bộ bản tóm tắt đã lưu và toàn bộ người dùng đã đăng ký sẽ mất, không có cách nào khôi phục. Point-in-time recovery không tồn tại sau khi bảng bị xóa, và cũng không có snapshot cuối nào được tạo. Nếu bạn cần dữ liệu đó cho báo cáo hay buổi demo, hãy xuất ra trước khi bắt đầu.
-{{% /notice %}}
 
 #### Thứ Tự Gỡ Bỏ Hạ Tầng
 
-Terraform thường tự động xử lý thứ tự phụ thuộc, nhưng một vài tài nguyên AWS sẽ chặn việc xóa cho đến khi một điều kiện thủ công được đáp ứng — bất kể Terraform cố gắng làm gì. Hai điều quan trọng nhất ở đây:
+Terraform thường tự động xử lý thứ tự phụ thuộc, nhưng một vài tài nguyên AWS sẽ chặn việc xóa cho đến khi một điều kiện thủ công được đáp ứng bất kể Terraform cố gắng làm gì. Hai điều quan trọng nhất ở đây:
 
 - **Các bucket S3 phải được làm trống trước khi có thể xóa**, trừ khi tài nguyên bucket đặt force_destroy = true. Nếu bucket còn chứa object, việc xóa sẽ thất bại với lỗi BucketNotEmpty.
-- **Các CloudFront distribution phải được tắt (disable) trước khi có thể xóa an toàn origin bên dưới (bucket S3)**, và bản thân distribution phải hoàn tất quá trình tắt trước khi có thể bị xóa.
+- **Các CloudFront distribution phải được tắt trước khi có thể xóa an toàn origin bên dưới (bucket S3)**, và bản thân distribution phải hoàn tất quá trình tắt trước khi có thể bị xóa.
 
 Nếu làm sai thứ tự thì không gây hỏng hóc gì cả — nó chỉ khiến terraform destroy thất bại giữa chừng, và cần chạy lại sau khi xử lý xong vướng mắc.
 

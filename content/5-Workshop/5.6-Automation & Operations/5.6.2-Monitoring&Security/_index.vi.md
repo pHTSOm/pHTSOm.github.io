@@ -31,7 +31,7 @@ Một resource aws_cloudwatch_dashboard, sáu widget — số lượt gọi/lỗ
 
 #### CloudTrail & AWS Config (modules/security)
 
-- CloudTrail đa vùng (multi-region), có xác thực tính toàn vẹn file log (log file validation), bucket S3 riêng biệt được mã hóa và ở chế độ private, đồng thời cũng được stream sang CloudWatch Logs.
+- CloudTrail đa vùng, có xác thực tính toàn vẹn file log, bucket S3 riêng biệt được mã hóa và ở chế độ private, đồng thời cũng được stream sang CloudWatch Logs.
 - AWS Config recorder theo dõi tất cả các loại resource được hỗ trợ, bao gồm cả resource toàn cục (IAM), sử dụng conformance pack CIS v1.4 Level 1.
 
 **Mức độ tuân thủ hiện tại: 60%**, với hai lỗ hổng được chấp nhận và ghi nhận công khai thay vì che giấu:
