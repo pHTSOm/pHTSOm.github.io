@@ -8,7 +8,7 @@ pre : " 5.5.1. "
 
 #### Mục tiêu
 
-Thiết lập Cognito để cấp phát và xác thực JWT, cùng với API Gateway để bắt buộc mỗi request phải kèm theo token đó cộng với một API key và usage plan — cả hai đều được khai báo trong Terraform, không cần cấu hình thủ công trên console sau khi deploy.
+Thiết lập Cognito để cấp phát và xác thực JWT, cùng với API Gateway để bắt buộc mỗi request phải kèm theo token đó cộng với một API key và usage plan. Cả hai đều được khai báo trong Terraform, không cần cấu hình thủ công trên console sau khi deploy.
 
 #### Cognito (modules/auth)
 
@@ -39,13 +39,13 @@ terraform output -raw api_key_value
 
 Trình duyệt → xác thực qua Hosted UI → Cognito kiểm tra (đánh giá rủi ro) → gửi trả về authorization code → ứng dụng nhận code và đổi lấy JWT thông qua /oauth2/token → với mỗi lệnh gọi API, JWT được gửi kèm trong header HTTP Authorization → Cognito authorizer của API Gateway xác minh JWT trước khi gọi tới hàm Lambda. Claim sub trong JWT được chuyển đổi thành user_id trong DynamoDB; do đó, mỗi người dùng có lịch sử riêng của mình.
 
-Khi cần truy cập theo kiểu script/load-test, InitiateAuth/USER_PASSWORD_AUTH đã được bật sẵn trong cùng một client nhờ explicit_auth_flows — không cần thiết lập riêng cho việc này.
+Khi cần truy cập theo kiểu script/load-test, InitiateAuth/USER_PASSWORD_AUTH đã được bật sẵn trong cùng một client nhờ explicit_auth_flows, không cần thiết lập riêng cho việc này.
 
 #### Các lỗi thường gặp và cách khắc phục
 
 | Lỗi | Nguyên nhân | Cách khắc phục |
 |---|---|---|
-| invalid_request khi đăng nhập qua Hosted UI | Redirect URL không khớp với callback_urls | Kiểm tra khớp chính xác — không có lỗi gõ nhầm/đường dẫn thừa |
+| invalid_request khi đăng nhập qua Hosted UI | Redirect URL không khớp với callback_urls | Kiểm tra khớp chính xác không có lỗi gõ nhầm/đường dẫn thừa |
 | grant_type=password trả về lỗi 400 | Token endpoint của Hosted UI chỉ hỗ trợ authorization_code/refresh_token | Sử dụng InitiateAuth/USER_PASSWORD_AUTH thay thế |
 | {"message": "Unauthorized"} / "Forbidden" từ API | JWT bị thiếu/hết hạn, hoặc x-api-key bị thiếu/không hợp lệ | Xác thực lại thông qua Hosted UI; kiểm tra x-api-key có khớp với terraform output -raw api_key_value không |
-| Các thay đổi về Route/CORS dường như không được áp dụng | Nhầm lẫn với việc redeploy thủ công trên console | Chạy terraform plan — nếu aws_api_gateway_deployment hiển thị pending replacement, chạy terraform apply |
+| Các thay đổi về Route/CORS dường như không được áp dụng | Nhầm lẫn với việc redeploy thủ công trên console | Chạy terraform plan nếu aws_api_gateway_deployment hiển thị pending replacement, chạy terraform apply |

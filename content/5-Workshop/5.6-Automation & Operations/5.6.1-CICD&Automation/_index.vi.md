@@ -16,8 +16,8 @@ Hai thành phần tự vận hành sau khi đã triển khai: một Lambda chạ
 
 **Lập lịch** (modules/scheduling):
 - IAM role được giới hạn phạm vi đúng ba hành động: log CloudWatch của chính nó, dynamodb:Query trên bảng + cụ thể là GSI summary-date-index, và s3:PutObject vào bucket chứa báo cáo.
-- aws_lambda_function — Python 3.12, timeout 60 giây, 256MB bộ nhớ.
-- aws_cloudwatch_event_rule (cron(0 8 ? * MON *), ENABLED) + aws_cloudwatch_event_target + aws_lambda_permission — cả ba đều được tạo cùng nhau trong một lần apply, nên lịch trình không bao giờ bị thiếu kết nối.
+- aws_lambda_function: Python 3.12, timeout 60 giây, 256MB bộ nhớ.
+- aws_cloudwatch_event_rule (cron(0 8 ? * MON *), ENABLED) + aws_cloudwatch_event_target + aws_lambda_permission. Cả ba đều được tạo cùng nhau trong một lần apply, nên lịch trình không bao giờ bị thiếu kết nối.
 
 **Logic của Lambda báo cáo**: truy vấn summary-date-index cho từng ngày trong 7 ngày gần nhất, tổng hợp theo user_id, ghi ra một dòng CSV cho mỗi người dùng. Các biến môi trường được lấy từ Terraform output, không gõ thủ công. Nếu không có hoạt động nào trong khoảng thời gian đó → trả về mã 200 kèm thông báo "no data" thay vì tạo một file rỗng.
 
@@ -55,4 +55,4 @@ Sau đó push một thay đổi nhỏ lên main và theo dõi các giai đoạn 
 | Báo cáo không bao giờ được chuyển sang Glacier | Object chưa đủ 30 ngày tuổi, hoặc lifecycle rule bị tắt | aws s3api get-bucket-lifecycle-configuration kiểm tra trạng thái Enabled |
 | Giai đoạn Source thất bại ngay lập tức | Kết nối CodeStar bị kẹt ở trạng thái **Pending** | Hoàn tất bước xác thực (handshake) với GitHub |
 | Giai đoạn Test thất bại với lỗi state lock | Lần chạy trước không giải phóng lock trên DynamoDB | terraform force-unlock LOCK_ID |
-| Giai đoạn Apply thất bại giữa chừng với lỗi về quyền | Role của CodeBuild thiếu quyền cho một loại resource mới được thêm vào | Khoảng cách đã biết dưới AdministratorAccess |
+| Giai đoạn Apply thất bại giữa chừng với lỗi về quyền | Role của CodeBuild thiếu quyền cho một loại resource mới được thêm vào | Khoảng cách đã biết dưới AdministratorAccess (xem 5.6.2) |

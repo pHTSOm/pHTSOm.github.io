@@ -16,15 +16,15 @@ pre : " <b> 5.7. </b> "
 **API Gateway execution logs.** Disabled by default must be explicitly enabled per stage.
 
 1. **API Gateway** console → doc-summarizer-api → **Stages** → v1 → **Logs and tracing** tab.
-2. Enable **CloudWatch Logs**, log level **INFO** or **ERROR**, and **Log full requests/responses data** for debugging — turn this off again afterward, since it can log sensitive request bodies.
-3. This requires an IAM role with CloudWatch Logs permissions attached to API Gateway at the account level (**API Gateway** → **Settings** → **CloudWatch log role ARN**) — a common gap in general, though this project's API Gateway module already provisions that role in Terraform.
+2. Enable **CloudWatch Logs**, log level **INFO** or **ERROR**, and **Log full requests/responses data** for debugging, turn this off again afterward, since it can log sensitive request bodies.
+3. This requires an IAM role with CloudWatch Logs permissions attached to API Gateway at the account level (**API Gateway** → **Settings** → **CloudWatch log role ARN**) a common gap in general, though this project's API Gateway module already provisions that role in Terraform.
 
 **CodeBuild logs.** Each pipeline stage's CodeBuild project streams its build output to CloudWatch Logs automatically.
 
 1. **CodePipeline** console → doc-summarizer-pipeline → click a stage → **Details** link on the relevant action.
 2. This opens the CodeBuild build page, with the full command output.
 
-**Reading a failed pipeline stage:** scroll to the first line containing FAILED or a non-zero exit code — CodeBuild logs are chronological, and the actual failure is usually near the bottom, not the top, since later steps still attempt to run cleanup even after a failure earlier in the phase.
+**Reading a failed pipeline stage:** scroll to the first line containing FAILED or a non-zero exit code. CodeBuild logs are chronological, and the actual failure is usually near the bottom, not the top, since later steps still attempt to run cleanup even after a failure earlier in the phase.
 
 #### Metrics
 
@@ -34,9 +34,9 @@ pre : " <b> 5.7. </b> "
 |---|---|---|
 | Duration, Errors, Throttles, Invocations | Lambda | Execution time, failure rate, concurrency limits being hit |
 | 4XXError, 5XXError, Count, Latency | API Gateway | Client vs server error rates, overall traffic volume |
-| ConsumedReadCapacityUnits, ConsumedWriteCapacityUnits | DynamoDB | Actual on-demand usage — useful for cost tracking |
+| ConsumedReadCapacityUnits, ConsumedWriteCapacityUnits | DynamoDB | Actual on-demand usage, useful for cost tracking |
 
-**Custom metrics** — the Custom/Bedrock namespace, emitted explicitly by the Lambda code:
+**Custom metrics**: the Custom/Bedrock namespace, emitted explicitly by the Lambda code:
 
 | Metric | Meaning |
 |---|---|

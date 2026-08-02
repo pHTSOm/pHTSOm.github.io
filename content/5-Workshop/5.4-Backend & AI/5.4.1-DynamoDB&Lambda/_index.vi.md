@@ -130,7 +130,7 @@ aws lambda invoke \
 cat response.json
 ```
 
-**Cách kiểm tra:** file response.json hiển thị "statusCode": 200 kèm theo các trường summary, timestamp và summary_date. Nếu gặp lỗi 502 tại bước này nghĩa là quyền truy cập model Bedrock chưa được cấp — xem thêm ở Mục 5.4.2.
+**Cách kiểm tra:** file response.json hiển thị "statusCode": 200 kèm theo các trường summary, timestamp và summary_date. Nếu gặp lỗi 502 tại bước này nghĩa là quyền truy cập model Bedrock chưa được cấp (xem thêm ở Mục 5.4.2).
 
 #### Các lỗi thường gặp và cách khắc phục
 

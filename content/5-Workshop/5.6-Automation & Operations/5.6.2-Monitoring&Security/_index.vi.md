@@ -17,7 +17,7 @@ src/lambda_fn/lambda_function.py gửi dữ liệu đến Custom/Bedrock quanh m
 #### Cảnh báo (modules/monitoring)
 
 Một SNS topic + đăng ký email, hai cảnh báo:
-- **Tỷ lệ** lỗi 5xx của API Gateway (tính bằng metric-math errors/requests*100) > 5% trong 5 phút — là tỷ lệ, không phải số lượng tuyệt đối.
+- **Tỷ lệ** lỗi 5xx của API Gateway (tính bằng metric-math errors/requests*100) > 5% trong 5 phút (là tỷ lệ, không phải số lượng tuyệt đối).
 - Bất kỳ điểm dữ liệu nào xuất hiện tại Custom/Bedrock/BedrockErrors (ngưỡng = 0).
 
 ```bash
@@ -27,7 +27,7 @@ aws cloudwatch put-metric-data --namespace Custom/Bedrock --metric-name BedrockE
 
 #### Dashboard
 
-Một resource aws_cloudwatch_dashboard, sáu widget — số lượt gọi/lỗi/phân vị thời gian thực thi của Lambda, độ trễ/tỷ lệ thành công/lỗi của Bedrock, lưu lượng/lỗi 4xx/lỗi 5xx của API Gateway, dung lượng/throttle của DynamoDB. Các dimension được truyền vào dưới dạng biến module từ root main.tf.
+Một resource aws_cloudwatch_dashboard, sáu widget, số lượt gọi/lỗi/phân vị thời gian thực thi của Lambda, độ trễ/tỷ lệ thành công/lỗi của Bedrock, lưu lượng/lỗi 4xx/lỗi 5xx của API Gateway, dung lượng/throttle của DynamoDB. Các dimension được truyền vào dưới dạng biến module từ root main.tf.
 
 #### CloudTrail & AWS Config (modules/security)
 
@@ -38,7 +38,7 @@ Một resource aws_cloudwatch_dashboard, sáu widget — số lượt gọi/lỗ
 - IAM role của CodeBuild sử dụng AdministratorAccess.
 - MFA chưa được bắt buộc trên toàn tài khoản thông qua IAM policy.
 
-Cả hai vấn đề này sẽ được xem xét lại ở Mục 6.2 (Simple Security Hardening) — mục đích của việc chạy Config ở đây là để có một bức tranh chính xác, chứ không phải một bảng điểm hoàn hảo.
+Cả hai vấn đề này sẽ được xem xét lại ở Mục 6.2 (Simple Security Hardening). Mục đích của việc chạy Config ở đây là để có một bức tranh chính xác, chứ không phải một bảng điểm hoàn hảo.
 
 #### Các lỗi thường gặp và cách khắc phục
 

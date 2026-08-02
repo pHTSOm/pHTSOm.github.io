@@ -16,15 +16,15 @@ pre : " <b> 5.7. </b> "
 **Log thực thi của API Gateway.** Mặc định bị tắt phải bật thủ công cho từng stage.
 
 1. Console **API Gateway** → doc-summarizer-api → **Stages** → v1 → tab **Logs and tracing**.
-2. Bật **CloudWatch Logs**, mức log **INFO** hoặc **ERROR**, và **Log full requests/responses data** để phục vụ debug — nhớ tắt lại sau khi dùng xong, vì tính năng này có thể ghi log cả những nội dung nhạy cảm trong request body.
-3. Yêu cầu phải có một IAM role với quyền CloudWatch Logs được gắn ở cấp tài khoản cho API Gateway (**API Gateway** → **Settings** → **CloudWatch log role ARN**) — đây là một thiếu sót thường gặp nói chung, tuy nhiên module API Gateway của dự án này đã cung cấp sẵn role đó thông qua Terraform.
+2. Bật **CloudWatch Logs**, mức log **INFO** hoặc **ERROR**, và **Log full requests/responses data** để phục vụ debug, nhớ tắt lại sau khi dùng xong, vì tính năng này có thể ghi log cả những nội dung nhạy cảm trong request body.
+3. Yêu cầu phải có một IAM role với quyền CloudWatch Logs được gắn ở cấp tài khoản cho API Gateway (**API Gateway** → **Settings** → **CloudWatch log role ARN**) đây là một thiếu sót thường gặp nói chung, tuy nhiên module API Gateway của dự án này đã cung cấp sẵn role đó thông qua Terraform.
 
 **Log của CodeBuild.** Mỗi giai đoạn (stage) trong pipeline có một project CodeBuild tự động stream output build lên CloudWatch Logs.
 
 1. Console **CodePipeline** → doc-summarizer-pipeline → nhấn vào một stage → link **Details** ở action tương ứng.
 2. Thao tác này sẽ mở trang build của CodeBuild, hiển thị toàn bộ output của các lệnh đã chạy.
 
-**Cách đọc một stage pipeline bị thất bại:** cuộn xuống dòng đầu tiên chứa từ FAILED hoặc exit code khác 0 — log của CodeBuild được sắp xếp theo trình tự thời gian, và nguyên nhân thất bại thực sự thường nằm gần cuối chứ không phải ở đầu, vì các bước sau vẫn sẽ cố gắng chạy cleanup ngay cả khi đã có lỗi xảy ra trước đó trong cùng giai đoạn.
+**Cách đọc một stage pipeline bị thất bại:** cuộn xuống dòng đầu tiên chứa từ FAILED hoặc exit code khác 0. Log của CodeBuild được sắp xếp theo trình tự thời gian, và nguyên nhân thất bại thực sự thường nằm gần cuối chứ không phải ở đầu, vì các bước sau vẫn sẽ cố gắng chạy cleanup ngay cả khi đã có lỗi xảy ra trước đó trong cùng giai đoạn.
 
 #### Số liệu 
 
@@ -36,7 +36,7 @@ pre : " <b> 5.7. </b> "
 | 4XXError, 5XXError, Count, Latency | API Gateway | Tỷ lệ lỗi từ phía client so với server, tổng lưu lượng truy cập |
 | ConsumedReadCapacityUnits, ConsumedWriteCapacityUnits | DynamoDB | Mức sử dụng on-demand thực tế hữu ích để theo dõi chi phí |
 
-**Custom metric** — namespace Custom/Bedrock, được code Lambda gửi lên một cách tường minh:
+**Custom metric**: namespace Custom/Bedrock, được code Lambda gửi lên một cách tường minh:
 
 | Metric | Ý nghĩa |
 |---|---|
@@ -139,7 +139,7 @@ locustfile.py có thể chạy ở hai chế độ khác nhau, và điều quan 
 | GET /history | 2.282 | 3 ms | 4 ms | 5 ms | 7 ms | 24 ms |
 | POST /summarize | 6.802 | 3 ms | 4 ms | 6 ms | 7 ms | 23 ms |
 
-Số lượng người dùng tăng dần từ 0 lên 50 trong khoảng ~50 giây đầu; sau khi ổn định, thông lượng giữ ở mức ~24 req/giây với 0 thất bại trên cả ba endpoint trong suốt phần còn lại của lần chạy — thời gian phản hồi không hề suy giảm dù mức concurrency tăng gấp 5 lần so với baseline 10 người dùng trước đó (4ms TB / 6ms p95 / 7ms p99). Điều này cho thấy nút thắt cổ chai được mô tả bên dưới là đặc thù của các lệnh gọi Bedrock thật, chứ không phải do việc xử lý request, luồng xác thực, hay cách truy cập DynamoDB.
+Số lượng người dùng tăng dần từ 0 lên 50 trong khoảng ~50 giây đầu; sau khi ổn định, thông lượng giữ ở mức ~24 req/giây với 0 thất bại trên cả ba endpoint trong suốt phần còn lại của lần chạy, thời gian phản hồi không hề suy giảm dù mức concurrency tăng gấp 5 lần so với baseline 10 người dùng trước đó (4ms TB / 6ms p95 / 7ms p99). Điều này cho thấy nút thắt cổ chai được mô tả bên dưới là đặc thù của các lệnh gọi Bedrock thật, chứ không phải do việc xử lý request, luồng xác thực, hay cách truy cập DynamoDB.
 
 **Chạy kiểm thử:**
 ```bash
@@ -177,7 +177,7 @@ locust -f locustfile.py --headless -u 50 -r 1 --run-time 60s --host <target-host
 4. Mở giao diện web của Locust (mặc định `http://localhost:8089`), thiết lập số lượng người dùng và tốc độ tăng dần (ramp-up rate), rồi bắt đầu kiểm thử.
 
 
-**Kết quả load testing của dự án:** một lần chạy với 5 người dùng đồng thời, tăng dần với tốc độ 1 người/giây ở chế độ real-API, cho thấy GET /history hoạt động đúng, trong khi mọi request POST /summarize đều thất bại với mã 502/504 gần như đúng ở giây thứ 29 — chính là mức giới hạn timeout tích hợp cứng (hard integration timeout ceiling) của API Gateway. Nguyên nhân gốc rễ: logic retry của Lambda đã liên tục thử lại các lỗi throttling từ Bedrock kèm cơ chế backoff theo cấp số nhân, tiêu tốn toàn bộ 30 giây timeout của Lambda trước khi kịp trả về bất kỳ phản hồi nào. Kết quả ở chế độ mock nêu trên đã loại trừ khả năng nguyên nhân đến từ luồng request/xác thực — 50 người dùng đồng thời không gây ra thất bại nào ở chế độ mock, vì vậy lỗi 502/504 là đặc thù của các lệnh gọi Bedrock thật, không phải vấn đề về concurrency hay luồng xử lý code.
+**Kết quả load testing của dự án:** một lần chạy với 5 người dùng đồng thời, tăng dần với tốc độ 1 người/giây ở chế độ real-API, cho thấy GET /history hoạt động đúng, trong khi mọi request POST /summarize đều thất bại với mã 502/504 gần như đúng ở giây thứ 29 chính là mức giới hạn timeout tích hợp cứng của API Gateway. Nguyên nhân gốc rễ: logic retry của Lambda đã liên tục thử lại các lỗi throttling từ Bedrock kèm cơ chế backoff theo cấp số nhân, tiêu tốn toàn bộ 30 giây timeout của Lambda trước khi kịp trả về bất kỳ phản hồi nào. Kết quả ở chế độ mock nêu trên đã loại trừ khả năng nguyên nhân đến từ luồng request/xác thực, 50 người dùng đồng thời không gây ra thất bại nào ở chế độ mock, vì vậy lỗi 502/504 là đặc thù của các lệnh gọi Bedrock thật, không phải vấn đề về concurrency hay luồng xử lý code.
 
 ![overview](/images/5-Workshop/5.5-Testing/Locust_testingtesting.jpeg)
 

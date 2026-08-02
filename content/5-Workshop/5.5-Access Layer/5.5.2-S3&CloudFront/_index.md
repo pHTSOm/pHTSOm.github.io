@@ -48,7 +48,7 @@ Now open the `CONFIG` object at the top of your new `frontend/script.js` and fil
 | `API_URL` | `terraform output -raw api_invoke_url` |
 | `CLIENT_ID` | `terraform output -raw cognito_app_client_id` |
 | `API_KEY` | `terraform output -raw api_key_value` |
-| `REDIRECT_URI` | `https://$(terraform output -raw cloudfront_domain_name)/` — keep the trailing slash, it has to match a Cognito callback URL exactly |
+| `REDIRECT_URI` | `https://$(terraform output -raw cloudfront_domain_name)/` keep the trailing slash, it has to match a Cognito callback URL exactly |
 | `COGNITO_DOMAIN` | `<your-domain-prefix>.auth.<your-region>.amazoncognito.com`, built from the `cognito_domain_prefix` you set in terraform.tfvars (there is no dedicated output for it) |
 
 `script.js` is listed in .gitignore, so your filled-in copy stays local and never reaches the repository. Leave it that way.
@@ -61,18 +61,18 @@ aws cloudfront create-invalidation \
   --paths "/*"
 ```
 
-**How to verify:** open the CloudFront domain — frontend loads, sign-in redirects correctly. A direct S3 object URL request returns **AccessDenied**.
+**How to verify:** open the CloudFront domain, frontend loads, sign-in redirects correctly. A direct S3 object URL request returns **AccessDenied**.
 
 #### Common Errors and Fixes
 
 | Error | Cause | Fix |
 |---|---|---|
-| AccessDenied loading the CloudFront URL | Bucket policy's SourceArn doesn't yet match the distribution ARN | terraform apply again — policy is generated from the distribution resource and self-corrects |
+| AccessDenied loading the CloudFront URL | Bucket policy's SourceArn doesn't yet match the distribution ARN | terraform apply again, policy is generated from the distribution resource and self-corrects |
 | Old script.js still served after re-upload | CloudFront edge caching | Re-run the invalidation step after every frontend file update |
-| Cognito redirects to a blank/error page after login | terraform apply hasn't run since the frontend module was added | terraform apply — no manual Cognito edit needed |
+| Cognito redirects to a blank/error page after login | terraform apply hasn't run since the frontend module was added | terraform apply no manual Cognito edit needed |
 
 ---
 
 ### Section Summary
 
-Congratulations on completing the access layer. In this section, you set up Cognito to issue and validate JWTs, configured API Gateway to enforce that token plus an API key and usage plan on every request, and hosted the static frontend on S3 behind CloudFront using an Origin Access Control so the bucket itself stays private. The pieces connect automatically because the CloudFront domain name is passed as a Terraform output into both the Cognito app client's callback URLs and API Gateway's CORS configuration — one **terraform apply** keeps all three in sync, with no manual console cross-referencing required. This demonstrates defense in depth at the edge: authentication, authorization, and rate limiting are all enforced before a request ever reaches application code, and the frontend is reachable only through a CDN, never directly.
+Congratulations on completing the access layer. In this section, you set up Cognito to issue and validate JWTs, configured API Gateway to enforce that token plus an API key and usage plan on every request, and hosted the static frontend on S3 behind CloudFront using an Origin Access Control so the bucket itself stays private. The pieces connect automatically because the CloudFront domain name is passed as a Terraform output into both the Cognito app client's callback URLs and API Gateway's CORS configuration. One **terraform apply** keeps all three in sync, with no manual console cross-referencing required. This demonstrates defense in depth at the edge: authentication, authorization, and rate limiting are all enforced before a request ever reaches application code, and the frontend is reachable only through a CDN, never directly.

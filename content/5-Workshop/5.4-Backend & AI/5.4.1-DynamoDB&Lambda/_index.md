@@ -130,7 +130,7 @@ aws lambda invoke \
 cat response.json
 ```
 
-**How to verify:** response.json shows "statusCode": 200 with summary, timestamp, and summary_date fields. A 502 here means Bedrock model access hasn't been granted yet — see Section 5.4.2.
+**How to verify:** response.json shows "statusCode": 200 with summary, timestamp, and summary_date fields. A 502 here means Bedrock model access hasn't been granted yet (see Section 5.4.2).
 
 #### Common Errors and Fixes
 
